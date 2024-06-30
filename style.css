@@ -1,0 +1,215 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f8ff;
+  margin: 0; /* Ensure no margin around the body */
+}
+
+.container {
+  width: 100%;
+  height: 100vh; /* Make the container height equal to the viewport height */
+  text-align: center;
+  background: linear-gradient(to bottom, #ffffff, #e0ffef);
+  padding: 5%;
+  margin: 0; /* Center the container horizontally */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.goal-bar-container {
+  width: 100%;
+  margin: 4% 0;
+}
+
+.progress-goal-bar {
+  height: 5px;
+  background-color: #4caf50;
+  border-radius: 5px;
+}
+
+.goal-text-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2%;
+}
+
+.goal-text-left,
+.goal-text-right {
+  font-size: 3.5vw;
+  color: #777;
+}
+
+.quote-area {
+  position: relative;
+  background-color: white;
+  border: 2px solid #C1B3E3; /* Add the border with color */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20%;
+  margin-bottom: 20%;
+  padding-top: 10%; /* Add padding only on top */
+  overflow: hidden;
+}
+
+.quote-area img {
+  position: relative;
+  width: 1rem;
+  display: block; /* Ensures the image behaves like a block element */
+}
+
+.cross-quote {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #ff5722;
+  background: none;
+  border: none;
+}
+
+.quote-text {
+  font-size: 22px; /* Larger text */
+  font-weight: bold;
+  color: #483A32;
+  margin-bottom: 1%;
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-bottom: 10%;
+  padding-top: 10%;
+}
+
+.legend-quote {
+  font-size: 3.5vw; /* Smaller text for legend */
+  color: #777;
+  margin-bottom: 1%;
+  margin-right: 1%;
+  margin-left: 1%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  background-color: #f0f8ff;
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+}
+
+.quote-button {
+  flex: 1 1 auto;
+  padding: 1rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-button {
+  background-color: #ffeb3b;
+}
+
+.yes-button {
+  background-color: #c8e6c9;
+}
+
+.quote-button img {
+  width: 3rem; /* Set a fixed width */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 100%; /* Ensure it does not exceed the button's width */
+}
+
+.symbol-button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  margin-left: 7%;
+  margin-right: 7%;
+}
+
+.symbol-button {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background-color: white; /* White background for buttons */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+  padding: 1%;
+  margin: 0 2%; /* Space between buttons */
+}
+
+.symbol-button img {
+  max-width: 40px; /* Adjust size as needed */
+  max-height: 40px; /* Adjust size as needed */
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  padding: 4% 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed; /* Fixes the nav-bar at a specific position */
+  bottom: 0; /* Positions the nav-bar at the bottom of the screen */
+  width: 100%; /* Makes the nav-bar take the full width of the screen */
+  left: 50%; /* Positions the left edge of the nav-bar at the center of the viewport */
+  transform: translateX(-50%); /* Moves the nav-bar to the left by 50% of its width to center it */
+  box-sizing: border-box; /* Ensures padding is included in the width */
+  height: 60px
+}
+
+.nav-button {
+  flex: 1;
+  text-align: center;
+  font-size: 1.4vw;
+  cursor: pointer;
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center content vertically */
+  font-size: 14px; /* Set a fixed font size */
+}
+
+.nav-button img {
+  max-width: 20px; /* Set a fixed max width */
+  max-height: 20px; /* Set a fixed max height */
+  margin-bottom: 5px; /* Adjust margin as needed */
+}
+
+.nav-home-text,
+.nav-language-text,
+.nav-pro-text,
+.nav-metrics-text,
+.nav-settings-text {
+  color: #777;
+  font-size: 12px;
+}
+
+.nav-home-icon,
+.nav-language-icon,
+.nav-pro-icon,
+.nav-metrics-icon,
+.nav-settings-icon {
+  font-size: 1vw;
+}
+
+.nav-home-text {
+  color: #673ab7;
+}

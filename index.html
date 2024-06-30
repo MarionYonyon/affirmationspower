@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Goal Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Add Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <!-- Include your config.js -->
+  <script src="config.js"></script>
+  <script>
+    // Ensure Firebase is initialized after config is loaded
+    window.addEventListener('load', () => {
+      if (window.firebaseConfig) {
+        firebase.initializeApp(window.firebaseConfig);
+        var db = firebase.firestore();
+
+        // Fetch affirmation from Firestore with debugging
+        db.collection("affirmations").doc("o7NlYAo5fmzDt7PBRaFL").get().then((doc) => {
+          if (doc.exists) {
+            console.log("Document data:", doc.data());
+            const quoteTextElement = document.getElementById("quote-text");
+            if (quoteTextElement) {
+              quoteTextElement.innerText = doc.data()["1"];
+            } else {
+              console.error("Element with id 'quote-text' not found.");
+            }
+          } else {
+            console.log("No such document!");
+          }
+        }).catch((error) => {
+          console.error("Error getting document:", error);
+        });
+      }
+    }); // This should be line 36
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="goal-bar-container">
+      <div id="goal-bar" class="progress-goal-bar" style="width: 1%"></div>
+      <div class="goal-text-container">
+        <span class="goal-text-left legend-goal-bar-1">Daily goal</span>
+        <span class="goal-text-right legend-goal-bar-2">1/100</span>
+      </div>
+    </div>
+    <div class="quote-area quote">
+      <button class="close-button cross-quote" aria-label="Close Quote">
+        <img src="./images/icon-cross-quote.png" alt="I don't like it"/>
+      </button>
+      <p class="quote-text" id="quote-text">
+        <!-- Affirmation will be loaded here -->
+      </p>
+      <p class="legend-quote">
+        Rate your actual feeling as “Not yet” or “That’s it!”
+      </p>
+      <div class="button-container">
+        <button class="quote-button no-button" aria-label="No">
+          <img src="./images/no-icon.png" alt="No" />
+        </button>
+        <button class="quote-button yes-button" aria-label="Yes">
+          <img src="images/yes-icon.png" alt="Yes" />
+        </button>
+      </div>
+    </div>
+    <div class="symbol-button-container">
+      <button class="symbol-button history-button" aria-label="History">
+        <img src="./images/icon-history.png" alt="⏳" />
+      </button>
+      <button class="symbol-button science-button" aria-label="Science">
+        <img src="./images/icon-science.png" alt="🔬" />
+      </button>
+      <button class="symbol-button sound-button" aria-label="Sound">
+        <img src="./images/icon-sound.png" alt="🔊" />
+      </button>
+    </div>
+    <nav class="nav-bar">
+      <button class="nav-button">
+        <img src="images/1-nav-home.png" alt="🏠" />
+        <span class="nav-home-text">Home</span>
+      </button>
+      <button class="nav-button">
+        <img src="images/2-nav-language.png" alt="🌐" />
+        <span class="nav-language-text">Language</span>
+      </button>
+      <button class="nav-button">
+        <img src="images/3-nav-pro.png" alt="⭐" />
+        <span class="nav-pro-text">Get Pro</span>
+      </button>
+      <button class="nav-button">
+        <img src="images/4-nav-metrics.png" alt="📊" />
+        <span class="nav-metrics-text">Metrics</span>
+      </button>
+      <button class="nav-button">
+        <img src="images/5-nav-settings.png" alt="⚙️" />
+        <span class="nav-settings-text">Settings</span>
+      </button>
+    </nav>
+  </div>
+</body>
+</html>
