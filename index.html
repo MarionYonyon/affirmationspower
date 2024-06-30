@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daily Goal Tracker</title>
     <link rel="stylesheet" href="style.css" />
+    <!-- Add Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+      // Your web app's Firebase configuration (replace with your actual config)
+      var firebaseConfig = {
+        apiKey: "AIzaSyCsi6d-ttdoRpqZ79yAMkIsMDN1ObR56Vw",
+        authDomain: "positive-affirmations-6f4de.firebaseapp.com",
+        projectId: "positive-affirmations-6f4de",
+        storageBucket: "positive-affirmations-6f4de.appspot.com",
+        messagingSenderId: "673466441825",
+        appId: "1:673466441825:web:f55187a876022c1886ca20",
+        measurementId: "G-ESWHMNTB6C"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+    </script>
   </head>
   <body>
     <div class="container">
@@ -17,10 +35,9 @@
       </div>
       <div class="quote-area quote">
         <button class="close-button cross-quote" aria-label="Close Quote">
-          <img src="./images/icon-cross-quote.png" alt="I don't like it" />
+          <img src="./images/icon-cross-quote.png" alt="I don't like it"/>
         </button>
         <p class="quote-text" id="quote-text">
-          My skills and talents are valuable and appreciated.
           <!-- Affirmation will be loaded here -->
         </p>
         <p class="legend-quote">
@@ -69,5 +86,26 @@
         </button>
       </nav>
     </div>
+    <!-- Place the script at the end of the body to ensure DOM is fully loaded -->
+    <script>
+      window.onload = function() {
+        // Fetch affirmation from Firestore with debugging
+        db.collection("1").doc("1").get().then((doc) => {
+          if (doc.exists) {
+            console.log("Document data:", doc.data());
+            const quoteTextElement = document.getElementById("quote-text");
+            if (quoteTextElement) {
+              quoteTextElement.innerText = doc.data()["1"];
+            } else {
+              console.error("Element with id 'quote-text' not found.");
+            }
+          } else {
+            console.log("No such document!");
+          }
+        }).catch((error) => {
+          console.error("Error getting document:", error);
+        });
+      }
+    </script>
   </body>
 </html>
