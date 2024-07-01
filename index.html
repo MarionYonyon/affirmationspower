@@ -1,88 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Goal Tracker</title>
-    <link rel="stylesheet" href="style.css" />
-    <!-- Add Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script>
-      // Your web app's Firebase configuration (replace with your actual config)
-      var firebaseConfig = {
-        apiKey: "AIzaSyCsi6d-ttdoRpqZ79yAMkIsMDN1ObR56Vw",
-        authDomain: "positive-affirmations-6f4de.firebaseapp.com",
-        projectId: "positive-affirmations-6f4de",
-        storageBucket: "positive-affirmations-6f4de.appspot.com",
-        messagingSenderId: "673466441825",
-        appId: "1:673466441825:web:f55187a876022c1886ca20",
-        measurementId: "G-ESWHMNTB6C",
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      var db = firebase.firestore();
-  
-      let currentIndex = 0;
-      let entries = [];
-      let displayOrder = [];
-  
-      window.onload = function() {
-        // Fetch and shuffle entries
-        fetchEntries().then(() => {
-          if (entries.length > 0) {
-            // Create display order
-            createDisplayOrder();
-            // Display the first entry
-            displayEntry(displayOrder[currentIndex]);
-          }
-  
-          // Set up the button click event
-          const yesButton = document.querySelector(".quote-button.yes-button");
-          if (yesButton) {
-            yesButton.addEventListener("click", () => {
-              currentIndex++;
-              if (currentIndex < displayOrder.length) {
-                displayEntry(displayOrder[currentIndex]);
-              } else {
-                displayMessage("You have viewed all the entries.");
-                yesButton.disabled = true; // Disable the button
-              }
-            });
-          }
-        });
-      };
-  
-      function fetchEntries() {
-        return db.collection("test").doc("career-test").get().then((doc) => {
-          if (doc.exists) {
-            const data = doc.data();
-            const keys = Object.keys(data).slice(0, 50); // Assume data contains keys "1" to "50"
-            keys.sort(() => 0.5 - Math.random()); // Shuffle the keys
-            entries = keys.slice(0, 20).map(key => data[key]); // Take the first 20 entries
-          } else {
-            console.log("No such document!");
-          }
-        }).catch((error) => {
-          console.error("Error getting document:", error);
-        });
-      }
-  
-      function createDisplayOrder() {
-        let repeatedEntries = [];
-        for (let i = 0; i < 5; i++) {
-          repeatedEntries = repeatedEntries.concat(entries);
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Daily Goal Tracker</title>
+      <link rel="stylesheet" href="style.css" />
+      <!-- Add Firebase SDKs -->
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+      <script>
+        // Your web app's Firebase configuration (replace with your actual config)
+        var firebaseConfig = {
+          apiKey: "AIzaSyCsi6d-ttdoRpqZ79yAMkIsMDN1ObR56Vw",
+          authDomain: "positive-affirmations-6f4de.firebaseapp.com",
+          projectId: "positive-affirmations-6f4de",
+          storageBucket: "positive-affirmations-6f4de.appspot.com",
+          messagingSenderId: "673466441825",
+          appId: "1:673466441825:web:f55187a876022c1886ca20",
+          measurementId: "G-ESWHMNTB6C",
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+    
+        let currentIndex = 0;
+        let entries = [];
+        let displayOrder = [];
+        let frequencyMap = {};
+        let lastDisplayedEntry = null; // Track the last displayed entry
+        const maxFrequency = 10; // Maximum frequency limit
+        const minFrequencyThreshold = 3;
+    
+        window.onload = function () {
+          // Fetch and shuffle entries
+          fetchEntries().then(() => {
+            if (entries.length > 0) {
+              // Initialize frequencyMap
+              entries.forEach((entry) => (frequencyMap[entry] = 6));
+              // Create display order
+              createDisplayOrder();
+              // Display the first entry
+              displayEntry(displayOrder[currentIndex]);
+            }
+    
+            // Set up button click events
+            const moreFrequentButton = document.querySelector(".quote-button.no-button");
+            const lessFrequentButton = document.querySelector(".quote-button.yes-button");
+            const doNotDisplayButton = document.querySelector(".close-button.cross-quote");
+    
+            if (moreFrequentButton) {
+              moreFrequentButton.addEventListener("click", () => {
+                adjustFrequency(displayOrder[currentIndex], 1);
+                currentIndex++;
+                showNextEntry();
+              });
+            }
+    
+            if (lessFrequentButton) {
+              lessFrequentButton.addEventListener("click", () => {
+                adjustFrequency(displayOrder[currentIndex], -1);
+                currentIndex++;
+                showNextEntry();
+              });
+            }
+    
+            if (doNotDisplayButton) {
+              doNotDisplayButton.addEventListener("click", () => {
+                console.log("Removed entry:", displayOrder[currentIndex], "(Frequency: 0)");
+                adjustFrequency(displayOrder[currentIndex], 0);
+                currentIndex++;
+                showNextEntry();
+              });
+            }
+          });
+        };
+    
+        function fetchEntries() {
+          return db.collection("test").doc("career-test").get().then((doc) => {
+            if (doc.exists) {
+              const data = doc.data();
+              const keys = Object.keys(data).slice(0, 50); // Assume data contains keys "1" to "50"
+              keys.sort(() => 0.5 - Math.random()); // Shuffle the keys
+              entries = keys.slice(0, 20).map((key) => data[key]); // Take the first 20 entries
+            } else {
+              console.log("No such document!");
+            }
+          }).catch((error) => {
+            console.error("Error getting document:", error);
+          });
         }
-  
+    
+        function createDisplayOrder() {
+          displayOrder = [];
+          for (let entry in frequencyMap) {
+            if (frequencyMap[entry] > 0) {
+              for (let i = 0; i < frequencyMap[entry]; i++) {
+                displayOrder.push(entry);
+              }
+            }
+          }
+    
+          displayOrder = shuffleArrayWithConstraints(displayOrder);
+          if (displayOrder.length === 0) {
+            console.error("Could not create a valid order with the given constraints.");
+            displayMessage("Congratulations, that's it for today!");
+          } else {
+            console.log();
+          }
+        }
+    
         function shuffleArrayWithConstraints(array) {
           let shuffled = [];
           let lastAdded = new Set();
-          while (array.length > 0) {
-            let validChoices = array.filter(item => !lastAdded.has(item));
+          let retryCount = 0;
+          const maxRetries = 1000;
+    
+          while (array.length > 0 && retryCount < maxRetries) {
+            let validChoices = array.filter((item) => !lastAdded.has(item) && item !== lastDisplayedEntry);
             if (validChoices.length === 0) {
-              console.error("Unable to create a valid order with the given constraints.");
-              return [];
+              lastAdded.clear();
+              validChoices = array.filter((item) => item !== lastDisplayedEntry);
             }
+    
+            if (validChoices.length === 0) {
+              break; // If there are no valid choices, exit the loop
+            }
+    
             let choiceIndex = Math.floor(Math.random() * validChoices.length);
             let choice = validChoices[choiceIndex];
             shuffled.push(choice);
@@ -91,100 +136,134 @@
             if (lastAdded.size > 3) {
               lastAdded.delete(shuffled[shuffled.length - 4]);
             }
+    
+            if (validChoices.length === 1) {
+              retryCount++;
+            } else {
+              retryCount = 0;
+            }
           }
+    
+          if (retryCount >= maxRetries) {
+            console.error("Unable to create a valid order with the given constraints.");
+            return [];
+          }
+    
           return shuffled;
         }
-  
-        displayOrder = shuffleArrayWithConstraints(repeatedEntries);
-        if (displayOrder.length === 0) {
-          console.error("Could not create a valid order with the given constraints.");
-        } else {
-          console.log("Valid order found:", displayOrder);
+    
+        function adjustFrequency(entry, adjustment) {
+          if (adjustment === 0) {
+            frequencyMap[entry] = 0;
+          } else {
+            frequencyMap[entry] = Math.min(maxFrequency, Math.max(0, frequencyMap[entry] + adjustment));
+            if (frequencyMap[entry] === 1) {
+              frequencyMap[entry] = 0; // Remove the entry after it reaches the minimum frequency threshold
+            }
+          }
+          createDisplayOrder();
         }
-      }
-  
-      function displayEntry(entry) {
-        const quoteTextElement = document.getElementById("quote-text");
-        if (quoteTextElement) {
-          quoteTextElement.innerText = entry;
-          console.log("Displayed entry:", entry); // Log the displayed entry
-        } else {
-          console.error("Element with id 'quote-text' not found.");
+    
+        function showNextEntry() {
+          if (currentIndex >= displayOrder.length) {
+            currentIndex = 0; // Reset the index to create an infinite loop
+          }
+          if (displayOrder.length > 0) {
+            displayEntry(displayOrder[currentIndex]);
+          } else {
+            displayMessage("Congratulations, that's it for today!");
+          }
         }
-      }
-  
-      function displayMessage(message) {
-        const quoteTextElement = document.getElementById("quote-text");
-        if (quoteTextElement) {
-          quoteTextElement.innerText = message;
-          console.log("Displayed message:", message); // Log the displayed message
-        } else {
-          console.error("Element with id 'quote-text' not found.");
+    
+        function displayEntry(entry) {
+          const quoteTextElement = document.getElementById("quote-text");
+          if (quoteTextElement) {
+            quoteTextElement.innerText = entry;
+            console.log(
+              "Displayed entry:",
+              entry,
+              "Frequency:",
+              frequencyMap[entry]
+            ); // Log the displayed entry and its frequency
+            lastDisplayedEntry = entry; // Update the last displayed entry
+          } else {
+            console.error("Element with id 'quote-text' not found.");
+          }
         }
-      }
-    </script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="goal-bar-container">
-        <div id="goal-bar" class="progress-goal-bar" style="width: 1%"></div>
-        <div class="goal-text-container">
-          <span class="goal-text-left legend-goal-bar-1">Daily goal</span>
-          <span class="goal-text-right legend-goal-bar-2">1/100</span>
+    
+        function displayMessage(message) {
+          const quoteTextElement = document.getElementById("quote-text");
+          if (quoteTextElement) {
+            quoteTextElement.innerText = message;
+            console.log("Displayed message:", message); // Log the displayed message
+          } else {
+            console.error("Element with id 'quote-text' not found.");
+          }
+        }
+      </script>
+    </head>    
+    <body>
+      <div class="container">
+        <div class="goal-bar-container">
+          <div id="goal-bar" class="progress-goal-bar" style="width: 1%"></div>
+          <div class="goal-text-container">
+            <span class="goal-text-left legend-goal-bar-1">Daily goal</span>
+            <span class="goal-text-right legend-goal-bar-2">1/100</span>
+          </div>
         </div>
-      </div>
-      <div class="quote-area quote">
-        <button class="close-button cross-quote" aria-label="Close Quote">
-          <img src="./images/icon-cross-quote.png" alt="I don't like it"/>
-        </button>
-        <p class="quote-text" id="quote-text">
-          <!-- Affirmation will be loaded here -->
-        </p>
-        <p class="legend-quote">
-          Rate your actual feeling as “Not yet” or “That’s it!”
-        </p>
-        <div class="button-container">
-          <button class="quote-button no-button" aria-label="No">
-            <img src="./images/no-icon.png" alt="No" />
+        <div class="quote-area quote">
+          <button class="close-button cross-quote" aria-label="Close Quote">
+            <img src="./images/icon-cross-quote.png" alt="I don't like it" />
           </button>
-          <button class="quote-button yes-button" aria-label="Yes">
-            <img src="images/yes-icon.png" alt="Yes" />
+          <p class="quote-text" id="quote-text">
+            <!-- Affirmation will be loaded here -->
+          </p>
+          <p class="legend-quote">
+            Rate your actual feeling as “Not yet” or “That’s it!”
+          </p>
+          <div class="button-container">
+            <button class="quote-button no-button" aria-label="No">
+              <img src="./images/no-icon.png" alt="No" />
+            </button>
+            <button class="quote-button yes-button" aria-label="Yes">
+              <img src="images/yes-icon.png" alt="Yes" />
+            </button>
+          </div>
+        </div>
+        <div class="symbol-button-container">
+          <button class="symbol-button history-button" aria-label="History">
+            <img src="./images/icon-history.png" alt="⏳" />
+          </button>
+          <button class="symbol-button science-button" aria-label="Science">
+            <img src="./images/icon-science.png" alt="🔬" />
+          </button>
+          <button class="symbol-button sound-button" aria-label="Sound">
+            <img src="./images/icon-sound.png" alt="🔊" />
           </button>
         </div>
+        <nav class="nav-bar">
+          <button class="nav-button">
+            <img src="images/1-nav-home.png" alt="🏠" />
+            <span class="nav-home-text">Home</span>
+          </button>
+          <button class="nav-button">
+            <img src="images/2-nav-language.png" alt="🌐" />
+            <span class="nav-language-text">Language</span>
+          </button>
+          <button class="nav-button">
+            <img src="images/3-nav-pro.png" alt="⭐" />
+            <span class="nav-pro-text">Get Pro</span>
+          </button>
+          <button class="nav-button">
+            <img src="images/4-nav-metrics.png" alt="📊" />
+            <span class="nav-metrics-text">Metrics</span>
+          </button>
+          <button class="nav-button">
+            <img src="images/5-nav-settings.png" alt="⚙️" />
+            <span class="nav-settings-text">Settings</span>
+          </button>
+        </nav>
       </div>
-      <div class="symbol-button-container">
-        <button class="symbol-button history-button" aria-label="History">
-          <img src="./images/icon-history.png" alt="⏳" />
-        </button>
-        <button class="symbol-button science-button" aria-label="Science">
-          <img src="./images/icon-science.png" alt="🔬" />
-        </button>
-        <button class="symbol-button sound-button" aria-label="Sound">
-          <img src="./images/icon-sound.png" alt="🔊" />
-        </button>
-      </div>
-      <nav class="nav-bar">
-        <button class="nav-button">
-          <img src="images/1-nav-home.png" alt="🏠" />
-          <span class="nav-home-text">Home</span>
-        </button>
-        <button class="nav-button">
-          <img src="images/2-nav-language.png" alt="🌐" />
-          <span class="nav-language-text">Language</span>
-        </button>
-        <button class="nav-button">
-          <img src="images/3-nav-pro.png" alt="⭐" />
-          <span class="nav-pro-text">Get Pro</span>
-        </button>
-        <button class="nav-button">
-          <img src="images/4-nav-metrics.png" alt="📊" />
-          <span class="nav-metrics-text">Metrics</span>
-        </button>
-        <button class="nav-button">
-          <img src="images/5-nav-settings.png" alt="⚙️" />
-          <span class="nav-settings-text">Settings</span>
-        </button>
-      </nav>
-    </div>
-  </body>
+    </body>
+  </html>
 </html>
