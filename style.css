@@ -58,6 +58,10 @@ body {
   margin-bottom: 20%;
   padding-top: 10%; /* Add padding only on top */
   overflow: hidden;
+  min-height: 300px; /* Set a minimum height for the container */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute space between child elements */
 }
 
 .quote-area img {
@@ -91,9 +95,7 @@ body {
 .legend-quote {
   font-size: 3.5vw; /* Smaller text for legend */
   color: #777;
-  margin-bottom: 1%;
-  margin-right: 1%;
-  margin-left: 1%;
+  margin: 1% 1% 1% 1%;
 }
 
 .button-container {

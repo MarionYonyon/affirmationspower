@@ -24,7 +24,7 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         var db = firebase.firestore();
-    
+
         let currentIndex = 0;
         let entries = [];
         let displayOrder = [];
@@ -32,7 +32,7 @@
         let lastDisplayedEntry = null; // Track the last displayed entry
         const maxFrequency = 10; // Maximum frequency limit
         const minFrequencyThreshold = 3;
-    
+
         window.onload = function () {
           // Fetch and shuffle entries
           fetchEntries().then(() => {
@@ -44,12 +44,18 @@
               // Display the first entry
               displayEntry(displayOrder[currentIndex]);
             }
-    
+
             // Set up button click events
-            const moreFrequentButton = document.querySelector(".quote-button.no-button");
-            const lessFrequentButton = document.querySelector(".quote-button.yes-button");
-            const doNotDisplayButton = document.querySelector(".close-button.cross-quote");
-    
+            const moreFrequentButton = document.querySelector(
+              ".quote-button.no-button"
+            );
+            const lessFrequentButton = document.querySelector(
+              ".quote-button.yes-button"
+            );
+            const doNotDisplayButton = document.querySelector(
+              ".close-button.cross-quote"
+            );
+
             if (moreFrequentButton) {
               moreFrequentButton.addEventListener("click", () => {
                 adjustFrequency(displayOrder[currentIndex], 1);
@@ -57,7 +63,7 @@
                 showNextEntry();
               });
             }
-    
+
             if (lessFrequentButton) {
               lessFrequentButton.addEventListener("click", () => {
                 adjustFrequency(displayOrder[currentIndex], -1);
@@ -65,10 +71,14 @@
                 showNextEntry();
               });
             }
-    
+
             if (doNotDisplayButton) {
               doNotDisplayButton.addEventListener("click", () => {
-                console.log("Removed entry:", displayOrder[currentIndex], "(Frequency: 0)");
+                console.log(
+                  "Removed entry:",
+                  displayOrder[currentIndex],
+                  "(Frequency: 0)"
+                );
                 adjustFrequency(displayOrder[currentIndex], 0);
                 currentIndex++;
                 showNextEntry();
@@ -76,22 +86,27 @@
             }
           });
         };
-    
+
         function fetchEntries() {
-          return db.collection("test").doc("career-test").get().then((doc) => {
-            if (doc.exists) {
-              const data = doc.data();
-              const keys = Object.keys(data).slice(0, 50); // Assume data contains keys "1" to "50"
-              keys.sort(() => 0.5 - Math.random()); // Shuffle the keys
-              entries = keys.slice(0, 20).map((key) => data[key]); // Take the first 20 entries
-            } else {
-              console.log("No such document!");
-            }
-          }).catch((error) => {
-            console.error("Error getting document:", error);
-          });
+          return db
+            .collection("test")
+            .doc("career-test")
+            .get()
+            .then((doc) => {
+              if (doc.exists) {
+                const data = doc.data();
+                const keys = Object.keys(data).slice(0, 50); // Assume data contains keys "1" to "50"
+                keys.sort(() => 0.5 - Math.random()); // Shuffle the keys
+                entries = keys.slice(0, 20).map((key) => data[key]); // Take the first 20 entries
+              } else {
+                console.log("No such document!");
+              }
+            })
+            .catch((error) => {
+              console.error("Error getting document:", error);
+            });
         }
-    
+
         function createDisplayOrder() {
           displayOrder = [];
           for (let entry in frequencyMap) {
@@ -101,33 +116,39 @@
               }
             }
           }
-    
+
           displayOrder = shuffleArrayWithConstraints(displayOrder);
           if (displayOrder.length === 0) {
-            console.error("Could not create a valid order with the given constraints.");
+            console.error(
+              "Could not create a valid order with the given constraints."
+            );
             displayMessage("Congratulations, that's it for today!");
           } else {
             console.log();
           }
         }
-    
+
         function shuffleArrayWithConstraints(array) {
           let shuffled = [];
           let lastAdded = new Set();
           let retryCount = 0;
           const maxRetries = 1000;
-    
+
           while (array.length > 0 && retryCount < maxRetries) {
-            let validChoices = array.filter((item) => !lastAdded.has(item) && item !== lastDisplayedEntry);
+            let validChoices = array.filter(
+              (item) => !lastAdded.has(item) && item !== lastDisplayedEntry
+            );
             if (validChoices.length === 0) {
               lastAdded.clear();
-              validChoices = array.filter((item) => item !== lastDisplayedEntry);
+              validChoices = array.filter(
+                (item) => item !== lastDisplayedEntry
+              );
             }
-    
+
             if (validChoices.length === 0) {
               break; // If there are no valid choices, exit the loop
             }
-    
+
             let choiceIndex = Math.floor(Math.random() * validChoices.length);
             let choice = validChoices[choiceIndex];
             shuffled.push(choice);
@@ -136,34 +157,39 @@
             if (lastAdded.size > 3) {
               lastAdded.delete(shuffled[shuffled.length - 4]);
             }
-    
+
             if (validChoices.length === 1) {
               retryCount++;
             } else {
               retryCount = 0;
             }
           }
-    
+
           if (retryCount >= maxRetries) {
-            console.error("Unable to create a valid order with the given constraints.");
+            console.error(
+              "Unable to create a valid order with the given constraints."
+            );
             return [];
           }
-    
+
           return shuffled;
         }
-    
+
         function adjustFrequency(entry, adjustment) {
           if (adjustment === 0) {
             frequencyMap[entry] = 0;
           } else {
-            frequencyMap[entry] = Math.min(maxFrequency, Math.max(0, frequencyMap[entry] + adjustment));
+            frequencyMap[entry] = Math.min(
+              maxFrequency,
+              Math.max(0, frequencyMap[entry] + adjustment)
+            );
             if (frequencyMap[entry] === 1) {
               frequencyMap[entry] = 0; // Remove the entry after it reaches the minimum frequency threshold
             }
           }
           createDisplayOrder();
         }
-    
+
         function showNextEntry() {
           if (currentIndex >= displayOrder.length) {
             currentIndex = 0; // Reset the index to create an infinite loop
@@ -174,7 +200,7 @@
             displayMessage("Congratulations, that's it for today!");
           }
         }
-    
+
         function displayEntry(entry) {
           const quoteTextElement = document.getElementById("quote-text");
           if (quoteTextElement) {
@@ -190,7 +216,7 @@
             console.error("Element with id 'quote-text' not found.");
           }
         }
-    
+
         function displayMessage(message) {
           const quoteTextElement = document.getElementById("quote-text");
           if (quoteTextElement) {
@@ -201,7 +227,7 @@
           }
         }
       </script>
-    </head>    
+    </head>
     <body>
       <div class="container">
         <div class="goal-bar-container">
@@ -211,23 +237,25 @@
             <span class="goal-text-right legend-goal-bar-2">1/100</span>
           </div>
         </div>
-        <div class="quote-area quote">
+        <div class="quote-area">
           <button class="close-button cross-quote" aria-label="Close Quote">
             <img src="./images/icon-cross-quote.png" alt="I don't like it" />
           </button>
           <p class="quote-text" id="quote-text">
             <!-- Affirmation will be loaded here -->
           </p>
-          <p class="legend-quote">
-            Rate your actual feeling as “Not yet” or “That’s it!”
-          </p>
-          <div class="button-container">
-            <button class="quote-button no-button" aria-label="No">
-              <img src="./images/no-icon.png" alt="No" />
-            </button>
-            <button class="quote-button yes-button" aria-label="Yes">
-              <img src="images/yes-icon.png" alt="Yes" />
-            </button>
+          <div class="legend-yes-no-buttons">
+            <p class="legend-quote">
+              Rate your actual feeling as “Not yet” or “That’s it!”
+            </p>
+              <div class="button-container">
+                <button class="quote-button no-button" aria-label="No">
+                  <img src="./images/no-icon.png" alt="No" />
+                </button>
+                <button class="quote-button yes-button" aria-label="Yes">
+                  <img src="images/yes-icon.png" alt="Yes" />
+                </button>
+              </div>
           </div>
         </div>
         <div class="symbol-button-container">
