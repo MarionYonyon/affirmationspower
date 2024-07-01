@@ -17,11 +17,111 @@
         storageBucket: "positive-affirmations-6f4de.appspot.com",
         messagingSenderId: "673466441825",
         appId: "1:673466441825:web:f55187a876022c1886ca20",
-        measurementId: "G-ESWHMNTB6C"
+        measurementId: "G-ESWHMNTB6C",
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
+  
+      let currentIndex = 0;
+      let entries = [];
+      let displayOrder = [];
+  
+      window.onload = function() {
+        // Fetch and shuffle entries
+        fetchEntries().then(() => {
+          if (entries.length > 0) {
+            // Create display order
+            createDisplayOrder();
+            // Display the first entry
+            displayEntry(displayOrder[currentIndex]);
+          }
+  
+          // Set up the button click event
+          const yesButton = document.querySelector(".quote-button.yes-button");
+          if (yesButton) {
+            yesButton.addEventListener("click", () => {
+              currentIndex++;
+              if (currentIndex < displayOrder.length) {
+                displayEntry(displayOrder[currentIndex]);
+              } else {
+                displayMessage("You have viewed all the entries.");
+                yesButton.disabled = true; // Disable the button
+              }
+            });
+          }
+        });
+      };
+  
+      function fetchEntries() {
+        return db.collection("test").doc("career-test").get().then((doc) => {
+          if (doc.exists) {
+            const data = doc.data();
+            const keys = Object.keys(data).slice(0, 50); // Assume data contains keys "1" to "50"
+            keys.sort(() => 0.5 - Math.random()); // Shuffle the keys
+            entries = keys.slice(0, 20).map(key => data[key]); // Take the first 20 entries
+          } else {
+            console.log("No such document!");
+          }
+        }).catch((error) => {
+          console.error("Error getting document:", error);
+        });
+      }
+  
+      function createDisplayOrder() {
+        let repeatedEntries = [];
+        for (let i = 0; i < 5; i++) {
+          repeatedEntries = repeatedEntries.concat(entries);
+        }
+  
+        function shuffleArrayWithConstraints(array) {
+          let shuffled = [];
+          let lastAdded = new Set();
+          while (array.length > 0) {
+            let validChoices = array.filter(item => !lastAdded.has(item));
+            if (validChoices.length === 0) {
+              console.error("Unable to create a valid order with the given constraints.");
+              return [];
+            }
+            let choiceIndex = Math.floor(Math.random() * validChoices.length);
+            let choice = validChoices[choiceIndex];
+            shuffled.push(choice);
+            array.splice(array.indexOf(choice), 1);
+            lastAdded.add(choice);
+            if (lastAdded.size > 3) {
+              lastAdded.delete(shuffled[shuffled.length - 4]);
+            }
+          }
+          return shuffled;
+        }
+  
+        displayOrder = shuffleArrayWithConstraints(repeatedEntries);
+        if (displayOrder.length === 0) {
+          console.error("Could not create a valid order with the given constraints.");
+        } else {
+          console.log("Valid order found:", displayOrder);
+        }
+      }
+  
+      function displayEntry(entry) {
+        const quoteTextElement = document.getElementById("quote-text");
+        if (quoteTextElement) {
+          quoteTextElement.innerText = entry;
+          console.log("Displayed entry:", entry); // Log the displayed entry
+        } else {
+          console.error("Element with id 'quote-text' not found.");
+        }
+      }
+  
+      function displayMessage(message) {
+        const quoteTextElement = document.getElementById("quote-text");
+        if (quoteTextElement) {
+          quoteTextElement.innerText = message;
+          console.log("Displayed message:", message); // Log the displayed message
+        } else {
+          console.error("Element with id 'quote-text' not found.");
+        }
+      }
     </script>
   </head>
   <body>
@@ -86,26 +186,5 @@
         </button>
       </nav>
     </div>
-    <!-- Place the script at the end of the body to ensure DOM is fully loaded -->
-    <script>
-      window.onload = function() {
-        // Fetch affirmation from Firestore with debugging
-        db.collection("1").doc("1").get().then((doc) => {
-          if (doc.exists) {
-            console.log("Document data:", doc.data());
-            const quoteTextElement = document.getElementById("quote-text");
-            if (quoteTextElement) {
-              quoteTextElement.innerText = doc.data()["1"];
-            } else {
-              console.error("Element with id 'quote-text' not found.");
-            }
-          } else {
-            console.log("No such document!");
-          }
-        }).catch((error) => {
-          console.error("Error getting document:", error);
-        });
-      }
-    </script>
   </body>
 </html>
