@@ -1,0 +1,503 @@
+[
+    {
+      "Field": "01",
+      "Type": "string",
+      "Value": "Our love life is full of passion and connection."
+    },
+    {
+      "Field": "02",
+      "Type": "string",
+      "Value": "I am confident and comfortable with my fiancé."
+    },
+    {
+      "Field": "03",
+      "Type": "string",
+      "Value": "We communicate openly and honestly about our desires."
+    },
+    {
+      "Field": "04",
+      "Type": "string",
+      "Value": "Our intimacy strengthens our bond."
+    },
+    {
+      "Field": "05",
+      "Type": "string",
+      "Value": "I trust my fiancé completely in our intimate moments."
+    },
+    {
+      "Field": "06",
+      "Type": "string",
+      "Value": "We explore and enjoy each other’s bodies with love."
+    },
+    {
+      "Field": "07",
+      "Type": "string",
+      "Value": "Our sex life is a beautiful expression of our love."
+    },
+    {
+      "Field": "08",
+      "Type": "string",
+      "Value": "We respect each other's boundaries and desires."
+    },
+    {
+      "Field": "09",
+      "Type": "string",
+      "Value": "I feel cherished and adored by my fiancé."
+    },
+    {
+      "Field": "10",
+      "Type": "string",
+      "Value": "Our physical connection is strong and fulfilling."
+    },
+    {
+      "Field": "11",
+      "Type": "string",
+      "Value": "We prioritize our intimacy and make time for each other."
+    },
+    {
+      "Field": "12",
+      "Type": "string",
+      "Value": "I am grateful for the passionate love we share."
+    },
+    {
+      "Field": "13",
+      "Type": "string",
+      "Value": "Our sexual relationship is a source of joy and happiness."
+    },
+    {
+      "Field": "14",
+      "Type": "string",
+      "Value": "I feel desired and attractive to my fiancé."
+    },
+    {
+      "Field": "15",
+      "Type": "string",
+      "Value": "We create a safe and loving space for our intimacy."
+    },
+    {
+      "Field": "16",
+      "Type": "string",
+      "Value": "Our connection grows deeper with each intimate moment."
+    },
+    {
+      "Field": "17",
+      "Type": "string",
+      "Value": "I feel free to express my desires and needs."
+    },
+    {
+      "Field": "18",
+      "Type": "string",
+      "Value": "We are attentive and responsive to each other's needs."
+    },
+    {
+      "Field": "19",
+      "Type": "string",
+      "Value": "Our intimacy is filled with trust and mutual respect."
+    },
+    {
+      "Field": "20",
+      "Type": "string",
+      "Value": "We enjoy discovering new ways to please each other."
+    },
+    {
+      "Field": "21",
+      "Type": "string",
+      "Value": "I am confident in my sexuality with my fiancé."
+    },
+    {
+      "Field": "22",
+      "Type": "string",
+      "Value": "We are both fully present in our intimate moments."
+    },
+    {
+      "Field": "23",
+      "Type": "string",
+      "Value": "Our love life is vibrant and exciting."
+    },
+    {
+      "Field": "24",
+      "Type": "string",
+      "Value": "We embrace each other's imperfections and love unconditionally."
+    },
+    {
+      "Field": "25",
+      "Type": "string",
+      "Value": "I feel deeply connected to my fiancé during intimacy."
+    },
+    {
+      "Field": "26",
+      "Type": "string",
+      "Value": "We honor and appreciate our physical connection."
+    },
+    {
+      "Field": "27",
+      "Type": "string",
+      "Value": "Our sex life is a beautiful blend of love and passion."
+    },
+    {
+      "Field": "28",
+      "Type": "string",
+      "Value": "I feel safe and secure in our intimate moments."
+    },
+    {
+      "Field": "29",
+      "Type": "string",
+      "Value": "We celebrate our love through our physical connection."
+    },
+    {
+      "Field": "30",
+      "Type": "string",
+      "Value": "I am grateful for the intimacy we share."
+    },
+    {
+      "Field": "31",
+      "Type": "string",
+      "Value": "Our love life is full of joy and excitement."
+    },
+    {
+      "Field": "32",
+      "Type": "string",
+      "Value": "We communicate our needs and desires openly."
+    },
+    {
+      "Field": "33",
+      "Type": "string",
+      "Value": "I feel deeply loved and appreciated."
+    },
+    {
+      "Field": "34",
+      "Type": "string",
+      "Value": "We create wonderful memories together."
+    },
+    {
+      "Field": "35",
+      "Type": "string",
+      "Value": "Our physical connection is a reflection of our deep love."
+    },
+    {
+      "Field": "36",
+      "Type": "string",
+      "Value": "I am confident in expressing my desires."
+    },
+    {
+      "Field": "37",
+      "Type": "string",
+      "Value": "We are open and honest about our sexual needs."
+    },
+    {
+      "Field": "38",
+      "Type": "string",
+      "Value": "Our intimacy is a priority in our relationship."
+    },
+    {
+      "Field": "39",
+      "Type": "string",
+      "Value": "I trust my fiancé with my deepest desires."
+    },
+    {
+      "Field": "40",
+      "Type": "string",
+      "Value": "We explore new dimensions of our love together."
+    },
+    {
+      "Field": "41",
+      "Type": "string",
+      "Value": "Our sex life is a source of happiness and fulfillment."
+    },
+    {
+      "Field": "42",
+      "Type": "string",
+      "Value": "I feel cherished and adored in our intimate moments."
+    },
+    {
+      "Field": "43",
+      "Type": "string",
+      "Value": "We respect and honor each other’s bodies."
+    },
+    {
+      "Field": "44",
+      "Type": "string",
+      "Value": "Our love grows stronger with each intimate moment."
+    },
+    {
+      "Field": "45",
+      "Type": "string",
+      "Value": "I am comfortable and relaxed with my fiancé."
+    },
+    {
+      "Field": "46",
+      "Type": "string",
+      "Value": "We enjoy a healthy and passionate sex life."
+    },
+    {
+      "Field": "47",
+      "Type": "string",
+      "Value": "I feel deeply connected and loved."
+    },
+    {
+      "Field": "48",
+      "Type": "string",
+      "Value": "We share a profound and intimate bond."
+    },
+    {
+      "Field": "49",
+      "Type": "string",
+      "Value": "Our love life is vibrant and fulfilling."
+    },
+    {
+      "Field": "50",
+      "Type": "string",
+      "Value": "I am grateful for our passionate connection."
+    },
+    {
+      "Field": "51",
+      "Type": "string",
+      "Value": "We explore our sexuality together with love and respect."
+    },
+    {
+      "Field": "52",
+      "Type": "string",
+      "Value": "Our intimacy is filled with love and passion."
+    },
+    {
+      "Field": "53",
+      "Type": "string",
+      "Value": "I feel completely loved and accepted."
+    },
+    {
+      "Field": "54",
+      "Type": "string",
+      "Value": "We prioritize our intimate connection."
+    },
+    {
+      "Field": "55",
+      "Type": "string",
+      "Value": "Our sex life is exciting and adventurous."
+    },
+    {
+      "Field": "56",
+      "Type": "string",
+      "Value": "I feel free to express my love physically."
+    },
+    {
+      "Field": "57",
+      "Type": "string",
+      "Value": "We cherish and enjoy our intimate moments."
+    },
+    {
+      "Field": "58",
+      "Type": "string",
+      "Value": "Our physical connection enhances our emotional bond."
+    },
+    {
+      "Field": "59",
+      "Type": "string",
+      "Value": "I trust my fiancé with my heart and body."
+    },
+    {
+      "Field": "60",
+      "Type": "string",
+      "Value": "We are deeply in tune with each other’s needs."
+    },
+    {
+      "Field": "61",
+      "Type": "string",
+      "Value": "Our intimacy is a reflection of our deep love."
+    },
+    {
+      "Field": "62",
+      "Type": "string",
+      "Value": "I feel desired and appreciated."
+    },
+    {
+      "Field": "63",
+      "Type": "string",
+      "Value": "We create a loving and passionate environment."
+    },
+    {
+      "Field": "64",
+      "Type": "string",
+      "Value": "Our love life is a source of joy and connection."
+    },
+    {
+      "Field": "65",
+      "Type": "string",
+      "Value": "I am confident and secure in our intimacy."
+    },
+    {
+      "Field": "66",
+      "Type": "string",
+      "Value": "We share a deep and passionate love."
+    },
+    {
+      "Field": "67",
+      "Type": "string",
+      "Value": "Our sex life is full of excitement and joy."
+    },
+    {
+      "Field": "68",
+      "Type": "string",
+      "Value": "I feel completely comfortable with my fiancé."
+    },
+    {
+      "Field": "69",
+      "Type": "string",
+      "Value": "We enjoy exploring our desires together."
+    },
+    {
+      "Field": "70",
+      "Type": "string",
+      "Value": "Our intimacy is built on trust and respect."
+    },
+    {
+      "Field": "71",
+      "Type": "string",
+      "Value": "I feel deeply connected to my fiancé."
+    },
+    {
+      "Field": "72",
+      "Type": "string",
+      "Value": "We make time for each other and our intimacy."
+    },
+    {
+      "Field": "73",
+      "Type": "string",
+      "Value": "Our love life is a beautiful journey."
+    },
+    {
+      "Field": "74",
+      "Type": "string",
+      "Value": "I am grateful for the intimacy we share."
+    },
+    {
+      "Field": "75",
+      "Type": "string",
+      "Value": "We communicate openly about our sexual desires."
+    },
+    {
+      "Field": "76",
+      "Type": "string",
+      "Value": "Our physical connection is strong and loving."
+    },
+    {
+      "Field": "77",
+      "Type": "string",
+      "Value": "I feel cherished and loved in our intimate moments."
+    },
+    {
+      "Field": "78",
+      "Type": "string",
+      "Value": "We enjoy a passionate and fulfilling sex life."
+    },
+    {
+      "Field": "79",
+      "Type": "string",
+      "Value": "I am confident in my sexuality."
+    },
+    {
+      "Field": "80",
+      "Type": "string",
+      "Value": "We prioritize our physical connection."
+    },
+    {
+      "Field": "81",
+      "Type": "string",
+      "Value": "Our love grows stronger with each intimate moment."
+    },
+    {
+      "Field": "82",
+      "Type": "string",
+      "Value": "I feel deeply loved and desired."
+    },
+    {
+      "Field": "83",
+      "Type": "string",
+      "Value": "We create a safe and loving space for our intimacy."
+    },
+    {
+      "Field": "84",
+      "Type": "string",
+      "Value": "Our sex life is a reflection of our deep love."
+    },
+    {
+      "Field": "85",
+      "Type": "string",
+      "Value": "I am comfortable and relaxed with my fiancé."
+    },
+    {
+      "Field": "86",
+      "Type": "string",
+      "Value": "We enjoy a healthy and exciting sex life."
+    },
+    {
+      "Field": "87",
+      "Type": "string",
+      "Value": "I feel deeply connected and loved."
+    },
+    {
+      "Field": "88",
+      "Type": "string",
+      "Value": "We share a profound and intimate bond."
+    },
+    {
+      "Field": "89",
+      "Type": "string",
+      "Value": "Our love life is vibrant and fulfilling."
+    },
+    {
+      "Field": "90",
+      "Type": "string",
+      "Value": "I am grateful for our passionate connection."
+    },
+    {
+      "Field": "91",
+      "Type": "string",
+      "Value": "We explore our sexuality together with love and respect."
+    },
+    {
+      "Field": "92",
+      "Type": "string",
+      "Value": "Our intimacy is filled with love and passion."
+    },
+    {
+      "Field": "93",
+      "Type": "string",
+      "Value": "I feel completely loved and accepted."
+    },
+    {
+      "Field": "94",
+      "Type": "string",
+      "Value": "We prioritize our intimate connection."
+    },
+    {
+      "Field": "95",
+      "Type": "string",
+      "Value": "Our sex life is exciting and adventurous."
+    },
+    {
+      "Field": "96",
+      "Type": "string",
+      "Value": "I feel free to express my love physically."
+    },
+    {
+      "Field": "97",
+      "Type": "string",
+      "Value": "We cherish and enjoy our intimate moments."
+    },
+    {
+      "Field": "98",
+      "Type": "string",
+      "Value": "Our physical connection enhances our emotional bond."
+    },
+    {
+      "Field": "99",
+      "Type": "string",
+      "Value": "I trust my fiancé with my heart and body."
+    },
+    {
+      "Field": "100",
+      "Type": "string",
+      "Value": "We are deeply in tune with each other’s needs."
+    }
+  ]
+  

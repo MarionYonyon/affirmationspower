@@ -86,7 +86,7 @@
           };
       
           function fetchEntries() {
-            return db.collection("test").doc("career-test").get().then((doc) => {
+            return db.collection("test").doc("s-partner").get().then((doc) => {
               if (doc.exists) {
                 const data = doc.data();
                 const keys = Object.keys(data).slice(0, 50); // Assume data contains keys "1" to "50"
