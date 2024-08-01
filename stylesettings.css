@@ -116,9 +116,7 @@ input:checked + .slider:before {
   transform: translateX(16px);
 }
 
-.slider.checked {
-  background-color: #34c759;
-}
+.slider.checked {}
 
 /* Navigation bar styling */
 .nav-bar {
