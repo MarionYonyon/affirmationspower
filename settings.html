@@ -23,9 +23,20 @@
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
-      
+
       // Initialize Firebase Authentication and get a reference to the service
       var auth = firebase.auth();
+
+      // Check authentication status
+      auth.onAuthStateChanged(function (user) {
+        if (user) {
+          document.getElementById("content").style.display = "block";
+          document.getElementById("not-authenticated").style.display = "none";
+        } else {
+          document.getElementById("content").style.display = "none";
+          document.getElementById("not-authenticated").style.display = "block";
+        }
+      });
 
       // Handle logout
       function handleLogout() {
@@ -47,7 +58,11 @@
     </script>
   </head>
   <body>
-    <div class="container">
+    <div id="not-authenticated" class="content" style="display: none">
+      <h1>Access Denied</h1>
+      <p>You are not authenticated. Please <a href="loginpage.html">login</a>.</p>
+    </div>
+    <div id="content" class="container" style="display: none;">
       <div class="settings-section-title">GENERAL</div>
       <div class="settings-section">
         <div class="settings-item">
@@ -162,7 +177,7 @@
       </div>
     </div>
 
-    <nav class="nav-bar">
+    <nav class="nav-bar" id="nav-bar" style="display: none;">
       <button class="nav-button" onclick="location.href='index.html'">
         <img src="images/1-nav-home-65636E.png" alt="Home" />
         <span class="nav-home-text">Home</span>

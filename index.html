@@ -33,10 +33,10 @@
       const minFrequencyThreshold = 3;
       let progress = 0; // Track progress
 
-      // NEW Initialize Firebase Authentication and get a reference to the service
+      // Initialize Firebase Authentication and get a reference to the service
       var auth = firebase.auth();
 
-      // NEW Check authentication status
+      // Check authentication status
       auth.onAuthStateChanged(function (user) {
         if (user) {
           document.getElementById("content").style.display = "block";
