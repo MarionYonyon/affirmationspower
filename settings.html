@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+    <link rel="stylesheet" href="stylesettings.css" />
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script>
+      // Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCsi6d-ttdoRpqZ79yAMkIsMDN1ObR56Vw",
+        authDomain: "positive-affirmations-6f4de.firebaseapp.com",
+        projectId: "positive-affirmations-6f4de",
+        storageBucket: "positive-affirmations-6f4de.appspot.com",
+        messagingSenderId: "673466441825",
+        appId: "1:673466441825:web:f55187a876022c1886ca20",
+        measurementId: "G-ESWHMNTB6C",
+      };
+      
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+      
+      // Initialize Firebase Authentication and get a reference to the service
+      var auth = firebase.auth();
+
+      // Handle logout
+      function handleLogout() {
+        auth
+          .signOut()
+          .then(function () {
+            window.location.href = "loginpage.html";
+          })
+          .catch(function (error) {
+            console.error("Error signing out: ", error);
+          });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("logout-button")
+          .addEventListener("click", handleLogout);
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="settings-section-title">GENERAL</div>
+      <div class="settings-section">
+        <div class="settings-item">
+          <span class="settings-label">Topic</span>
+          <span class="settings-value">Work & Career ></span>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Appearance</span>
+          <span class="settings-value">Light ></span>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Daily reminder</span>
+          <span class="settings-value">></span>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Daily goal</span>
+          <span class="settings-value" style="color: #673ab7">100 ></span>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Job status</span>
+          <span class="settings-value">Career Changer ></span>
+        </div>
+      </div>
+
+      <div class="settings-section-title">AFFIRMATIONS</div>
+      <div class="settings-section">
+        <div class="settings-item">
+          <span class="settings-label">Motivation and Inspiration</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Self-Confidence</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Career Growth and Advancement</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Resilience and Perseverance</span>
+          <label class="switch">
+            <input type="checkbox" checked />
+            <span class="slider checked"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Skill Recognition and Development</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Networking and Connections</span>
+          <label class="switch">
+            <input type="checkbox" checked />
+            <span class="slider checked"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Goal Setting and Achievement</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Interview Preparation</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Stress Relief and Mindfulness</span>
+          <label class="switch">
+            <input type="checkbox" checked />
+            <span class="slider checked"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Financial Abundance and Stability</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="settings-item">
+          <span class="settings-label">Work-Life Balance</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-section-title">ACCOUNT</div>
+      <div class="settings-section">
+        <div class="settings-item" id="logout-button">
+          <span class="settings-label">Log Out</span>
+          <span class="settings-value"></span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav-bar">
+      <button class="nav-button" onclick="location.href='index.html'">
+        <img src="images/1-nav-home-65636E.png" alt="Home" />
+        <span class="nav-home-text">Home</span>
+      </button>
+      <button class="nav-button">
+        <img src="images/2-nav-language-65636E.png" alt="Language" />
+        <span class="nav-language-text">Language</span>
+      </button>
+      <button class="nav-button">
+        <img src="images/3-nav-pro-65636E.png" alt="Get Pro" />
+        <span class="nav-pro-text">Get Pro</span>
+      </button>
+      <button class="nav-button">
+        <img src="images/4-nav-metrics-65636E.png" alt="Metrics" />
+        <span class="nav-metrics-text">Metrics</span>
+      </button>
+      <button class="nav-button">
+        <img src="images/5-nav-settings-5603AD.png" alt="Settings" />
+        <span class="nav-settings-text">Settings</span>
+      </button>
+    </nav>
+  </body>
+</html>

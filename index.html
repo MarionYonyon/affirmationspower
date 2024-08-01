@@ -259,18 +259,6 @@
         progressText.innerText = progress + "/100";
       }
 
-      // NEW Handle logout
-      function handleLogout() {
-        auth
-          .signOut()
-          .then(function () {
-            window.location.href = "loginpage.html";
-          })
-          .catch(function (error) {
-            console.error("Error signing out: ", error);
-          });
-      }
-
       document.addEventListener("DOMContentLoaded", function () {
         document
           .getElementById("logout-button")
@@ -340,9 +328,9 @@
         <img src="images/4-nav-metrics-65636E.png" alt="📊" />
         <span class="nav-metrics-text">Metrics</span>
       </button>
-      <button id="logout-button" class="nav-button">
+      <button class="nav-button" onclick="location.href='settings.html'">
         <img src="images/5-nav-settings-65636E.png" alt="⚙️" />
-        <span class="nav-settings-text">Log-out</span>
+        <span class="nav-settings-text">Settings</span>
       </button>
     </nav>
   </div>
