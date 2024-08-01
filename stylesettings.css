@@ -116,8 +116,6 @@ input:checked + .slider:before {
   transform: translateX(16px);
 }
 
-.slider.checked {}
-
 /* Navigation bar styling */
 .nav-bar {
   display: flex;
