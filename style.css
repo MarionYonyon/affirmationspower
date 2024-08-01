@@ -28,12 +28,26 @@ body {
 .goal-bar-container {
   width: 100%;
   margin: 4% 0;
+  position: relative; /* To position the fixed bar on top */
+}
+
+.fixed-goal-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #B3E9C7; /* Change this color as needed */
+  border-radius: 5px;
+  z-index: 1; /* Ensure this is at the back */
 }
 
 .progress-goal-bar {
   height: 5px;
   background-color: #673ab7;
   border-radius: 5px;
+  position: relative; /* Ensure this is above the fixed bar */
+  z-index: 2; /* Ensure this is at the front */
 }
 
 .goal-text-container {
