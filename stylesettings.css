@@ -26,7 +26,7 @@ body {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background-color: #f3f2f7; /* Grey background for the section title */
+  background-color: #f3f2f7;
 }
 
 /* Settings section styling */
@@ -39,7 +39,7 @@ body {
 }
 
 .settings-section:last-of-type {
-  margin-bottom: 80px; /* Add margin to create space between last toggle and navigation bar */
+  margin-bottom: 80px;
 }
 
 .settings-item {
@@ -69,8 +69,8 @@ body {
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px; /* Increase width */
-  height: 34px; /* Increase height */
+  width: 40px;
+  height: 24px;
 }
 
 .switch input {
@@ -86,16 +86,16 @@ body {
   bottom: 0;
   background-color: #ccc;
   transition: .4s;
-  border-radius: 34px; /* Adjust radius for new size */
+  border-radius: 24px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 28px; /* Increase height */
-  width: 28px; /* Increase width */
-  left: 3px; /* Adjust position */
-  bottom: 3px; /* Adjust position */
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
   background-color: white;
   transition: .4s;
   border-radius: 50%;
@@ -106,7 +106,7 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(26px); /* Adjust translate distance */
+  transform: translateX(16px);
 }
 
 .slider.checked {
