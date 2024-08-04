@@ -19,7 +19,7 @@
         appId: "1:673466441825:web:f55187a876022c1886ca20",
         measurementId: "G-ESWHMNTB6C",
       };
-      
+
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
@@ -32,6 +32,7 @@
       const maxFrequency = 10; // Maximum frequency limit
       const minFrequencyThreshold = 3;
       let progress = 0; // Track progress
+      let dailyGoal = 100; // Default goal
 
       // Initialize Firebase Authentication and get a reference to the service
       var auth = firebase.auth();
@@ -41,11 +42,29 @@
         if (user) {
           document.getElementById("content").style.display = "block";
           document.getElementById("not-authenticated").style.display = "none";
+          loadDailyGoal(user.uid);
         } else {
           document.getElementById("content").style.display = "none";
           document.getElementById("not-authenticated").style.display = "block";
         }
       });
+
+      // Load daily goal from Firestore
+      function loadDailyGoal(uid) {
+        db.collection("users")
+          .doc(uid)
+          .get()
+          .then(function (doc) {
+            if (doc.exists) {
+              dailyGoal = doc.data().dailyGoal || 100;
+              updateProgressText();
+              updateProgressBar();
+            }
+          })
+          .catch(function (error) {
+            console.error("Error getting document:", error);
+          });
+      }
 
       window.onload = function () {
         // Fetch and shuffle entries
@@ -246,17 +265,26 @@
 
       function incrementProgress() {
         progress += 1;
-        if (progress <= 100) {
-          const progressBar = document.getElementById("goal-bar");
-          progressBar.style.width = progress + "%";
-        }
+        updateProgressBar();
         updateProgressText();
-        console.log("Progress: " + progress + "%");
       }
 
       function updateProgressText() {
         const progressText = document.querySelector(".goal-text-right");
-        progressText.innerText = progress + "/100";
+        if (progressText) {
+          progressText.innerText = progress + "/" + dailyGoal;
+        }
+      }
+
+      function updateProgressBar() {
+        const progressBar = document.getElementById("goal-bar");
+        if (progressBar) {
+          const progressPercentage = Math.min(
+            (progress / dailyGoal) * 100,
+            100
+          );
+          progressBar.style.width = progressPercentage + "%";
+        }
       }
 
       document.addEventListener("DOMContentLoaded", function () {

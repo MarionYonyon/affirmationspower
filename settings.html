@@ -19,7 +19,7 @@
         appId: "1:673466441825:web:f55187a876022c1886ca20",
         measurementId: "G-ESWHMNTB6C",
       };
-      
+
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
@@ -27,12 +27,64 @@
       // Initialize Firebase Authentication and get a reference to the service
       var auth = firebase.auth();
 
+      function loadDailyGoal(uid) {
+        db.collection("users")
+          .doc(uid)
+          .get()
+          .then(function (doc) {
+            if (doc.exists) {
+              const dailyGoal = doc.data().dailyGoal || 100;
+              document.getElementById("daily-goal-input").value = dailyGoal;
+            }
+          });
+      }
+
+      function saveDailyGoal(uid, dailyGoal) {
+        db.collection("users")
+          .doc(uid)
+          .set(
+            {
+              dailyGoal: dailyGoal,
+            },
+            { merge: true }
+          )
+          .then(function () {
+            alert("Daily goal updated successfully!");
+          })
+          .catch(function (error) {
+            console.error("Error updating daily goal: ", error);
+          });
+      }
+
+      function handleDailyGoalChange() {
+        const input = document.getElementById("daily-goal-input");
+        let value = parseInt(input.value, 10);
+
+        if (value < 10) {
+          value = 10;
+          input.value = value;
+        } else if (value > 100) {
+          value = 100;
+          input.value = value;
+        }
+
+        // Call saveDailyGoal to save the updated value
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            saveDailyGoal(user.uid, value);
+          }
+        });
+      }
+
       // Check authentication status
       auth.onAuthStateChanged(function (user) {
         if (user) {
           document.getElementById("content").style.display = "block";
           document.getElementById("not-authenticated").style.display = "none";
           document.getElementById("nav-bar").style.display = "flex";
+
+          // Load the daily goal when the user is authenticated
+          loadDailyGoal(user.uid);
         } else {
           document.getElementById("content").style.display = "none";
           document.getElementById("not-authenticated").style.display = "block";
@@ -54,6 +106,9 @@
 
       document.addEventListener("DOMContentLoaded", function () {
         document
+          .getElementById("daily-goal-input")
+          .addEventListener("change", handleDailyGoalChange);
+        document
           .getElementById("logout-button")
           .addEventListener("click", handleLogout);
       });
@@ -62,9 +117,11 @@
   <body>
     <div id="not-authenticated" class="content" style="display: none">
       <h1>Access Denied</h1>
-      <p>You are not authenticated. Please <a href="loginpage.html">login</a>.</p>
+      <p>
+        You are not authenticated. Please <a href="loginpage.html">login</a>.
+      </p>
     </div>
-    <div id="content" class="container" style="display: none;">
+    <div id="content" class="container" style="display: none">
       <div class="settings-section-title">GENERAL</div>
       <div class="settings-section">
         <div class="settings-item">
@@ -81,7 +138,14 @@
         </div>
         <div class="settings-item">
           <span class="settings-label">Daily goal</span>
-          <span class="settings-value" style="color: #673ab7;">100 ></span>
+          <input
+            id="daily-goal-input"
+            type="number"
+            min="10"
+            max="100"
+            class="settings-value"
+            style="color: #673ab7; width: 50px"
+          />
         </div>
         <div class="settings-item">
           <span class="settings-label">Job status</span>
@@ -94,77 +158,77 @@
         <div class="settings-item">
           <span class="settings-label">Motivation and Inspiration</span>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Self-Confidence</span>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Career Growth and Advancement</span>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Resilience and Perseverance</span>
           <label class="switch">
-            <input type="checkbox" checked>
+            <input type="checkbox" checked />
             <span class="slider checked"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Skill Recognition and Development</span>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Networking and Connections</span>
           <label class="switch">
-            <input type="checkbox" checked>
+            <input type="checkbox" checked />
             <span class="slider checked"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Goal Setting and Achievement</span>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Interview Preparation</span>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Stress Relief and Mindfulness</span>
           <label class="switch">
-            <input type="checkbox" checked>
+            <input type="checkbox" checked />
             <span class="slider checked"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Financial Abundance and Stability</span>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Work-Life Balance</span>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" />
             <span class="slider"></span>
           </label>
         </div>
@@ -179,25 +243,25 @@
       </div>
     </div>
 
-    <nav class="nav-bar" id="nav-bar" style="display: none;">
+    <nav class="nav-bar" id="nav-bar" style="display: none">
       <button class="nav-button" onclick="location.href='index.html'">
-        <img src="images/1-nav-home-65636E.png" alt="Home">
+        <img src="images/1-nav-home-65636E.png" alt="Home" />
         <span class="nav-home-text">Home</span>
       </button>
       <button class="nav-button">
-        <img src="images/2-nav-language-65636E.png" alt="Language">
+        <img src="images/2-nav-language-65636E.png" alt="Language" />
         <span class="nav-language-text">Language</span>
       </button>
       <button class="nav-button">
-        <img src="images/3-nav-pro-65636E.png" alt="Get Pro">
+        <img src="images/3-nav-pro-65636E.png" alt="Get Pro" />
         <span class="nav-pro-text">Get Pro</span>
       </button>
       <button class="nav-button">
-        <img src="images/4-nav-metrics-65636E.png" alt="Metrics">
+        <img src="images/4-nav-metrics-65636E.png" alt="Metrics" />
         <span class="nav-metrics-text">Metrics</span>
       </button>
       <button class="nav-button">
-        <img src="images/5-nav-settings-5603AD.png" alt="Settings">
+        <img src="images/5-nav-settings-5603AD.png" alt="Settings" />
         <span class="nav-settings-text">Settings</span>
       </button>
     </nav>
