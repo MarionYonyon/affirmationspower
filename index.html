@@ -43,6 +43,7 @@
           document.getElementById("content").style.display = "block";
           document.getElementById("not-authenticated").style.display = "none";
           loadDailyGoal(user.uid);
+          loadProgress(user.uid);
         } else {
           document.getElementById("content").style.display = "none";
           document.getElementById("not-authenticated").style.display = "block";
@@ -63,6 +64,60 @@
           })
           .catch(function (error) {
             console.error("Error getting document:", error);
+          });
+      }
+
+      // Load progress from Firestore
+      function loadProgress(uid) {
+        db.collection("users")
+          .doc(uid)
+          .get()
+          .then(function (doc) {
+            if (doc.exists) {
+              const data = doc.data();
+              const lastUpdated = data.lastUpdated
+                ? new Date(data.lastUpdated.seconds * 1000)
+                : new Date(0);
+              const today = new Date();
+              if (isSameDay(lastUpdated, today)) {
+                progress = data.progress || 0;
+              } else {
+                progress = 0;
+              }
+              updateProgressText();
+              updateProgressBar();
+            }
+          })
+          .catch(function (error) {
+            console.error("Error getting document:", error);
+          });
+      }
+
+      // Check if two dates are on the same day
+      function isSameDay(d1, d2) {
+        return (
+          d1.getFullYear() === d2.getFullYear() &&
+          d1.getMonth() === d2.getMonth() &&
+          d1.getDate() === d2.getDate()
+        );
+      }
+
+      // Update progress in Firestore
+      function saveProgress(uid) {
+        db.collection("users")
+          .doc(uid)
+          .set(
+            {
+              progress: progress,
+              lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+            },
+            { merge: true }
+          )
+          .then(function () {
+            console.log("Progress updated successfully!");
+          })
+          .catch(function (error) {
+            console.error("Error updating progress: ", error);
           });
       }
 
@@ -267,6 +322,11 @@
         progress += 1;
         updateProgressBar();
         updateProgressText();
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            saveProgress(user.uid);
+          }
+        });
       }
 
       function updateProgressText() {
