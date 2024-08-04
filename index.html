@@ -1,405 +1,466 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily Goal Tracker</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script>
-    var firebaseConfig = {
-      apiKey: "AIzaSyCsi6d-ttdoRpqZ79yAMkIsMDN1ObR56Vw",
-      authDomain: "positive-affirmations-6f4de.firebaseapp.com",
-      projectId: "positive-affirmations-6f4de",
-      storageBucket: "positive-affirmations-6f4de.appspot.com",
-      messagingSenderId: "673466441825",
-      appId: "1:673466441825:web:f55187a876022c1886ca20",
-      measurementId: "G-ESWHMNTB6C",
-    };
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Goal Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyCsi6d-ttdoRpqZ79yAMkIsMDN1ObR56Vw",
+        authDomain: "positive-affirmations-6f4de.firebaseapp.com",
+        projectId: "positive-affirmations-6f4de",
+        storageBucket: "positive-affirmations-6f4de.appspot.com",
+        messagingSenderId: "673466441825",
+        appId: "1:673466441825:web:f55187a876022c1886ca20",
+        measurementId: "G-ESWHMNTB6C",
+      };
 
-    firebase.initializeApp(firebaseConfig);
-    var db = firebase.firestore();
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
 
-    let currentIndex = 0;
-    let entries = [];
-    let displayOrder = [];
-    let frequencyMap = {};
-    let lastDisplayedEntry = null;
-    const maxFrequency = 10;
-    const minFrequencyThreshold = 3;
-    let progress = 0;
-    let dailyGoal = 100;
+      let currentIndex = 0;
+      let entries = [];
+      let displayOrder = [];
+      let frequencyMap = {};
+      let lastDisplayedEntry = null;
+      const maxFrequency = 10;
+      const minFrequencyThreshold = 3;
+      let progress = 0;
+      let dailyGoal = 100;
 
-    var auth = firebase.auth();
+      var auth = firebase.auth();
 
-    auth.onAuthStateChanged(function (user) {
-      if (user) {
-        document.getElementById("content").style.display = "block";
-        document.getElementById("not-authenticated").style.display = "none";
-        loadDailyGoal(user.uid);
-        loadProgress(user.uid);
-        checkAndFetchEntries(user.uid);
-      } else {
-        document.getElementById("content").style.display = "none";
-        document.getElementById("not-authenticated").style.display = "block";
-      }
-    });
-
-    function loadDailyGoal(uid) {
-      db.collection("users").doc(uid).get().then(function (doc) {
-        if (doc.exists) {
-          dailyGoal = doc.data().dailyGoal || 100;
-          updateProgressText();
-          updateProgressBar();
-        }
-      }).catch(function (error) {
-        console.error("Error getting document:", error);
-      });
-    }
-
-    function loadProgress(uid) {
-      db.collection("users").doc(uid).get().then(function (doc) {
-        if (doc.exists) {
-          const data = doc.data();
-          const lastUpdated = data.lastUpdated ? new Date(data.lastUpdated.seconds * 1000) : new Date(0);
-          const today = new Date();
-          if (isSameDay(lastUpdated, today)) {
-            progress = data.progress || 0;
-          } else {
-            progress = 0;
-          }
-          updateProgressText();
-          updateProgressBar();
-        }
-      }).catch(function (error) {
-        console.error("Error getting document:", error);
-      });
-    }
-
-    function isSameDay(d1, d2) {
-      return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
-    }
-
-    function saveProgress(uid) {
-      db.collection("users").doc(uid).set({
-        progress: progress,
-        lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-      }, { merge: true }).then(function () {
-        console.log("Progress updated successfully!");
-      }).catch(function (error) {
-        console.error("Error updating progress: ", error);
-      });
-    }
-
-    function checkAndFetchEntries(uid) {
-      db.collection("users").doc(uid).get().then(function (doc) {
-        const data = doc.data();
-        const lastFetchDate = data.lastFetchDate ? new Date(data.lastFetchDate.seconds * 1000) : new Date(0);
-        const today = new Date();
-        if (!isSameDay(lastFetchDate, today)) {
-          fetchEntries().then(() => {
-            saveEntries(uid, entries);
-            showNextEntry(uid);
-          });
-        } else {
-          entries = data.entries || [];
-          currentIndex = data.currentIndex || 0;
-          initializeEntries();
-          showCurrentEntry(data.currentEntry);
-        }
-      }).catch(function (error) {
-        console.error("Error getting document:", error);
-      });
-    }
-
-    function fetchEntries() {
-      return db.collection("test").doc("s-partner").get().then((doc) => {
-        if (doc.exists) {
-          const data = doc.data();
-          const keys = Object.keys(data).slice(0, 50);
-          keys.sort(() => 0.5 - Math.random());
-          entries = keys.slice(0, 20).map((key) => data[key]);
-          initializeEntries();
-        } else {
-          console.log("No such document!");
-        }
-      }).catch((error) => {
-        console.error("Error getting document:", error);
-      });
-    }
-
-    function saveEntries(uid, entries) {
-      db.collection("users").doc(uid).set({
-        entries: entries,
-        lastFetchDate: firebase.firestore.FieldValue.serverTimestamp(),
-      }, { merge: true }).then(function () {
-        console.log("Entries saved successfully!");
-        initializeEntries();
-      }).catch(function (error) {
-        console.error("Error saving entries: ", error);
-      });
-    }
-
-    function initializeEntries() {
-      if (entries.length > 0) {
-        entries.forEach((entry) => (frequencyMap[entry] = 6));
-        createDisplayOrder();
-      }
-      updateProgressText();
-
-      const moreFrequentButton = document.querySelector(".quote-button.yes-button");
-      const lessFrequentButton = document.querySelector(".quote-button.no-button");
-      const doNotDisplayButton = document.querySelector(".close-button.cross-quote");
-
-      if (moreFrequentButton) {
-        moreFrequentButton.addEventListener("click", () => {
-          adjustFrequency(displayOrder[currentIndex], 1);
-          currentIndex++;
-          incrementProgress();
-          showNextEntry(auth.currentUser.uid);
-        });
-      }
-
-      if (lessFrequentButton) {
-        lessFrequentButton.addEventListener("click", () => {
-          adjustFrequency(displayOrder[currentIndex], -1);
-          currentIndex++;
-          incrementProgress();
-          showNextEntry(auth.currentUser.uid);
-        });
-      }
-
-      if (doNotDisplayButton) {
-        doNotDisplayButton.addEventListener("click", () => {
-          adjustFrequency(displayOrder[currentIndex], 0);
-          currentIndex++;
-          showNextEntry(auth.currentUser.uid);
-        });
-      }
-    }
-
-    function createDisplayOrder() {
-      displayOrder = [];
-      for (let entry in frequencyMap) {
-        if (frequencyMap[entry] > 0) {
-          for (let i = 0; i < frequencyMap[entry]; i++) {
-            displayOrder.push(entry);
-          }
-        }
-      }
-      displayOrder = shuffleArrayWithConstraints(displayOrder);
-      if (displayOrder.length === 0) {
-        displayMessage("Congratulations, that's it for today!");
-      }
-    }
-
-    function shuffleArrayWithConstraints(array) {
-      let shuffled = [];
-      let lastAdded = new Set();
-      let retryCount = 0;
-      const maxRetries = 1000;
-
-      while (array.length > 0 && retryCount < maxRetries) {
-        let validChoices = array.filter(
-          (item) => !lastAdded.has(item) && item !== lastDisplayedEntry
-        );
-        if (validChoices.length === 0) {
-          lastAdded.clear();
-          validChoices = array.filter((item) => item !== lastDisplayedEntry);
-        }
-
-        if (validChoices.length === 0) {
-          break;
-        }
-
-        let choiceIndex = Math.floor(Math.random() * validChoices.length);
-        let choice = validChoices[choiceIndex];
-        shuffled.push(choice);
-        array.splice(array.indexOf(choice), 1);
-        lastAdded.add(choice);
-        if (lastAdded.size > 3) {
-          lastAdded.delete(shuffled[shuffled.length - 4]);
-        }
-
-        if (validChoices.length === 1) {
-          retryCount++;
-        } else {
-          retryCount = 0;
-        }
-      }
-
-      if (retryCount >= maxRetries) {
-        console.error("Unable to create a valid order with the given constraints.");
-        return [];
-      }
-
-      return shuffled;
-    }
-
-    function adjustFrequency(entry, adjustment) {
-      if (adjustment === 0) {
-        frequencyMap[entry] = 0;
-      } else {
-        frequencyMap[entry] = Math.min(
-          maxFrequency,
-          Math.max(0, frequencyMap[entry] + adjustment)
-        );
-        if (frequencyMap[entry] === 1) {
-          frequencyMap[entry] = 0;
-        }
-      }
-      createDisplayOrder();
-    }
-
-    function showNextEntry(uid) {
-      if (currentIndex >= displayOrder.length) {
-        currentIndex = 0;
-      }
-      if (displayOrder.length > 0) {
-        displayEntry(displayOrder[currentIndex]);
-        saveCurrentEntry(uid, displayOrder[currentIndex]);
-      } else {
-        displayMessage("Congratulations, that's it for today!");
-      }
-    }
-
-    function showCurrentEntry(entry) {
-      if (entry) {
-        displayEntry(entry);
-      } else {
-        showNextEntry(auth.currentUser.uid);
-      }
-    }
-
-    function saveCurrentEntry(uid, entry) {
-      db.collection("users").doc(uid).set({
-        currentIndex: currentIndex,
-        currentEntry: entry,
-      }, { merge: true }).then(function () {
-        console.log("Current entry saved successfully!");
-      }).catch(function (error) {
-        console.error("Error saving current entry: ", error);
-      });
-    }
-
-    function displayEntry(entry) {
-      const quoteTextElement = document.getElementById("quote-text");
-      if (quoteTextElement) {
-        quoteTextElement.innerText = entry;
-        lastDisplayedEntry = entry;
-      } else {
-        console.error("Element with id 'quote-text' not found.");
-      }
-    }
-
-    function displayMessage(message) {
-      const quoteTextElement = document.getElementById("quote-text");
-      if (quoteTextElement) {
-        quoteTextElement.innerText = message;
-      } else {
-        console.error("Element with id 'quote-text' not found.");
-      }
-    }
-
-    function incrementProgress() {
-      progress += 1;
-      updateProgressBar();
-      updateProgressText();
       auth.onAuthStateChanged(function (user) {
         if (user) {
-          saveProgress(user.uid);
+          document.getElementById("content").style.display = "block";
+          document.getElementById("not-authenticated").style.display = "none";
+          loadDailyGoal(user.uid);
+          loadProgress(user.uid);
+          checkAndFetchEntries(user.uid);
+        } else {
+          document.getElementById("content").style.display = "none";
+          document.getElementById("not-authenticated").style.display = "block";
         }
       });
-    }
 
-    function updateProgressText() {
-      const progressText = document.querySelector(".goal-text-right");
-      if (progressText) {
-        progressText.innerText = progress + "/" + dailyGoal;
+      function loadDailyGoal(uid) {
+        db.collection("users")
+          .doc(uid)
+          .get()
+          .then(function (doc) {
+            if (doc.exists) {
+              dailyGoal = doc.data().dailyGoal || 100;
+              updateProgressText();
+              updateProgressBar();
+            }
+          })
+          .catch(function (error) {
+            console.error("Error getting document:", error);
+          });
       }
-    }
 
-    function updateProgressBar() {
-      const progressBar = document.getElementById("goal-bar");
-      if (progressBar) {
-        const progressPercentage = Math.min((progress / dailyGoal) * 100, 100);
-        progressBar.style.width = progressPercentage + "%";
+      function loadProgress(uid) {
+        db.collection("users")
+          .doc(uid)
+          .get()
+          .then(function (doc) {
+            if (doc.exists) {
+              const data = doc.data();
+              const lastUpdated = data.lastUpdated
+                ? new Date(data.lastUpdated.seconds * 1000)
+                : new Date(0);
+              const today = new Date();
+              if (isSameDay(lastUpdated, today)) {
+                progress = data.progress || 0;
+              } else {
+                progress = 0;
+              }
+              updateProgressText();
+              updateProgressBar();
+            }
+          })
+          .catch(function (error) {
+            console.error("Error getting document:", error);
+          });
       }
-    }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("logout-button").addEventListener("click", handleLogout);
-    });
-  </script>
-</head>
-<body>
-  <div id="not-authenticated" class="content" style="display: none">
-    <h1>Access Denied</h1>
-    <p>You are not authenticated. Please <a href="loginpage.html">login</a>.</p>
-  </div>
-  <div id="content" class="container">
-    <div class="goal-bar-container">
-      <div id="fixed-goal-bar" class="fixed-goal-bar"></div>
-      <div id="goal-bar" class="progress-goal-bar" style="width: 1%"></div>
-      <div class="goal-text-container">
-        <span class="goal-text-left legend-goal-bar-1">Daily goal</span>
-        <span class="goal-text-right legend-goal-bar-2">1/100</span>
-      </div>
-    </div>
-    <div class="quote-area quote">
-      <button class="close-button cross-quote" aria-label="Close Quote">
-        <img src="./images/icon-cross-quote.png" alt="I don't like it" />
-      </button>
-      <p class="quote-text" id="quote-text">
-        <!-- Affirmation will be loaded here -->
+      function isSameDay(d1, d2) {
+        return (
+          d1.getFullYear() === d2.getFullYear() &&
+          d1.getMonth() === d2.getMonth() &&
+          d1.getDate() === d2.getDate()
+        );
+      }
+
+      function saveProgress(uid) {
+        db.collection("users")
+          .doc(uid)
+          .set(
+            {
+              progress: progress,
+              lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+            },
+            { merge: true }
+          )
+          .then(function () {
+            console.log("Progress updated successfully!");
+          })
+          .catch(function (error) {
+            console.error("Error updating progress: ", error);
+          });
+      }
+
+      function checkAndFetchEntries(uid) {
+        db.collection("users")
+          .doc(uid)
+          .get()
+          .then(function (doc) {
+            const data = doc.data() || {};
+            const lastFetchDate = data.lastFetchDate
+              ? new Date(data.lastFetchDate.seconds * 1000)
+              : new Date(0);
+            const today = new Date();
+            if (!isSameDay(lastFetchDate, today)) {
+              fetchEntries().then(() => {
+                saveEntries(uid, entries);
+                showNextEntry(uid);
+              });
+            } else {
+              entries = data.entries || [];
+              currentIndex = data.currentIndex || 0;
+              initializeEntries();
+              showCurrentEntry(data.currentEntry);
+            }
+          })
+          .catch(function (error) {
+            console.error("Error getting document:", error);
+          });
+      }
+
+      function fetchEntries() {
+        return db
+          .collection("test")
+          .doc("s-partner")
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              const data = doc.data();
+              const keys = Object.keys(data).slice(0, 50);
+              keys.sort(() => 0.5 - Math.random());
+              entries = keys.slice(0, 20).map((key) => data[key]);
+              initializeEntries();
+            } else {
+              console.log("No such document!");
+            }
+          })
+          .catch((error) => {
+            console.error("Error getting document:", error);
+          });
+      }
+
+      function saveEntries(uid, entries) {
+        db.collection("users")
+          .doc(uid)
+          .set(
+            {
+              entries: entries,
+              lastFetchDate: firebase.firestore.FieldValue.serverTimestamp(),
+            },
+            { merge: true }
+          )
+          .then(function () {
+            console.log("Entries saved successfully!");
+            initializeEntries();
+          })
+          .catch(function (error) {
+            console.error("Error saving entries: ", error);
+          });
+      }
+
+      function initializeEntries() {
+        if (entries.length > 0) {
+          entries.forEach((entry) => (frequencyMap[entry] = 6));
+          createDisplayOrder();
+        }
+        updateProgressText();
+
+        const moreFrequentButton = document.querySelector(
+          ".quote-button.yes-button"
+        );
+        const lessFrequentButton = document.querySelector(
+          ".quote-button.no-button"
+        );
+        const doNotDisplayButton = document.querySelector(
+          ".close-button.cross-quote"
+        );
+
+        if (moreFrequentButton) {
+          moreFrequentButton.addEventListener("click", () => {
+            adjustFrequency(displayOrder[currentIndex], 1);
+            currentIndex++;
+            incrementProgress();
+            showNextEntry(auth.currentUser.uid);
+          });
+        }
+
+        if (lessFrequentButton) {
+          lessFrequentButton.addEventListener("click", () => {
+            adjustFrequency(displayOrder[currentIndex], -1);
+            currentIndex++;
+            incrementProgress();
+            showNextEntry(auth.currentUser.uid);
+          });
+        }
+
+        if (doNotDisplayButton) {
+          doNotDisplayButton.addEventListener("click", () => {
+            adjustFrequency(displayOrder[currentIndex], 0);
+            currentIndex++;
+            showNextEntry(auth.currentUser.uid);
+          });
+        }
+      }
+
+      function createDisplayOrder() {
+        displayOrder = [];
+        for (let entry in frequencyMap) {
+          if (frequencyMap[entry] > 0) {
+            for (let i = 0; i < frequencyMap[entry]; i++) {
+              displayOrder.push(entry);
+            }
+          }
+        }
+        displayOrder = shuffleArrayWithConstraints(displayOrder);
+        if (displayOrder.length === 0) {
+          displayMessage("Congratulations, that's it for today!");
+        }
+      }
+
+      function shuffleArrayWithConstraints(array) {
+        let shuffled = [];
+        let lastAdded = new Set();
+        let retryCount = 0;
+        const maxRetries = 1000;
+
+        while (array.length > 0 && retryCount < maxRetries) {
+          let validChoices = array.filter(
+            (item) => !lastAdded.has(item) && item !== lastDisplayedEntry
+          );
+          if (validChoices.length === 0) {
+            lastAdded.clear();
+            validChoices = array.filter((item) => item !== lastDisplayedEntry);
+          }
+
+          if (validChoices.length === 0) {
+            break;
+          }
+
+          let choiceIndex = Math.floor(Math.random() * validChoices.length);
+          let choice = validChoices[choiceIndex];
+          shuffled.push(choice);
+          array.splice(array.indexOf(choice), 1);
+          lastAdded.add(choice);
+          if (lastAdded.size > 3) {
+            lastAdded.delete(shuffled[shuffled.length - 4]);
+          }
+
+          if (validChoices.length === 1) {
+            retryCount++;
+          } else {
+            retryCount = 0;
+          }
+        }
+
+        if (retryCount >= maxRetries) {
+          console.error(
+            "Unable to create a valid order with the given constraints."
+          );
+          return [];
+        }
+
+        return shuffled;
+      }
+
+      function adjustFrequency(entry, adjustment) {
+        if (adjustment === 0) {
+          frequencyMap[entry] = 0;
+        } else {
+          frequencyMap[entry] = Math.min(
+            maxFrequency,
+            Math.max(0, frequencyMap[entry] + adjustment)
+          );
+          if (frequencyMap[entry] === 1) {
+            frequencyMap[entry] = 0;
+          }
+        }
+        createDisplayOrder();
+      }
+
+      function showNextEntry(uid) {
+        if (currentIndex >= displayOrder.length) {
+          currentIndex = 0;
+        }
+        if (displayOrder.length > 0) {
+          displayEntry(displayOrder[currentIndex]);
+          saveCurrentEntry(uid, displayOrder[currentIndex]);
+        } else {
+          displayMessage("Congratulations, that's it for today!");
+        }
+      }
+
+      function showCurrentEntry(entry) {
+        if (entry) {
+          displayEntry(entry);
+        } else {
+          showNextEntry(auth.currentUser.uid);
+        }
+      }
+
+      function saveCurrentEntry(uid, entry) {
+        db.collection("users")
+          .doc(uid)
+          .set(
+            {
+              currentEntry: entry,
+            },
+            { merge: true }
+          )
+          .then(function () {
+            console.log("Current entry saved successfully!");
+          })
+          .catch(function (error) {
+            console.error("Error saving current entry: ", error);
+          });
+      }
+
+      function displayEntry(entry) {
+        const quoteTextElement = document.getElementById("quote-text");
+        if (quoteTextElement) {
+          quoteTextElement.innerText = entry;
+          lastDisplayedEntry = entry;
+        } else {
+          console.error("Element with id 'quote-text' not found.");
+        }
+      }
+
+      function displayMessage(message) {
+        const quoteTextElement = document.getElementById("quote-text");
+        if (quoteTextElement) {
+          quoteTextElement.innerText = message;
+        } else {
+          console.error("Element with id 'quote-text' not found.");
+        }
+      }
+
+      function incrementProgress() {
+        progress += 1;
+        updateProgressBar();
+        updateProgressText();
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            saveProgress(user.uid);
+          }
+        });
+      }
+
+      function updateProgressText() {
+        const progressText = document.querySelector(".goal-text-right");
+        if (progressText) {
+          progressText.innerText = progress + "/" + dailyGoal;
+        }
+      }
+
+      function updateProgressBar() {
+        const progressBar = document.getElementById("goal-bar");
+        if (progressBar) {
+          const progressPercentage = Math.min(
+            (progress / dailyGoal) * 100,
+            100
+          );
+          progressBar.style.width = progressPercentage + "%";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const logoutButton = document.getElementById("logout-button");
+        if (logoutButton) {
+          logoutButton.addEventListener("click", handleLogout);
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="not-authenticated" class="content" style="display: none">
+      <h1>Access Denied</h1>
+      <p>
+        You are not authenticated. Please <a href="loginpage.html">login</a>.
       </p>
-      <p class="legend-quote">
-        Rate your actual feeling as “Not yet” or “That’s it!”
-      </p>
-      <div class="button-container">
-        <button class="quote-button no-button" aria-label="No">
-          <img src="./images/no-icon.png" alt="No" />
+    </div>
+    <div id="content" class="container">
+      <div class="goal-bar-container">
+        <div id="fixed-goal-bar" class="fixed-goal-bar"></div>
+        <div id="goal-bar" class="progress-goal-bar" style="width: 1%"></div>
+        <div class="goal-text-container">
+          <span class="goal-text-left legend-goal-bar-1">Daily goal</span>
+          <span class="goal-text-right legend-goal-bar-2">1/100</span>
+        </div>
+      </div>
+      <div class="quote-area quote">
+        <button class="close-button cross-quote" aria-label="Close Quote">
+          <img src="./images/icon-cross-quote.png" alt="I don't like it" />
         </button>
-        <button class="quote-button yes-button" aria-label="Yes">
-          <img src="images/yes-icon.png" alt="Yes" />
+        <p class="quote-text" id="quote-text">
+          <!-- Affirmation will be loaded here -->
+        </p>
+        <p class="legend-quote">
+          Rate your actual feeling as “Not yet” or “That’s it!”
+        </p>
+        <div class="button-container">
+          <button class="quote-button no-button" aria-label="No">
+            <img src="./images/no-icon.png" alt="No" />
+          </button>
+          <button class="quote-button yes-button" aria-label="Yes">
+            <img src="images/yes-icon.png" alt="Yes" />
+          </button>
+        </div>
+      </div>
+      <div class="symbol-button-container">
+        <button class="symbol-button history-button" aria-label="History">
+          <img src="./images/icon-history.png" alt="⏳" />
+        </button>
+        <button class="symbol-button science-button" aria-label="Science">
+          <img src="./images/icon-science.png" alt="🔬" />
+        </button>
+        <button class="symbol-button sound-button" aria-label="Sound">
+          <img src="./images/icon-sound.png" alt="🔊" />
         </button>
       </div>
+      <nav class="nav-bar">
+        <button class="nav-button">
+          <img src="images/1-nav-home-5603AD.png" alt="🏠" />
+          <span class="nav-home-text">Home</span>
+        </button>
+        <button class="nav-button">
+          <img src="images/2-nav-language-65636E.png" alt="🌐" />
+          <span class="nav-language-text">Language</span>
+        </button>
+        <button class="nav-button">
+          <img src="images/3-nav-pro-65636E.png" alt="⭐" />
+          <span class="nav-pro-text">Get Pro</span>
+        </button>
+        <button class="nav-button">
+          <img src="images/4-nav-metrics-65636E.png" alt="📊" />
+          <span class="nav-metrics-text">Metrics</span>
+        </button>
+        <button class="nav-button" onclick="location.href='settings.html'">
+          <img src="images/5-nav-settings-65636E.png" alt="⚙️" />
+          <span class="nav-settings-text">Settings</span>
+        </button>
+      </nav>
     </div>
-    <div class="symbol-button-container">
-      <button class="symbol-button history-button" aria-label="History">
-        <img src="./images/icon-history.png" alt="⏳" />
-      </button>
-      <button class="symbol-button science-button" aria-label="Science">
-        <img src="./images/icon-science.png" alt="🔬" />
-      </button>
-      <button class="symbol-button sound-button" aria-label="Sound">
-        <img src="./images/icon-sound.png" alt="🔊" />
-      </button>
-    </div>
-    <nav class="nav-bar">
-      <button class="nav-button">
-        <img src="images/1-nav-home-5603AD.png" alt="🏠" />
-        <span class="nav-home-text">Home</span>
-      </button>
-      <button class="nav-button">
-        <img src="images/2-nav-language-65636E.png" alt="🌐" />
-        <span class="nav-language-text">Language</span>
-      </button>
-      <button class="nav-button">
-        <img src="images/3-nav-pro-65636E.png" alt="⭐" />
-        <span class="nav-pro-text">Get Pro</span>
-      </button>
-      <button class="nav-button">
-        <img src="images/4-nav-metrics-65636E.png" alt="📊" />
-        <span class="nav-metrics-text">Metrics</span>
-      </button>
-      <button class="nav-button" onclick="location.href='settings.html'">
-        <img src="images/5-nav-settings-65636E.png" alt="⚙️" />
-        <span class="nav-settings-text">Settings</span>
-      </button>
-    </nav>
-  </div>
-</body>
+  </body>
 </html>
