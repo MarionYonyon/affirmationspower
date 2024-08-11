@@ -300,6 +300,29 @@
             frequencyMap[entry] = 0;
           }
         }
+        console.log("Updated Frequency Map:", frequencyMap); // Log the frequency map
+
+        // Save the full frequency map to Firestore, using a fixed document ID
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            db.collection("users")
+              .doc(user.uid)
+              .collection("logs")
+              .doc("frequency_map") // Use a fixed document ID for the frequency map
+              .set({
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                type: "frequency_map",
+                frequencyMap: frequencyMap,
+              })
+              .then(function () {
+                console.log("Frequency Map updated in Firestore.");
+              })
+              .catch(function (error) {
+                console.error("Error updating frequency map: ", error);
+              });
+          }
+        });
+
         createDisplayOrder();
       }
 
@@ -345,6 +368,7 @@
         if (quoteTextElement) {
           quoteTextElement.innerText = entry;
           lastDisplayedEntry = entry;
+          console.log("Displaying Affirmation:", entry); // Log the displayed affirmation
         } else {
           console.error("Element with id 'quote-text' not found.");
         }
