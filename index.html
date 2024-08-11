@@ -198,30 +198,33 @@
           ".close-button.cross-quote"
         );
 
-        if (moreFrequentButton) {
+        if (!moreFrequentButton.hasListenerAttached) {
           moreFrequentButton.addEventListener("click", () => {
             adjustFrequency(displayOrder[currentIndex], 1);
             currentIndex++;
             incrementProgress();
             showNextEntry(auth.currentUser.uid);
           });
+          moreFrequentButton.hasListenerAttached = true;
         }
 
-        if (lessFrequentButton) {
+        if (!lessFrequentButton.hasListenerAttached) {
           lessFrequentButton.addEventListener("click", () => {
             adjustFrequency(displayOrder[currentIndex], -1);
             currentIndex++;
             incrementProgress();
             showNextEntry(auth.currentUser.uid);
           });
+          lessFrequentButton.hasListenerAttached = true;
         }
 
-        if (doNotDisplayButton) {
+        if (!doNotDisplayButton.hasListenerAttached) {
           doNotDisplayButton.addEventListener("click", () => {
             adjustFrequency(displayOrder[currentIndex], 0);
             currentIndex++;
             showNextEntry(auth.currentUser.uid);
           });
+          doNotDisplayButton.hasListenerAttached = true;
         }
       }
 
