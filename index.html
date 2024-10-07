@@ -142,23 +142,50 @@
       }
 
       function fetchEntries() {
-        return db
-          .collection("test")
-          .doc("s-partner")
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              const data = doc.data();
-              const keys = Object.keys(data).slice(0, 50);
-              keys.sort(() => 0.5 - Math.random());
-              entries = keys.slice(0, 20).map((key) => data[key]);
-              initializeEntries();
-            } else {
-              console.log("No such document!");
-            }
+        const careerGrowthDocRef = db
+          .collection("Topic")
+          .doc("Career and Professional Growth")
+          .collection("Job Status")
+          .doc("Career Changer")
+          .collection("Practice")
+          .doc("Career Growth and Advancement");
+
+        const financialAbundanceDocRef = db
+          .collection("Topic")
+          .doc("Career and Professional Growth")
+          .collection("Job Status")
+          .doc("Career Changer")
+          .collection("Practice")
+          .doc("Financial Abundance and Stability");
+
+        return Promise.all([
+          careerGrowthDocRef.get(),
+          financialAbundanceDocRef.get(),
+        ])
+          .then((docs) => {
+            const entriesFromBothDocs = [];
+
+            docs.forEach((doc) => {
+              if (doc.exists) {
+                const data = doc.data();
+                const keys = Object.keys(data).slice(0, 50);
+                keys.sort(() => 0.5 - Math.random());
+                const selectedEntries = keys
+                  .slice(0, 20)
+                  .map((key) => data[key]);
+                entriesFromBothDocs.push(...selectedEntries);
+              } else {
+                console.log("No such document!");
+              }
+            });
+
+            // Shuffle and limit to 20 random quotes from both documents combined
+            entriesFromBothDocs.sort(() => 0.5 - Math.random());
+            entries = entriesFromBothDocs.slice(0, 20);
+            initializeEntries(entries); // Pass the combined entries to initializeEntries
           })
           .catch((error) => {
-            console.error("Error getting document:", error);
+            console.error("Error getting documents:", error);
           });
       }
 
