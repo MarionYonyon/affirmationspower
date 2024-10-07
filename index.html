@@ -38,9 +38,62 @@
         if (user) {
           document.getElementById("content").style.display = "block";
           document.getElementById("not-authenticated").style.display = "none";
-          loadDailyGoal(user.uid);
-          loadProgress(user.uid);
-          checkAndFetchEntries(user.uid);
+
+          // Check if the user document exists
+          const userRef = db.collection("users").doc(user.uid);
+          userRef
+            .get()
+            .then(function (doc) {
+              if (!doc.exists) {
+                // User document does not exist, create it with default values
+                userRef
+                  .set({
+                    jobStatus: "career_changer",
+                    affirmations: {
+                      motivation_and_inspiration: false,
+                      self_confidence: false,
+                      career_growth: false,
+                      resilience: false,
+                      skill_recognition: false,
+                      networking: false,
+                      goal_setting: false,
+                      interview_preparation: false,
+                      stress_relief: false,
+                      financial_abundance: false,
+                      work_life_balance: false,
+                    },
+                    dailyGoal: 100,
+                    progress: 0,
+                    lastUpdated:
+                      firebase.firestore.FieldValue.serverTimestamp(),
+                    lastFetchDate:
+                      firebase.firestore.FieldValue.serverTimestamp(),
+                    entries: [],
+                    currentEntry: null,
+                    currentIndex: 0,
+                  })
+                  .then(function () {
+                    console.log("User document created with default values.");
+                    fetchEntries().then(() => {
+                      saveEntries(user.uid, entries);
+                      showNextEntry(user.uid); // Show the first quote immediately
+                    });
+                  })
+                  .catch(function (error) {
+                    console.error("Error creating user document: ", error);
+                  });
+              } else {
+                // Load existing data
+                loadDailyGoal(user.uid);
+                loadProgress(user.uid);
+                checkAndFetchEntries(user.uid).then(() => {
+                  showNextEntry(user.uid); // Show the first quote immediately
+                });
+              }
+            })
+            .catch(function (error) {
+              console.error("Error getting user document:", error);
+            });
         } else {
           document.getElementById("content").style.display = "none";
           document.getElementById("not-authenticated").style.display = "block";
@@ -460,7 +513,10 @@
         <div id="goal-bar" class="progress-goal-bar" style="width: 1%"></div>
         <div class="goal-text-container">
           <span class="goal-text-left legend-goal-bar-1">Daily goal</span>
-          <span class="goal-text-right legend-goal-bar-2">1/100</span>
+          <span
+            class="goal-text-right legend-goal-bar-2"
+            id="progress-goal-bar"
+          ></span>
         </div>
       </div>
       <div class="quote-area quote">
