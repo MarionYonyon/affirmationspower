@@ -19,14 +19,14 @@
         appId: "1:673466441825:web:f55187a876022c1886ca20",
         measurementId: "G-ESWHMNTB6C",
       };
-
+    
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       var db = firebase.firestore();
-
+    
       // Initialize Firebase Authentication and get a reference to the service
       var auth = firebase.auth();
-
+    
       function loadDailyGoal(uid) {
         db.collection("users")
           .doc(uid)
@@ -35,10 +35,18 @@
             if (doc.exists) {
               const dailyGoal = doc.data().dailyGoal || 100;
               document.getElementById("daily-goal-input").value = dailyGoal;
+    
+              // Load job status
+              const jobStatus = doc.data().jobStatus || "career_changer";
+              document.getElementById("job-status-dropdown").value = jobStatus;
+    
+              // Load affirmations
+              const affirmations = doc.data().affirmations || {};
+              loadAffirmationToggles(affirmations);
             }
           });
       }
-
+    
       function saveDailyGoal(uid, dailyGoal) {
         db.collection("users")
           .doc(uid)
@@ -55,11 +63,42 @@
             console.error("Error updating daily goal: ", error);
           });
       }
-
+    
+      function saveJobStatus(uid, jobStatus) {
+        db.collection("users")
+          .doc(uid)
+          .set(
+            {
+              jobStatus: jobStatus,
+            },
+            { merge: true }
+          )
+          .then(function () {
+            console.log("Job status updated successfully!");
+          })
+          .catch(function (error) {
+            console.error("Error updating job status: ", error);
+          });
+      }
+    
+      function saveAffirmation(uid, affirmationKey, value) {
+        db.collection("users")
+          .doc(uid)
+          .update({
+            [`affirmations.${affirmationKey}`]: value,
+          })
+          .then(function () {
+            console.log(`Affirmation ${affirmationKey} updated successfully!`);
+          })
+          .catch(function (error) {
+            console.error(`Error updating affirmation ${affirmationKey}: `, error);
+          });
+      }
+    
       function handleDailyGoalChange() {
         const input = document.getElementById("daily-goal-input");
         let value = parseInt(input.value, 10);
-
+    
         if (value < 10) {
           value = 10;
           input.value = value;
@@ -67,7 +106,7 @@
           value = 100;
           input.value = value;
         }
-
+    
         // Call saveDailyGoal to save the updated value
         auth.onAuthStateChanged(function (user) {
           if (user) {
@@ -75,15 +114,49 @@
           }
         });
       }
-
+    
+      function handleJobStatusChange() {
+        const jobStatus = document.getElementById("job-status-dropdown").value;
+    
+        // Call saveJobStatus to save the updated value
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            saveJobStatus(user.uid, jobStatus);
+          }
+        });
+      }
+    
+      function handleAffirmationToggleChange(event) {
+        const affirmationKey = event.target.getAttribute("data-affirmation-key");
+        const value = event.target.checked;
+    
+        // Call saveAffirmation to save the updated value
+        auth.onAuthStateChanged(function (user) {
+          if (user) {
+            saveAffirmation(user.uid, affirmationKey, value);
+          }
+        });
+      }
+    
+      function loadAffirmationToggles(affirmations) {
+        const affirmationToggles = document.querySelectorAll(
+          ".settings-section .switch input[type='checkbox']"
+        );
+    
+        affirmationToggles.forEach((toggle) => {
+          const key = toggle.getAttribute("data-affirmation-key");
+          toggle.checked = affirmations[key] !== undefined ? affirmations[key] : false;
+        });
+      }
+    
       // Check authentication status
       auth.onAuthStateChanged(function (user) {
         if (user) {
           document.getElementById("content").style.display = "block";
           document.getElementById("not-authenticated").style.display = "none";
           document.getElementById("nav-bar").style.display = "flex";
-
-          // Load the daily goal when the user is authenticated
+    
+          // Load the daily goal, job status, and affirmations when the user is authenticated
           loadDailyGoal(user.uid);
         } else {
           document.getElementById("content").style.display = "none";
@@ -91,7 +164,7 @@
           document.getElementById("nav-bar").style.display = "none";
         }
       });
-
+    
       // Handle logout
       function handleLogout() {
         auth
@@ -103,7 +176,7 @@
             console.error("Error signing out: ", error);
           });
       }
-
+    
       document.addEventListener("DOMContentLoaded", function () {
         document
           .getElementById("daily-goal-input")
@@ -111,8 +184,22 @@
         document
           .getElementById("logout-button")
           .addEventListener("click", handleLogout);
+    
+        // Add event listener for job status dropdown change
+        document
+          .getElementById("job-status-dropdown")
+          .addEventListener("change", handleJobStatusChange);
+    
+        // Add event listeners for affirmation toggles
+        const affirmationToggles = document.querySelectorAll(
+          ".settings-section .switch input[type='checkbox']"
+        );
+        affirmationToggles.forEach((toggle) => {
+          toggle.addEventListener("change", handleAffirmationToggleChange);
+        });
       });
     </script>
+    
   </head>
   <body>
     <div id="not-authenticated" class="content" style="display: none">
@@ -148,87 +235,88 @@
           />
         </div>
         <div class="settings-item">
-          <span class="settings-label">Job status</span>
-          <span class="settings-value">Career Changer ></span>
+          <span class="settings-label">Job Status</span>
+          <select id="job-status-dropdown" class="settings-value dropdown-style">
+            <option value="career_changer">Career Changer</option>
+            <option value="unemployed">Unemployed</option>
+          </select>
         </div>
-      </div>
-
       <div class="settings-section-title">AFFIRMATIONS</div>
       <div class="settings-section">
         <div class="settings-item">
           <span class="settings-label">Motivation and Inspiration</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" data-affirmation-key="motivation_and_inspiration" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Self-Confidence</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" data-affirmation-key="self_confidence" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Career Growth and Advancement</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" data-affirmation-key="career_growth" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Resilience and Perseverance</span>
           <label class="switch">
-            <input type="checkbox" checked />
-            <span class="slider checked"></span>
+            <input type="checkbox" data-affirmation-key="resilience" />
+            <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Skill Recognition and Development</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" data-affirmation-key="skill_recognition" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Networking and Connections</span>
           <label class="switch">
-            <input type="checkbox" checked />
-            <span class="slider checked"></span>
+            <input type="checkbox" data-affirmation-key="networking" />
+            <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Goal Setting and Achievement</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" data-affirmation-key="goal_setting" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Interview Preparation</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" data-affirmation-key="interview_preparation" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Stress Relief and Mindfulness</span>
           <label class="switch">
-            <input type="checkbox" checked />
-            <span class="slider checked"></span>
+            <input type="checkbox" data-affirmation-key="stress_relief" />
+            <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Financial Abundance and Stability</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" data-affirmation-key="financial_abundance" />
             <span class="slider"></span>
           </label>
         </div>
         <div class="settings-item">
           <span class="settings-label">Work-Life Balance</span>
           <label class="switch">
-            <input type="checkbox" />
+            <input type="checkbox" data-affirmation-key="work_life_balance" />
             <span class="slider"></span>
           </label>
         </div>

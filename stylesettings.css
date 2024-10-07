@@ -161,3 +161,24 @@ input:checked + .slider:before {
 .nav-settings-text {
   color: #673ab7;
 }
+
+.dropdown-style {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropdown-style:hover {
+  border-color: #673ab7;
+}
+
+.dropdown-style:focus {
+  box-shadow: 0 0 5px rgba(103, 58, 183, 0.5);
+  border-color: #673ab7;
+}
