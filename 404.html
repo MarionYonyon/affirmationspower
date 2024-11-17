@@ -1,4 +1,21 @@
 <script>
-    // Redirect to index.html for React Router
-    window.location.replace("/affirmationspower/");
+    // Get the current path
+    const path = window.location.pathname.replace('/affirmationspower', '');
+    const searchParams = window.location.search;
+  
+    if (path === '/login') {
+      // Check login status using localStorage or cookies (adjust based on your implementation)
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Replace with your actual login status check
+  
+      if (isLoggedIn) {
+        // Redirect logged-in users to the home page
+        window.location.replace('/affirmationspower/');
+      } else {
+        // Allow access to the login page
+        window.location.replace('/affirmationspower/index.html' + path + searchParams);
+      }
+    } else {
+      // Serve index.html for all other paths
+      window.location.replace('/affirmationspower/index.html' + path + searchParams);
+    }
   </script>  
