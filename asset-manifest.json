@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/affirmationspower/static/css/main.5845c6ca.css",
+    "main.css": "/affirmationspower/static/css/main.86135c1b.css",
     "main.js": "/affirmationspower/static/js/main.f65d18d6.js",
     "static/js/453.22491700.chunk.js": "/affirmationspower/static/js/453.22491700.chunk.js",
     "static/media/yes-icon.png": "/affirmationspower/static/media/yes-icon.cc2ea3436bef9f99f6d7.png",
@@ -11,12 +11,12 @@
     "static/media/navMetricsGrey.svg": "/affirmationspower/static/media/navMetricsGrey.14dc8ea0642a642ada9cf8b7ae345b90.svg",
     "static/media/navHomeGrey.svg": "/affirmationspower/static/media/navHomeGrey.460ff2ad9767fa20135bc0ab4c4c427a.svg",
     "index.html": "/affirmationspower/index.html",
-    "main.5845c6ca.css.map": "/affirmationspower/static/css/main.5845c6ca.css.map",
+    "main.86135c1b.css.map": "/affirmationspower/static/css/main.86135c1b.css.map",
     "main.f65d18d6.js.map": "/affirmationspower/static/js/main.f65d18d6.js.map",
     "453.22491700.chunk.js.map": "/affirmationspower/static/js/453.22491700.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5845c6ca.css",
+    "static/css/main.86135c1b.css",
     "static/js/main.f65d18d6.js"
   ]
 }
