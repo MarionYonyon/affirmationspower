@@ -33,7 +33,7 @@ function App() {
   }
 
   return (
-    <Router>
+    <Router basename= "/affirmationspower">
       <div className="app-container">
         <Routes>
           <Route path="/login" element={<Login />} />
