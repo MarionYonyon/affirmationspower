@@ -1,19 +1,4 @@
 <script>
-  // Get the current path relative to the app's base URL
-  const basePath = "/affirmationspower";
-  const path = window.location.pathname.replace(basePath, "");
-  const searchParams = window.location.search;
-
-  if (!window.location.pathname.includes("index.html")) {
-    if (path === "/login") {
-      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-      if (isLoggedIn) {
-        window.location.replace(`${basePath}/`);
-      } else {
-        window.location.replace(`${basePath}/index.html${path}${searchParams}`);
-      }
-    } else {
-      window.location.replace(`${basePath}/index.html${path}${searchParams}`);
-    }
-  }
+  // Redirect to index.html for React Router
+  window.location.replace("/affirmationspower/");
 </script>
