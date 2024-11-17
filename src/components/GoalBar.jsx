@@ -1,7 +1,9 @@
+import useGoalAndProgress from "../hooks/useGoalAndProgress";
 import "../styles/GoalBar.css";
 import React from "react";
 
-const GoalBar = ({ progress, dailyGoal }) => {
+const GoalBar = () => {
+  const { progress, dailyGoal } = useGoalAndProgress();
   return (
     <div className="goal-bar-container">
       <div className="fixed-goal-bar"></div>

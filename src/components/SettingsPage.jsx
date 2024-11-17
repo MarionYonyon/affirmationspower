@@ -8,6 +8,7 @@ import NumberInput from "./NumberInput";
 import NavBar from "./NavBar";
 import Logout from "./Logout";
 import useGoalAndProgress from "../hooks/useGoalAndProgress";
+import { AFFIRMATION_LABELS } from "../hooks/useAffirmations";
 
 const SettingsPage = () => {
   const { dailyGoal, handleGoalChange } = useGoalAndProgress(); // Destructure hook values
@@ -38,40 +39,13 @@ const SettingsPage = () => {
       </SettingsSection>
 
       <SettingsSection title="AFFIRMATIONS">
-        <SettingsItem label="Motivation and Inspiration">
-          <SwitchToggle dataKey="motivation_and_inspiration" />
-        </SettingsItem>
-        <SettingsItem label="Self-Confidence">
-          <SwitchToggle dataKey="self_confidence" />
-        </SettingsItem>
-        <SettingsItem label="Career Growth and Advancement">
-          <SwitchToggle dataKey="career_growth" />
-        </SettingsItem>
-        <SettingsItem label="Resilience and Perseverance">
-          <SwitchToggle dataKey="resilience" />
-        </SettingsItem>
-        <SettingsItem label="Skill Recognition and Development">
-          <SwitchToggle dataKey="skill_recognition" />
-        </SettingsItem>
-        <SettingsItem label="Networking and Connections">
-          <SwitchToggle dataKey="networking" />
-        </SettingsItem>
-        <SettingsItem label="Goal Setting and Achievement">
-          <SwitchToggle dataKey="goal_setting" />
-        </SettingsItem>
-        <SettingsItem label="Interview Preparation">
-          <SwitchToggle dataKey="interview_preparation" />
-        </SettingsItem>
-        <SettingsItem label="Stress Relief and Mindfulness">
-          <SwitchToggle dataKey="stress_relief" />
-        </SettingsItem>
-        <SettingsItem label="Financial Abundance and Stability">
-          <SwitchToggle dataKey="financial_abundance" />
-        </SettingsItem>
-        <SettingsItem label="Work-Life Balance">
-          <SwitchToggle dataKey="work_life_balance" />
-        </SettingsItem>
+        {Object.entries(AFFIRMATION_LABELS).map(([key, label]) => (
+          <SettingsItem key={key} label={label}>
+            <SwitchToggle dataKey={key} />
+          </SettingsItem>
+        ))}
       </SettingsSection>
+
       <SettingsSection title="ACCOUNT">
         <Logout />
       </SettingsSection>

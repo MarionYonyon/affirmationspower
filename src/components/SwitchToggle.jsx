@@ -1,18 +1,12 @@
 import React from "react";
-import { auth } from "./firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
-import { saveAffirmation } from "./firebaseHelpers";
+import useAffirmations from "../hooks/useAffirmations";
 
 const SwitchToggle = ({ dataKey }) => {
-  const handleToggleChange = (event) => {
-    const value = event.target.checked;
+  const { affirmations, handleToggleChange } = useAffirmations();
 
-    // Get the authenticated user and log affirmation toggle change
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        saveAffirmation(user.uid, dataKey, value);
-      }
-    });
+  const handleChange = (event) => {
+    const value = event.target.checked;
+    handleToggleChange(dataKey, value);
   };
 
   return (
@@ -20,7 +14,8 @@ const SwitchToggle = ({ dataKey }) => {
       <input
         type="checkbox"
         data-affirmation-key={dataKey}
-        onChange={handleToggleChange}
+        checked={affirmations[dataKey] || false} // Default to false if not in state
+        onChange={handleChange}
       />
       <span className="slider"></span>
     </label>

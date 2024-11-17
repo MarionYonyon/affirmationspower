@@ -49,7 +49,35 @@ const useGoalAndProgress = () => {
     }
   };
 
-  return { dailyGoal, setDailyGoal, progress, setProgress, handleGoalChange };
+  const incrementProgress = async (incrementValue) => {
+    const user = auth.currentUser;
+    const currentDate = getCurrentDate();
+    const newProgress = progress + incrementValue;
+
+    // Update state immediately for UI responsiveness
+    setProgress(newProgress);
+
+    if (user) {
+      const docRef = doc(db, "users", user.uid);
+      try {
+        await updateDoc(docRef, {
+          dailyProgress: { [currentDate]: newProgress },
+        });
+        console.log("Progress incremented successfully!");
+      } catch (error) {
+        console.error("Error incrementing progress:", error);
+      }
+    }
+  };
+
+  return {
+    dailyGoal,
+    setDailyGoal,
+    progress,
+    setProgress,
+    handleGoalChange,
+    incrementProgress,
+  };
 };
 
 export default useGoalAndProgress;

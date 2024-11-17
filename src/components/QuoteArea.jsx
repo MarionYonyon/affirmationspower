@@ -3,35 +3,21 @@ import FunFactGenerator from "./FunFactGenerator";
 import yesIcon from "../images/yes-icon.png";
 import noIcon from "../images/no-icon.png";
 import crossIcon from "../images/icon-cross-quote.png";
-import React, { useState } from "react";
-import { auth } from "./firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
-import { saveProgress } from "./firebaseHelpers";
+import React, {useState} from "react";
+import useGoalAndProgress from "../hooks/useGoalAndProgress";
 
-function QuoteArea({ progress, setProgress }) {
+const QuoteArea = () => {
+  const { incrementProgress } = useGoalAndProgress();
   const [fetchFactTrigger, setFetchFactTrigger] = useState(false);
 
   const handleYesClick = () => {
-    setFetchFactTrigger((prev) => !prev);
-    incrementProgress();
+    incrementProgress(1); // Increment by 1 for "Yes"
+    setFetchFactTrigger(!fetchFactTrigger); // Toggle to trigger fetching a new fact
   };
 
   const handleNoClick = () => {
-    incrementProgress();
-  };
-
-  const incrementProgress = () => {
-    const newProgress = Math.min(progress + 1, 100); // Cap at 100
-    setProgress(newProgress);
-
-    // Save progress to Firebase
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        saveProgress(user.uid, newProgress);
-      } else {
-        console.error("User is not authenticated.");
-      }
-    });
+    incrementProgress(1); // Increment by 1 for "No" (or adjust as needed)
+    setFetchFactTrigger(!fetchFactTrigger); // Toggle to trigger fetching a new fact
   };
 
   return (
@@ -55,6 +41,6 @@ function QuoteArea({ progress, setProgress }) {
       </button>
     </div>
   );
-}
+};
 
 export default QuoteArea;
