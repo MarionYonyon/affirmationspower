@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../components/firebaseConfig";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
 
 const useGoalAndProgress = () => {
@@ -8,65 +8,59 @@ const useGoalAndProgress = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const fetchDailyGoalAndProgress = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const currentDate = getCurrentDate();
-        const docRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(docRef);
+    const user = auth.currentUser;
+    if (user) {
+      const currentDate = getCurrentDate();
+      const docRef = doc(db, "users", user.uid);
 
-        if (userDoc.exists()) {
-          const data = userDoc.data();
+      const unsubscribe = onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
 
           // Update progress
-          if (data.dailyProgress) {
-            const dailyProgress = data.dailyProgress[currentDate];
-            setProgress(dailyProgress || 0); // Use 0 if no entry for currentDate
-          }
+          const dailyProgress = data.dailyProgress?.[currentDate] || 0;
+          setProgress(dailyProgress);
 
           // Update dailyGoal
           if (data.dailyGoal !== undefined) {
             setDailyGoal(data.dailyGoal);
           }
         }
-      }
-    };
+      });
 
-    fetchDailyGoalAndProgress();
+      // Clean up the listener when the component unmounts
+      return () => unsubscribe();
+    }
   }, []);
 
-  const handleGoalChange = async (newGoal) => {
-    setDailyGoal(newGoal); // Update the state immediately for UI responsiveness
+  const handleGoalChange = (newGoal) => {
+    setDailyGoal(newGoal);
+
     const user = auth.currentUser;
     if (user) {
       const docRef = doc(db, "users", user.uid);
-      try {
-        await updateDoc(docRef, { dailyGoal: newGoal });
-        console.log("Daily goal updated successfully!");
-      } catch (error) {
-        console.error("Error updating daily goal:", error);
-      }
+      updateDoc(docRef, { dailyGoal: newGoal })
+        .then(() => console.log("Daily goal updated in Firestore:", newGoal))
+        .catch((error) => console.error("Error updating daily goal:", error));
     }
   };
 
-  const incrementProgress = async (incrementValue) => {
-    const user = auth.currentUser;
+  const incrementProgress = (incrementValue) => {
     const currentDate = getCurrentDate();
     const newProgress = progress + incrementValue;
 
-    // Update state immediately for UI responsiveness
     setProgress(newProgress);
 
+    const user = auth.currentUser;
     if (user) {
       const docRef = doc(db, "users", user.uid);
-      try {
-        await updateDoc(docRef, {
-          dailyProgress: { [currentDate]: newProgress },
-        });
-        console.log("Progress incremented successfully!");
-      } catch (error) {
-        console.error("Error incrementing progress:", error);
-      }
+      updateDoc(docRef, {
+        [`dailyProgress.${currentDate}`]: newProgress,
+      })
+        .then(() =>
+          console.log("Progress incremented in Firestore:", newProgress)
+        )
+        .catch((error) => console.error("Error incrementing progress:", error));
     }
   };
 
