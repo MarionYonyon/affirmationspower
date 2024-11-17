@@ -1,0 +1,143 @@
+.container {
+    width: 100%;
+    padding: 5%;
+    max-width: 400px; /* Ensure it fits within a mobile layout */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px auto; /* Center align in larger layouts */
+  }
+  
+  /* Settings section titles */
+  .settings-section-title {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #6d6d72;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: #f3f2f7;
+    text-align: left;
+    padding-left: 5px;
+    margin-bottom: 10px;
+  }
+  
+  /* Settings section */
+  .settings-section {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+  
+  /* Individual settings item */
+  .settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .settings-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* Label and value styling */
+  .settings-label {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .settings-value {
+    font-size: 16px;
+    color: #a6a5ab;
+    text-align: right;
+  }
+  
+  /* Toggle switch styling */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+  }
+  
+  .switch input {
+    display: none;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #673ab7;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(16px);
+  }
+  
+  /* Dropdown styling */
+  .dropdown-style {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .dropdown-style:hover {
+    border-color: #673ab7;
+  }
+  
+  .dropdown-style:focus {
+    box-shadow: 0 0 5px rgba(103, 58, 183, 0.5);
+    border-color: #673ab7;
+  }
+  
+  /* Input styling for number field */
+  input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    font-size: 16px;
+    color: #673ab7;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  input[type="number"]:focus {
+    border-color: #673ab7;
+    box-shadow: 0 0 5px rgba(103, 58, 183, 0.5);
+  }
+  
+  

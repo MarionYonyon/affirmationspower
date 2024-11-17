@@ -1,0 +1,81 @@
+.quote-area-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Quote-area {
+    background-color: white;
+    border-radius: 20px;
+    max-width: 400px;
+    min-width: 350px;
+    text-align: center;
+    position: relative;
+    border: 2px solid #d8b9ff;
+  }
+  
+  .cross-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #ff5722;
+    background: none;
+    border: none;
+  }
+  
+  .cross-icon img {
+    width: 1rem; /* Set a fixed width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Ensure it does not exceed the button's width */
+  }
+  
+  .Quote {
+    padding: 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .Legend-quote {
+    font-size: 0.9em;
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  .yes-no-container {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #eee;
+    background-color: #f0f8ff;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+  }
+  
+  .yes-icon img, .no-icon img  {
+    width: 3rem; /* Set a fixed width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Ensure it does not exceed the button's width */
+  }
+  
+  .no-icon, .yes-icon {
+    flex: 1; /* Make buttons take equal space */
+    padding: 15px 0; /* Adjust padding for height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    font-size: 1.2em; /* Adjust font size if needed */
+  }
+  
+  .no-icon {
+    background-color: #ffeb3b;
+  }
+  
+  .yes-icon {
+    background-color: #c8e6c9;
+  }
