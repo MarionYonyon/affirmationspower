@@ -1,21 +1,19 @@
 <script>
-    // Get the current path
-    const path = window.location.pathname.replace('/affirmationspower', '');
-    const searchParams = window.location.search;
-  
-    if (path === '/login') {
-      // Check login status using localStorage or cookies (adjust based on your implementation)
-      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Replace with your actual login status check
-  
+  // Get the current path relative to the app's base URL
+  const basePath = "/affirmationspower";
+  const path = window.location.pathname.replace(basePath, "");
+  const searchParams = window.location.search;
+
+  if (!window.location.pathname.includes("index.html")) {
+    if (path === "/login") {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
       if (isLoggedIn) {
-        // Redirect logged-in users to the home page
-        window.location.replace('/affirmationspower/');
+        window.location.replace(`${basePath}/`);
       } else {
-        // Allow access to the login page
-        window.location.replace('/affirmationspower/index.html' + path + searchParams);
+        window.location.replace(`${basePath}/index.html${path}${searchParams}`);
       }
     } else {
-      // Serve index.html for all other paths
-      window.location.replace('/affirmationspower/index.html' + path + searchParams);
+      window.location.replace(`${basePath}/index.html${path}${searchParams}`);
     }
-  </script>  
+  }
+</script>
