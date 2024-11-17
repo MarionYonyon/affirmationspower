@@ -1,5 +1,5 @@
 import "../styles/Settings.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import SettingsSection from "./SettingsSection";
 import SettingsItem from "./SettingsItem";
 import SwitchToggle from "./SwitchToggle";
@@ -7,35 +7,10 @@ import Dropdown from "./Dropdown";
 import NumberInput from "./NumberInput";
 import NavBar from "./NavBar";
 import Logout from "./Logout";
-import { auth } from "./firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
-import { db } from "./firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
-import { saveGoal } from "./firebaseHelpers";
+import useGoalAndProgress from "../hooks/useGoalAndProgress";
 
 const SettingsPage = () => {
-  const [dailyGoal, setDailyGoal] = useState(100); // Default to 0
-  useEffect(() => {
-    // Fetch dailyGoal from Firestore when the page loads
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(docRef);
-        if (userDoc.exists() && userDoc.data().dailyGoal !== undefined) {
-          setDailyGoal(userDoc.data().dailyGoal); // Set the fetched value
-        }
-      }
-    });
-  }, []);
-
-  const handleDailyGoalChange = (newGoal) => {
-    setDailyGoal(newGoal); // Update the local state
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        saveGoal(user.uid, newGoal); // Save the new value to Firestore
-      }
-    });
-  };
+  const { dailyGoal, handleGoalChange } = useGoalAndProgress(); // Destructure hook values
 
   return (
     <div id="content" className="container">
@@ -46,10 +21,9 @@ const SettingsPage = () => {
         <SettingsItem label="Daily goal">
           <NumberInput
             id="daily-goal-input"
-            min={10}
-            max={100}
+            type="number"
             value={dailyGoal} // Display the current dailyGoal
-            onChange={handleDailyGoalChange} // Handle updates to the dailyGoal
+            onChange={handleGoalChange} // Handle updates to the dailyGoal
           />
         </SettingsItem>
         <SettingsItem label="Job Status">

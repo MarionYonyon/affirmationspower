@@ -3,15 +3,17 @@ import Login from "./components/Login";
 import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import SettingsPage from "./components/SettingsPage";
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { auth } from "./components/firebaseConfig"; // Import initialized auth from firebaseConfig
 import { onAuthStateChanged } from "firebase/auth"; // Import onAuthStateChanged from Firebase auth
 import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute component
 import QuoteArea from "./components/QuoteArea";
 import GoalBar from "./components/GoalBar";
-import { getCurrentDate } from "./utils/dateUtils";
-import { db } from "./components/firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import useGoalAndProgress from "./hooks/useGoalAndProgress";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
@@ -33,7 +35,7 @@ function App() {
   }
 
   return (
-    <Router basename= "/affirmationspower">
+    <Router basename="/affirmationspower">
       <div className="app-container">
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -60,37 +62,8 @@ function App() {
 }
 
 function Home() {
-  const [progress, setProgress] = useState(0);
-  const [dailyGoal, setDailyGoal] = useState(100); // Default to 100
-  const location = useLocation();
-
-  useEffect(() => {
-    const fetchDailyGoalAndProgress = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const currentDate = getCurrentDate();
-        const docRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(docRef);
-
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-
-          // Update progress
-          if (data.dailyProgress) {
-            const dailyProgress = data.dailyProgress[currentDate];
-            setProgress(dailyProgress || 0); // Use 0 if no entry for currentDate
-          }
-
-          // Update dailyGoal
-          if (data.dailyGoal !== undefined) {
-            setDailyGoal(data.dailyGoal); // Fetch and set dailyGoal
-          }
-        }
-      }
-    };
-
-    fetchDailyGoalAndProgress();
-  }, [location]); // Re-fetch when the route changes
+  const { dailyGoal, progress, setProgress } =
+    useGoalAndProgress(); // Use the custom hook
 
   return (
     <div className="App">
