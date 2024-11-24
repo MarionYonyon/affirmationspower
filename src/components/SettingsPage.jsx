@@ -8,7 +8,7 @@ import NumberInput from "./NumberInput";
 import NavBar from "./NavBar";
 import Logout from "./Logout";
 import useGoalAndProgress from "../hooks/useGoalAndProgress";
-import { AFFIRMATION_LABELS } from "../hooks/useAffirmations";
+import { AFFIRMATION_LABELS } from "../utils/constants";
 
 const SettingsPage = () => {
   const { dailyGoal, handleGoalChange } = useGoalAndProgress(); // Destructure hook values

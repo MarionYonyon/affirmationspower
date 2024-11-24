@@ -1,20 +1,7 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../components/firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-
-export const AFFIRMATION_LABELS = {
-  motivation_and_inspiration: "Motivation and Inspiration",
-  self_confidence: "Self-Confidence",
-  career_growth: "Career Growth and Advancement",
-  resilience: "Resilience and Perseverance",
-  skill_recognition: "Skill Recognition and Development",
-  networking: "Networking and Connections",
-  goal_setting: "Goal Setting and Achievement",
-  interview_preparation: "Interview Preparation",
-  stress_relief: "Stress Relief and Mindfulness",
-  financial_abundance: "Financial Abundance and Stability",
-  work_life_balance: "Work-Life Balance",
-};
+import { doc, getDoc, setDoc, updateDoc, deleteField } from "firebase/firestore";
+import { AFFIRMATION_LABELS } from "../utils/constants";
 
 const useAffirmations = () => {
   // Initialize state dynamically from AFFIRMATION_LABELS
@@ -68,7 +55,19 @@ const useAffirmations = () => {
     const user = auth.currentUser;
     if (user) {
       try {
+        const docRef = doc(db, "users", user.uid);
+  
+        // Delete dailyAffirmations if the toggle changes
+        const currentDate = new Date().toISOString().split("T")[0]; // Get the current date in 'YYYY-MM-DD' format
+        await updateDoc(docRef, {
+          [`dailyAffirmations.${currentDate}`]: deleteField(),
+        });
+        console.log(`Daily affirmations for ${currentDate} deleted due to toggle change.`);
+  
+        // Save the updated toggle value
         await saveAffirmation(user.uid, key, value);
+  
+        // Update local state
         setAffirmations((prev) => ({
           ...prev,
           [key]: value,
@@ -77,7 +76,7 @@ const useAffirmations = () => {
         console.error("Failed to save affirmation:", error);
       }
     }
-  };
+  };  
 
   return { affirmations, handleToggleChange };
 };
