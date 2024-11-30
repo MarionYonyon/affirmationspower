@@ -17,11 +17,20 @@ const useGoalAndProgress = () => {
         if (docSnap.exists()) {
           const data = docSnap.data();
 
-          // Update progress
+          // Check for daily progress for the current date
+          if (!data.dailyProgress?.[currentDate]) {
+            // Reset progress for the new day
+            updateDoc(docRef, {
+              [`dailyProgress.${currentDate}`]: 0,
+            }).catch((error) =>
+              console.error("Error resetting daily progress:", error)
+            );
+          }
+
+          // Update progress and dailyGoal in state
           const dailyProgress = data.dailyProgress?.[currentDate] || 0;
           setProgress(dailyProgress);
 
-          // Update dailyGoal
           if (data.dailyGoal !== undefined) {
             setDailyGoal(data.dailyGoal);
           }
