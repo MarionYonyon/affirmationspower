@@ -1,8 +1,8 @@
 import React from "react";
-import useAffirmations from "../hooks/useAffirmations";
+import useAffirmationsToggles from "../hooks/useAffirmationsToggles";
 
 const SwitchToggle = ({ dataKey }) => {
-  const { affirmations, handleToggleChange } = useAffirmations();
+  const { affirmations, handleToggleChange } = useAffirmationsToggles();
 
   const handleChange = (event) => {
     const value = event.target.checked;

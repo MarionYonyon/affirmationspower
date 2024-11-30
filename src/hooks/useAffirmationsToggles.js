@@ -3,7 +3,7 @@ import { auth, db } from "../components/firebaseConfig";
 import { doc, getDoc, setDoc, updateDoc, deleteField } from "firebase/firestore";
 import { AFFIRMATION_LABELS } from "../utils/constants";
 
-const useAffirmations = () => {
+const useAffirmationsToggles = () => {
   // Initialize state dynamically from AFFIRMATION_LABELS
   const defaultState = Object.keys(AFFIRMATION_LABELS).reduce(
     (acc, key) => ({
@@ -81,4 +81,4 @@ const useAffirmations = () => {
   return { affirmations, handleToggleChange };
 };
 
-export default useAffirmations;
+export default useAffirmationsToggles;
