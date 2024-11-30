@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from './firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { logSessionStart } from '../utils/firebaseHelpers'; // Import session tracking helper
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -19,6 +20,7 @@ const Login = () => {
       // Attempt to sign in the user
       await signInWithEmailAndPassword(auth, email, password);
       // Redirect to main app page on success
+      logSessionStart(); // Start session tracking
       navigate('/');
     } catch (err) {
       setError('Failed to log in. Please check your credentials.');

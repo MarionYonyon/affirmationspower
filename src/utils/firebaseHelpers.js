@@ -1,6 +1,21 @@
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../components/firebaseConfig";
 import { getCurrentDate } from "../utils/dateUtils";
+
+/**
+ * Converts seconds to hh:mm:ss format.
+ * @param {number} totalSeconds - Duration in seconds.
+ * @returns {string} - Formatted duration string.
+ */
+const formatDuration = (totalSeconds) => {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  return [hours, minutes, seconds]
+    .map((val) => String(val).padStart(2, "0"))
+    .join(":");
+};
+
 /**
  * Get the current authenticated user.
  * @returns {object|null} User object or null if not authenticated.
@@ -93,5 +108,78 @@ export const logClickAction = async (clickType) => {
     console.log(`Logged ${clickType} successfully for ${currentDate}.`);
   } catch (error) {
     console.error("Error logging click action:", error);
+  }
+};
+
+let sessionStartTime = null;
+
+/**
+ * Log session start time.
+ */
+export const logSessionStart = () => {
+  sessionStartTime = new Date();
+  console.log("Session started at:", sessionStartTime.toISOString());
+};
+
+/**
+ * Log session end and calculate duration.
+ */
+export const logSessionEnd = async () => {
+  if (!sessionStartTime) return;
+
+  const sessionEndTime = new Date();
+  const durationInSeconds = Math.floor((sessionEndTime - sessionStartTime) / 1000); // in seconds
+  const formattedDuration = formatDuration(durationInSeconds);
+
+  console.log(
+    "Session ended at:",
+    sessionEndTime.toISOString(),
+    "Duration (hh:mm:ss):",
+    formattedDuration
+  );
+
+  const user = auth.currentUser;
+  if (!user) {
+    console.error("User is not authenticated. Cannot log session.");
+    return;
+  }
+
+  const currentDate = getCurrentDate(); // e.g., "YYYY-MM-DD"
+  const docRef = doc(db, `logs/${user.uid}/usage`, currentDate);
+
+  try {
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      await updateDoc(docRef, {
+        totalTime: (data.totalTime || 0) + durationInSeconds,
+        sessions: [
+          ...(data.sessions || []),
+          {
+            start: sessionStartTime.toISOString(),
+            end: sessionEndTime.toISOString(),
+            duration: formattedDuration, // Save formatted duration
+          },
+        ],
+      });
+    } else {
+      await setDoc(docRef, {
+        totalTime: durationInSeconds,
+        sessions: [
+          {
+            start: sessionStartTime.toISOString(),
+            end: sessionEndTime.toISOString(),
+            duration: formattedDuration, // Save formatted duration
+          },
+        ],
+      });
+    }
+
+    console.log("Session logged successfully.");
+  } catch (error) {
+    console.error("Error logging session:", error);
+  } finally {
+    sessionStartTime = null; // Reset session start time
   }
 };
