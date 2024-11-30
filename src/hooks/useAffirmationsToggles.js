@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { auth, db } from "../components/firebaseConfig";
 import { doc, getDoc, setDoc, updateDoc, deleteField } from "firebase/firestore";
 import { AFFIRMATION_LABELS } from "../utils/constants";
+import { logUserAction } from "../utils/firebaseHelpers";
+
 
 const useAffirmationsToggles = () => {
   // Initialize state dynamically from AFFIRMATION_LABELS
@@ -56,6 +58,9 @@ const useAffirmationsToggles = () => {
     if (user) {
       try {
         const docRef = doc(db, "users", user.uid);
+
+        // Log the toggle change
+        await logUserAction("toggle_change", { toggle: key, value });
   
         // Delete dailyAffirmations if the toggle changes
         const currentDate = new Date().toISOString().split("T")[0]; // Get the current date in 'YYYY-MM-DD' format

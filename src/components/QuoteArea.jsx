@@ -5,6 +5,7 @@ import noIcon from "../images/no-icon.png";
 import crossIcon from "../images/icon-cross-quote.png";
 import React, {useState} from "react";
 import useGoalAndProgress from "../hooks/useGoalAndProgress";
+import { logClickAction } from "../utils/firebaseHelpers";
 
 const QuoteArea = () => {
   const { incrementProgress } = useGoalAndProgress();
@@ -12,11 +13,13 @@ const QuoteArea = () => {
 
   const handleYesClick = () => {
     incrementProgress(1); // Increment by 1 for "Yes"
+    logClickAction("YesClick");
     setFetchTrigger(!fetchTrigger); // Toggle to refresh affirmations
   };
 
   const handleNoClick = () => {
     incrementProgress(1); // Increment by 1 for "No" (or adjust as needed)
+    logClickAction("NoClick");
     setFetchTrigger(!fetchTrigger); // Toggle to refresh affirmations
   };
 

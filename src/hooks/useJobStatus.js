@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../components/firebaseConfig";
 import { doc, getDoc, updateDoc, deleteField} from "firebase/firestore";
+import { logUserAction } from "../utils/firebaseHelpers";
 
 const useJobStatus = () => {
   const [jobStatus, setJobStatus] = useState(); // Default value
@@ -29,6 +30,9 @@ const useJobStatus = () => {
     if (user) {
       try {
         const docRef = doc(db, "users", user.uid);
+
+        // Log the job status change
+        await logUserAction("jobStatus_change", { newStatus });
   
         // Delete dailyAffirmations if the job status changes
         const currentDate = new Date().toISOString().split("T")[0]; // Get the current date in 'YYYY-MM-DD' format

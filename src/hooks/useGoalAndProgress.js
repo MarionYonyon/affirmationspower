@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { auth, db } from "../components/firebaseConfig";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
+import { logUserAction } from "../utils/firebaseHelpers";
 
 const useGoalAndProgress = () => {
   const [dailyGoal, setDailyGoal] = useState(100); // Default to 100
@@ -42,15 +43,23 @@ const useGoalAndProgress = () => {
     }
   }, []);
 
-  const handleGoalChange = (newGoal) => {
+  const handleGoalChange = async (newGoal) => {
     setDailyGoal(newGoal);
 
     const user = auth.currentUser;
     if (user) {
       const docRef = doc(db, "users", user.uid);
-      updateDoc(docRef, { dailyGoal: newGoal })
-        .then(() => console.log("Daily goal updated in Firestore:", newGoal))
-        .catch((error) => console.error("Error updating daily goal:", error));
+
+      try {
+        // Log the DailyGoal change
+        await logUserAction("dailyGoal_change", { newGoal });
+
+        // Update the dailyGoal in Firestore
+        await updateDoc(docRef, { dailyGoal: newGoal });
+        console.log("Daily goal updated in Firestore:", newGoal);
+      } catch (error) {
+        console.error("Error updating daily goal:", error);
+      }
     }
   };
 
