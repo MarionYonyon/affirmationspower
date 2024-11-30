@@ -23,13 +23,19 @@ const QuoteArea = () => {
     setFetchTrigger(!fetchTrigger); // Toggle to refresh affirmations
   };
 
+  const handleCrossClick = () => {
+    incrementProgress(1); // Increment by 1 for "No" (or adjust as needed)
+    logClickAction("CrossClick");
+    setFetchTrigger(!fetchTrigger); // Toggle to refresh affirmations
+  };
+
   return (
     <div className="Quote-area">
       <p className="Quote">
         <AffirmationGenerator fetchTrigger={fetchTrigger} />
       </p>
       <p className="Legend-quote">
-        Rate your actual feeling as “Not yet” or “That’s it!”
+      Does this resonate with you?
       </p>
       <div className="yes-no-container">
       <button className="no-icon" onClick={handleNoClick}>
@@ -39,7 +45,7 @@ const QuoteArea = () => {
           <img src={yesIcon} alt="yes-icon" />
         </button>
       </div>
-      <button className="cross-icon">
+      <button className="cross-icon" onClick={handleCrossClick}>
         <img src={crossIcon} alt="cross-icon" />
       </button>
     </div>
