@@ -76,7 +76,7 @@ const useAffirmations = () => {
         console.error("Failed to save affirmation:", error);
       }
     }
-  };  
+  };
 
   return { affirmations, handleToggleChange };
 };

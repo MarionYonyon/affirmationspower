@@ -29,11 +29,11 @@ const QuoteArea = () => {
         Rate your actual feeling as “Not yet” or “That’s it!”
       </p>
       <div className="yes-no-container">
+      <button className="no-icon" onClick={handleNoClick}>
+          <img src={noIcon} alt="no-icon" />
+        </button>
         <button className="yes-icon" onClick={handleYesClick}>
           <img src={yesIcon} alt="yes-icon" />
-        </button>
-        <button className="no-icon" onClick={handleNoClick}>
-          <img src={noIcon} alt="no-icon" />
         </button>
       </div>
       <button className="cross-icon">

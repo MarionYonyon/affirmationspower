@@ -3,10 +3,12 @@ import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
 import { AFFIRMATION_LABELS } from "../utils/constants";
 import { auth, db } from "../components/firebaseConfig";
+import useJobStatus from "./useJobStatus"; // Import useJobStatus
 
 const useDailyAffirmations = () => {
   const [affirmations, setAffirmations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { jobStatus } = useJobStatus(); // Get the current job status
   let isFetching = false; // Concurrency guard
 
   const fetchAndSaveAffirmations = async () => {
@@ -32,6 +34,13 @@ const useDailyAffirmations = () => {
       if (userDoc.exists()) {
         const userData = userDoc.data();
 
+        // Ensure jobStatus and toggles are ready before proceeding
+        if (!jobStatus || !userData.affirmationsToggles) {
+          console.warn("Job status or toggles not ready");
+          setLoading(false);
+          return;
+        }
+
         // Check if affirmations for the current date already exist
         if (userData.dailyAffirmations?.[currentDate]) {
           setAffirmations(userData.dailyAffirmations[currentDate]);
@@ -44,8 +53,6 @@ const useDailyAffirmations = () => {
           .filter(([_, isSelected]) => isSelected) // Keep only topics set to true
           .map(([topicKey]) => AFFIRMATION_LABELS[topicKey]); // Map to Firestore document names
 
-        console.log("Selected topics:", selectedTopics); // Debug log
-
         if (selectedTopics.length === 0) {
           console.warn("No topics selected for affirmations.");
           setAffirmations([]);
@@ -53,17 +60,20 @@ const useDailyAffirmations = () => {
           return;
         }
 
-        // Fetch affirmations from the selected topics
-        const affirmations = await fetchAffirmationsFromTopics(selectedTopics);
+        // Debug logging
+        console.log("Job status:", jobStatus);
+        console.log("Selected topics:", selectedTopics);
 
-        console.log("Fetched affirmations:", affirmations); // Debug log
+        // Fetch affirmations based on job status and toggled topics
+        const affirmations = await fetchAffirmationsFromJobStatus(
+          jobStatus,
+          selectedTopics
+        );
 
         // Shuffle and select 20 affirmations
         const randomAffirmations = affirmations
           .sort(() => 0.5 - Math.random())
           .slice(0, 20);
-
-        console.log("Random affirmations to save:", randomAffirmations); // Debug log
 
         // Save affirmations for the day in Firestore
         await setDoc(
@@ -88,23 +98,22 @@ const useDailyAffirmations = () => {
     }
   };
 
-  const fetchAffirmationsFromTopics = async (topics) => {
+  const fetchAffirmationsFromJobStatus = async (jobStatus, topics) => {
     const affirmations = [];
 
     for (const topic of topics) {
       const topicDocRef = doc(
         db,
-        "/Topic/Career and Professional Growth/Job Status/Career Changer/Practice",
+        `Topic/Career and Professional Growth/Job Status/${jobStatus}/Practice`,
         topic
       );
       const topicDoc = await getDoc(topicDocRef);
 
       if (topicDoc.exists()) {
         const topicData = topicDoc.data();
-        console.log(`Affirmations fetched for topic ${topic}:`, Object.values(topicData)); // Debug log
         affirmations.push(...Object.values(topicData)); // Add all affirmations from the topic
       } else {
-        console.warn(`Topic document ${topic} does not exist.`);
+        console.warn(`Topic document ${topic} does not exist for jobStatus ${jobStatus}.`);
       }
     }
 
@@ -113,7 +122,7 @@ const useDailyAffirmations = () => {
 
   useEffect(() => {
     const user = auth.currentUser;
-    if (!user) return;
+    if (!user || !jobStatus) return; // Wait until jobStatus is set
 
     const userDocRef = doc(db, "users", user.uid);
 
@@ -129,7 +138,7 @@ const useDailyAffirmations = () => {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []); // Empty dependency array ensures it runs only once
+  }, [jobStatus]); // Dependency array ensures the hook re-runs if jobStatus changes
 
   return { affirmations, loading };
 };
