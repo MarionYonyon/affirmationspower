@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { StyleSheet, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import { WebView } from "react-native-webview";
 
@@ -11,12 +12,12 @@ export default function App() {
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <WebView
           style={styles.webview}
-          source={{ uri: WEBVIEW_URL_PROD }}
+          source={{
+            uri: WEBVIEW_URL_PROD,
+          }}
           javaScriptEnabled={true}
           domStorageEnabled={true}
-          startInLoadingState={true}
           scalesPageToFit={true}
-          debuggingEnabled={true}
         />
       </KeyboardAvoidingView>
     </SafeAreaView>
