@@ -31,9 +31,9 @@ const QuoteArea = () => {
 
   return (
     <div className="Quote-area">
-      <p className="Quote">
+      <div className="Quote">
         <AffirmationGenerator fetchTrigger={fetchTrigger} />
-      </p>
+      </div>
       <p className="Legend-quote">
       Does this resonate with you?
       </p>
