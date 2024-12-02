@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
-import { AFFIRMATION_LABELS } from "../utils/constants";
+import { AFFIRMATION_LABELS, JOBSTATUS_LABELS } from "../utils/constants";
 import { auth, db } from "../components/firebaseConfig";
 import useJobStatus from "./useJobStatus"; // Import useJobStatus
 
@@ -40,7 +40,7 @@ const useDailyAffirmations = () => {
           setLoading(false);
           return;
         }
-
+        
         // Check if affirmations for the current date already exist
         if (userData.dailyAffirmations?.[currentDate]) {
           setAffirmations(userData.dailyAffirmations[currentDate]);
@@ -104,7 +104,7 @@ const useDailyAffirmations = () => {
     for (const topic of topics) {
       const topicDocRef = doc(
         db,
-        `Topic/Career and Professional Growth/Job Status/${jobStatus}/Practice`,
+        `Topic/Career and Professional Growth/Job Status/${JOBSTATUS_LABELS[jobStatus]}/Practice`,
         topic
       );
       const topicDoc = await getDoc(topicDocRef);
@@ -113,7 +113,9 @@ const useDailyAffirmations = () => {
         const topicData = topicDoc.data();
         affirmations.push(...Object.values(topicData)); // Add all affirmations from the topic
       } else {
-        console.warn(`Topic document ${topic} does not exist for jobStatus ${jobStatus}.`);
+        console.warn(
+          `Topic document ${topic} does not exist for jobStatus ${jobStatus}.`
+        );
       }
     }
 

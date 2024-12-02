@@ -15,6 +15,8 @@ const defaultUserData = {
     stress_relief: false,
     financial_abundance: false,
     work_life_balance: false,
+    gratitude_positivity: false,
+    purpose_fulfillment: false,
   },
   dailyGoal: 100, // Default daily affirmation goal
   dailyProgress: {}, // To track progress, reset daily

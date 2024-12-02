@@ -15,6 +15,8 @@ import QuoteArea from "./components/QuoteArea";
 import GoalBar from "./components/GoalBar";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
 
+const WEBVIEW_URL_PROD = "https://marionyonyon.github.io/affirmationspower/";
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
 

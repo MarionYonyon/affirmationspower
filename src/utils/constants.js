@@ -11,4 +11,17 @@ export const AFFIRMATION_LABELS = {
     stress_relief: "Stress Relief and Mindfulness",
     financial_abundance: "Financial Abundance and Stability",
     work_life_balance: "Work-Life Balance",
+    gratitude_positivity: "Gratitude and Positivity",
+    purpose_fulfillment:"Purpose and Fulfillment",
   };
+
+  // Labels for job status categories
+export const JOBSTATUS_LABELS = {
+    unemployed: "Unemployed",
+    career_changer: "Career Changer",
+    employed: "Employed",
+    // graduate: "Recently Graduated",
+    // entrepreneur: "Entrepreneur",
+    // returning_to_workforce: "Returning to Workforce",
+    // student: "Student",
+};

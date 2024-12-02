@@ -9,6 +9,7 @@ import NavBar from "./NavBar";
 import Logout from "./Logout";
 import useGoalAndProgress from "../hooks/useGoalAndProgress";
 import { AFFIRMATION_LABELS } from "../utils/constants";
+import { JOBSTATUS_LABELS } from "../utils/constants";
 
 const SettingsPage = () => {
   const { dailyGoal, handleGoalChange } = useGoalAndProgress(); // Destructure hook values
@@ -28,13 +29,10 @@ const SettingsPage = () => {
           />
         </SettingsItem>
         <SettingsItem label="Job Status">
-          <Dropdown
-            id="job-status-dropdown"
-            options={[
-              { dataKey: "career_changer", label: "Career Changer" },
-              { dataKey: "unemployed", label: "Unemployed" },
-            ]}
-          />
+              <Dropdown 
+              id="job-status-dropdown" 
+              options={Object.entries(JOBSTATUS_LABELS).map(([key, label]) => ({ value: key, label }))}
+            />
         </SettingsItem>
       </SettingsSection>
 
