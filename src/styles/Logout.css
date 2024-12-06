@@ -1,0 +1,34 @@
+/* Logout section styling */
+.logout-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Full width to match settings section */
+    background-color: #ffffff; /* Same background as settings section */
+    color: #333333; /* Text color matching labels */
+    font-size: 16px; /* Same font size */
+    font-weight: bold; /* Slight emphasis for the button */
+    padding: 12px 16px; /* Match settings section padding */
+    border: 1px solid #e0e0e0; /* Subtle border to match settings-section style */
+    border-radius: 10px; /* Match rounded corners of settings-section */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow to match settings-section */
+    cursor: pointer; /* Pointer cursor for interactivity */
+    text-align: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+  }
+  
+  .logout-button:hover {
+    background-color: #f9f9f9; /* Slight hover effect */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15); /* Slightly enhanced shadow */
+  }
+  
+  .logout-button:active {
+    background-color: #f3f3f3; /* Subtle change for active state */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Reduced shadow for active state */
+  }
+  
+  .logout-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px rgba(103, 58, 183, 0.5); /* Add subtle focus shadow */
+  }
+  

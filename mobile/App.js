@@ -4,6 +4,9 @@ import { StyleSheet, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import { WebView } from "react-native-webview";
 
 const WEBVIEW_URL_PROD = "https://marionyonyon.github.io/affirmationspower/";
+const WEBVIEW_URL_LOCAL = "http://192.168.1.35:3000/affirmationspower/";
+
+const isLocal = true;
 
 export default function App() {
   return (
@@ -13,7 +16,7 @@ export default function App() {
         <WebView
           style={styles.webview}
           source={{
-            uri: WEBVIEW_URL_PROD,
+            uri: isLocal ? WEBVIEW_URL_LOCAL : WEBVIEW_URL_PROD,
           }}
           javaScriptEnabled={true}
           domStorageEnabled={true}

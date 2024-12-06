@@ -1,3 +1,4 @@
+import "../styles/Logout.css";
 import React from 'react';
 import { auth } from './firebaseConfig';
 import { signOut } from 'firebase/auth';
@@ -18,7 +19,7 @@ const Logout = () => {
   };
 
   return (
-    <button onClick={handleLogout} aria-label="Log Out">
+    <button className="logout-button" onClick={handleLogout}>
       Log Out
     </button>
   );
