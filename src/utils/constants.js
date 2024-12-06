@@ -25,3 +25,9 @@ export const JOBSTATUS_LABELS = {
     // returning_to_workforce: "Returning to Workforce",
     // student: "Student",
 };
+
+  // Labels for appearance categories
+export const APPEARANCE_LABELS = {
+  light: "Light",
+  dark: "Dark",
+}

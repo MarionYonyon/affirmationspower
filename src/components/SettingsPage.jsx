@@ -13,6 +13,10 @@ import { JOBSTATUS_LABELS } from "../utils/constants";
 
 const SettingsPage = () => {
   const { dailyGoal, handleGoalChange } = useGoalAndProgress(); // Destructure hook values
+  const appearanceOptions = [
+    { value: "light", label: "Light" },
+    { value: "dark", label: "Dark" },
+  ];
 
   return (
     <div className="settings-page-wrapper">
@@ -20,7 +24,9 @@ const SettingsPage = () => {
       <div id="content" className="container">
         <SettingsSection title="GENERAL">
           <SettingsItem label="Topic" value="Work & Career >" />
-          <SettingsItem label="Appearance" value="Light >" />
+          <SettingsItem label="Appearance">
+            <Dropdown id="appearance-dropdown" options={appearanceOptions} />
+          </SettingsItem>
           <SettingsItem label="Daily reminder" value=">" />
           <SettingsItem label="Daily goal">
             <NumberInput
