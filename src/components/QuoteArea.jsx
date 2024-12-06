@@ -3,7 +3,7 @@ import AffirmationGenerator from "./AffirmationGenerator";
 import yesIcon from "../images/yes-icon.png";
 import noIcon from "../images/no-icon.png";
 import crossIcon from "../images/icon-cross-quote.png";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import useGoalAndProgress from "../hooks/useGoalAndProgress";
 import { logClickAction } from "../utils/firebaseHelpers";
 
@@ -24,7 +24,6 @@ const QuoteArea = () => {
   };
 
   const handleCrossClick = () => {
-    incrementProgress(1); // Increment by 1 for "No" (or adjust as needed)
     logClickAction("CrossClick");
     setFetchTrigger(!fetchTrigger); // Toggle to refresh affirmations
   };
@@ -34,11 +33,9 @@ const QuoteArea = () => {
       <div className="Quote">
         <AffirmationGenerator fetchTrigger={fetchTrigger} />
       </div>
-      <p className="Legend-quote">
-      Does this resonate with you?
-      </p>
+      <p className="Legend-quote">Does this resonate with you?</p>
       <div className="yes-no-container">
-      <button className="no-icon" onClick={handleNoClick}>
+        <button className="no-icon" onClick={handleNoClick}>
           <img src={noIcon} alt="no-icon" />
         </button>
         <button className="yes-icon" onClick={handleYesClick}>
