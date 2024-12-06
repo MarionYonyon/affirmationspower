@@ -14,6 +14,9 @@
     position: relative;
     border: 2px solid #d8b9ff;
     margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   
   .cross-icon {
@@ -34,17 +37,27 @@
   }
   
   .Quote {
-    padding: 30px;
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-height: 140px;
+    margin-top: 20px;
     font-size: 1.5em;
     font-weight: bold;
     color: #333;
-    margin-bottom: 20px;
+    height: 4.5em; /* 3 lines of text with 1.5em line height */
+    line-height: 1.5em; /* Maintain line spacing */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden; /* Hide overflowing content */
   }
   
   .Legend-quote {
     font-size: 0.9em;
     color: #777;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   
   .yes-no-container {
@@ -79,4 +92,9 @@
   
   .yes-icon {
     background-color: #c8e6c9;
+  }
+
+  .affirmation-generator{
+    margin-top: 30px;
+    margin-bottom: 30px;
   }

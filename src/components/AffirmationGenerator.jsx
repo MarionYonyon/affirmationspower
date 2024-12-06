@@ -1,3 +1,4 @@
+import "../styles/QuoteArea.css";
 import React, { useState, useEffect } from "react";
 import useDailyAffirmations from "../hooks/useDailyAffirmations";
 
