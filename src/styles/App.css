@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 80vh;
+  height: 100vh;
   background: linear-gradient(to bottom, #ffffff, #dbffde);
 }
 
@@ -28,4 +28,12 @@
 
 .nav-bar-wrapper {
   margin-bottom: 80px; /* Adjusts space from the bottom */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 400px) {
+  .App {
+    height: 80vh;
+
+  }
 }
