@@ -3,16 +3,18 @@ import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
 import { AFFIRMATION_LABELS, JOBSTATUS_LABELS } from "../utils/constants";
 import { auth, db } from "../components/firebaseConfig";
-import useJobStatus from "./useJobStatus"; // Import useJobStatus
 
 const useDailyAffirmations = () => {
   const [affirmations, setAffirmations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { jobStatus } = useJobStatus(); // Get the current job status
+  const [jobStatus, setJobStatus] = useState(null); // Fetch jobStatus directly
   let isFetching = false; // Concurrency guard
 
   const fetchAndSaveAffirmations = async () => {
-    if (isFetching) return; // Prevent concurrent calls
+    if (isFetching) {
+      console.warn("Fetch already in progress. Skipping this call."); // Log for case 6
+      return; // Prevent concurrent calls
+    }
     isFetching = true;
 
     try {
@@ -20,7 +22,7 @@ const useDailyAffirmations = () => {
       const user = auth.currentUser;
 
       if (!user) {
-        console.error("No user logged in");
+        console.error("No user logged in.");
         setLoading(false);
         return;
       }
@@ -34,13 +36,21 @@ const useDailyAffirmations = () => {
       if (userDoc.exists()) {
         const userData = userDoc.data();
 
-        // Ensure jobStatus and toggles are ready before proceeding
-        if (!jobStatus || !userData.affirmationsToggles) {
-          console.warn("Job status or toggles not ready");
+        // Fetch jobStatus from userData
+        if (!userData.jobStatus) {
+          console.warn("Job status not found in user data. Aborting fetch.");
           setLoading(false);
           return;
         }
-        
+        setJobStatus(userData.jobStatus); // Update state with jobStatus
+
+        // Ensure toggles are ready before proceeding
+        if (!userData.affirmationsToggles) {
+          console.warn("Affirmations toggles not ready. Aborting fetch.");
+          setLoading(false);
+          return;
+        }
+
         // Check if affirmations for the current date already exist
         if (userData.dailyAffirmations?.[currentDate]) {
           setAffirmations(userData.dailyAffirmations[currentDate]);
@@ -49,26 +59,34 @@ const useDailyAffirmations = () => {
         }
 
         // Get the selected topics from `affirmationsToggles`
-        const selectedTopics = Object.entries(userData.affirmationsToggles || {})
+        const selectedTopics = Object.entries(
+          userData.affirmationsToggles || {}
+        )
           .filter(([_, isSelected]) => isSelected) // Keep only topics set to true
           .map(([topicKey]) => AFFIRMATION_LABELS[topicKey]); // Map to Firestore document names
 
         if (selectedTopics.length === 0) {
-          console.warn("No topics selected for affirmations.");
+          console.warn(
+            "No topics selected for affirmations. Returning empty array."
+          );
           setAffirmations([]);
           setLoading(false);
           return;
         }
 
         // Debug logging
-        console.log("Job status:", jobStatus);
+        console.log("Job status:", userData.jobStatus);
         console.log("Selected topics:", selectedTopics);
 
         // Fetch affirmations based on job status and toggled topics
         const affirmations = await fetchAffirmationsFromJobStatus(
-          jobStatus,
+          userData.jobStatus,
           selectedTopics
         );
+
+        if (affirmations.length === 0) {
+          console.warn("No affirmations fetched. Check Firestore data."); // Log for case 9
+        }
 
         // Shuffle and select 20 affirmations
         const randomAffirmations = affirmations
@@ -76,22 +94,27 @@ const useDailyAffirmations = () => {
           .slice(0, 20);
 
         // Save affirmations for the day in Firestore
-        await setDoc(
-          userDocRef,
-          {
-            dailyAffirmations: {
-              [currentDate]: randomAffirmations,
+        try {
+          await setDoc(
+            userDocRef,
+            {
+              dailyAffirmations: {
+                [currentDate]: randomAffirmations,
+              },
             },
-          },
-          { merge: true }
-        );
+            { merge: true }
+          );
+          console.log("Affirmations for the day saved successfully.");
+        } catch (error) {
+          console.error("Error saving daily affirmations:", error); // Log for case 10
+        }
 
         setAffirmations(randomAffirmations);
       } else {
         console.error("User document does not exist.");
       }
     } catch (error) {
-      console.error("Error fetching and saving daily affirmations:", error);
+      console.error("Error fetching and saving daily affirmations:", error); // Log for case 9
     } finally {
       setLoading(false);
       isFetching = false; // Reset the guard
@@ -114,7 +137,7 @@ const useDailyAffirmations = () => {
         affirmations.push(...Object.values(topicData)); // Add all affirmations from the topic
       } else {
         console.warn(
-          `Topic document ${topic} does not exist for jobStatus ${jobStatus}.`
+          `Topic document ${topic} does not exist for jobStatus ${jobStatus}.` // Log for case 9
         );
       }
     }
@@ -124,7 +147,10 @@ const useDailyAffirmations = () => {
 
   useEffect(() => {
     const user = auth.currentUser;
-    if (!user || !jobStatus) return; // Wait until jobStatus is set
+    if (!user) {
+      console.warn("User not logged in. Skipping useEffect."); // Log for case 2
+      return; // Wait until user is set
+    }
 
     const userDocRef = doc(db, "users", user.uid);
 
@@ -140,7 +166,7 @@ const useDailyAffirmations = () => {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [jobStatus]); // Dependency array ensures the hook re-runs if jobStatus changes
+  }, []); // Removed jobStatus from dependency array
 
   return { affirmations, loading };
 };
