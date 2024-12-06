@@ -75,6 +75,37 @@ export const logUserAction = async (action, details = {}) => {
 };
 
 /**
+ * Log when the dailyAffirmations array is empty.
+ * @param {string} reason - Reason for the empty affirmations array.
+ * @param {object} additionalDetails - Additional details to log.
+ */
+export const logEmptyDailyAffirmations = async (
+  reason,
+  additionalDetails = {}
+) => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.error("User is not authenticated. Cannot log empty affirmations.");
+    return;
+  }
+  const timestamp = new Date().toISOString();
+  const logEntry = {
+    action: "empty_daily_affirmations",
+    reason,
+    details: additionalDetails,
+    timestamp,
+    email: user.email,
+  };
+  try {
+    const docRef = doc(db, `logs/${user.uid}/actions`, timestamp);
+    await setDoc(docRef, logEntry);
+    console.log("Logged empty dailyAffirmations successfully:", logEntry);
+  } catch (error) {
+    console.error("Error logging empty dailyAffirmations:", error);
+  }
+};
+
+/**
  * Log click actions (YesClick or NoClick) for the current user in the structure logs/{userId}/clicks/{date}.
  * @param {string} clickType - Either "YesClick" or "NoClick".
  */
@@ -128,7 +159,9 @@ export const logSessionEnd = async () => {
   if (!sessionStartTime) return;
 
   const sessionEndTime = new Date();
-  const durationInSeconds = Math.floor((sessionEndTime - sessionStartTime) / 1000); // in seconds
+  const durationInSeconds = Math.floor(
+    (sessionEndTime - sessionStartTime) / 1000
+  ); // in seconds
   const formattedDuration = formatDuration(durationInSeconds);
 
   console.log(
