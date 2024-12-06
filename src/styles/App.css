@@ -3,9 +3,8 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
   background: linear-gradient(to bottom, #ffffff, #dbffde);
-  min-height: 100vh; /* Ensures .App fills the full viewport height */
 }
 
 .progress-bar-wrapper,
@@ -15,11 +14,18 @@
   text-align: center;
 }
 
+.quote-area-wrapper {
+  display: flex; /* Nested flex container to center its content */
+  align-items: center; /* Vertically centers content within itself */
+  justify-content: center; /* Horizontally centers content within itself */
+  width: 100%;
+  text-align: center;
+}
+
 .progress-bar-wrapper {
   margin-top: 20px; /* Adjusts space from the top */
 }
 
 .nav-bar-wrapper {
-    margin-bottom: 80px; /* Adjusts space from the bottom */
-  }
-  
+  margin-bottom: 80px; /* Adjusts space from the bottom */
+}
