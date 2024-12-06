@@ -13,7 +13,7 @@ const GoalBar = () => {
       ></div>
       <div className="goal-text-container">
         <span className="goal-text-left legend-goal-bar-1">Daily goal</span>
-        <span className="goal-text-right legend-goal-bar-2">
+        <span className="goal-text-right legend-goal-bar-2" translate="no">
           {progress} / {dailyGoal}
         </span>
       </div>
