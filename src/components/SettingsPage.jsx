@@ -25,7 +25,7 @@ const SettingsPage = () => {
         <SettingsSection title="GENERAL">
           <SettingsItem label="Topic" value="Work & Career >" />
           <SettingsItem label="Appearance">
-            <Dropdown id="appearance-dropdown" options={appearanceOptions} />
+           {/*<Dropdown id="appearance-dropdown" options={appearanceOptions} />*/}
           </SettingsItem>
           <SettingsItem label="Daily reminder" value=">" />
           <SettingsItem label="Daily goal">
