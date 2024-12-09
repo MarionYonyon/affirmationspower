@@ -20,8 +20,8 @@ export const JOBSTATUS_LABELS = {
     unemployed: "Unemployed",
     career_changer: "Career Changer",
     employed: "Employed",
+    entrepreneur: "Entrepreneur",
     // graduate: "Recently Graduated",
-    // entrepreneur: "Entrepreneur",
     // returning_to_workforce: "Returning to Workforce",
     // student: "Student",
 };
