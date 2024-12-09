@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(to bottom, #ffffff, #673ab7);
+  background: #F0FBF4;
 }
 
 .progress-bar-wrapper,
@@ -20,6 +20,8 @@
   justify-content: center; /* Horizontally centers content within itself */
   width: 100%;
   text-align: center;
+  margin-top: 200px;
+  z-index: 1;
 }
 
 .progress-bar-wrapper {
@@ -28,6 +30,7 @@
 
 .nav-bar-wrapper {
   margin-bottom: 80px; /* Adjusts space from the bottom */
+  z-index: 2;
 }
 
 /* Responsive design adjustments */

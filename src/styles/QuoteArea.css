@@ -1,23 +1,30 @@
+.nav-bar-wrapper {
+  z-index: 1;
+}
+
 .quote-area-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center;
+  position: relative; /* Establish a containing block for absolutely positioned children */
 }
 
 .Quote-area {
-    background-color: white;
-    border-radius: 20px;
-    max-width: 400px;
-    min-width: 350px;
-    text-align: center;
-    position: relative;
-    border: 2px solid #d8b9ff;
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  background-color: white;
+  border-radius: 20px;
+  max-width: 400px;
+  min-width: 350px;
+  text-align: center;
+  position: relative; /* Ensure content stays above the GIF */
+  border: 2px solid #d8b9ff;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1; /* Place it above the GIF */
+}
   
   .cross-icon {
     position: absolute;
@@ -40,7 +47,7 @@
     padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
-    min-height: 280px;
+    min-height: 250px;
     margin-top: 20px;
     font-size: 1.5em;
     font-weight: bold;
@@ -80,12 +87,11 @@
   font-weight: bold;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s;
 }
 
 .yes-icon:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 #read-visualize-text {
@@ -104,4 +110,15 @@
   z-index: 1;
   transition: width 0.5s ease;
   border-radius: 30px;
+}
+
+.breathe-gif {
+  position: absolute; /* Position the GIF relative to the .quote-area-wrapper */
+  top: 0; /* Align the top of the GIF with the wrapper */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Shift the GIF upwards to show only the top part */
+  width: 100%; /* Adjust size to fit the container */
+  max-width: 360px; /* Set a max width for responsiveness */
+  z-index: 0; /* Place it behind the quote area */
+  opacity: 0.7; /* Optional: Add transparency for better readability */
 }

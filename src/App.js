@@ -3,11 +3,7 @@ import Login from "./components/Login";
 import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import SettingsPage from "./components/SettingsPage";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { auth } from "./components/firebaseConfig"; // Import initialized auth from firebaseConfig
 import { onAuthStateChanged } from "firebase/auth"; // Import onAuthStateChanged from Firebase auth
 import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute component
@@ -62,8 +58,7 @@ function App() {
 }
 
 function Home() {
-  const { dailyGoal, progress, setProgress } =
-    useGoalAndProgress(); // Use the custom hook
+  const { dailyGoal, progress, setProgress } = useGoalAndProgress(); // Use the custom hook
 
   return (
     <div className="App">
@@ -71,6 +66,11 @@ function Home() {
         <GoalBar progress={progress} dailyGoal={dailyGoal} />
       </div>
       <div className="quote-area-wrapper">
+        <img
+          src={`${process.env.PUBLIC_URL}/Breathe-symbol-purple.gif`}
+          alt="Breathe Symbol"
+          className="breathe-gif"
+        />
         <QuoteArea progress={progress} setProgress={setProgress} />
       </div>
       <div className="nav-bar-wrapper">
