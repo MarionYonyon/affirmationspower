@@ -13,7 +13,7 @@
 .Quote-area {
   background-color: white;
   border-radius: 20px;
-  max-width: 400px;
+  max-width: 350px;
   min-width: 350px;
   text-align: center;
   position: relative; /* Ensure content stays above the GIF */
@@ -24,6 +24,26 @@
   flex-direction: column;
   justify-content: space-between;
   z-index: 1; /* Place it above the GIF */
+}
+
+/* Progress button */
+.yes-icon {
+  margin-top: 20px;
+  position: absolute;
+  width: 300px;
+  height: 50px;
+  bottom: 10px; /* Attach to the bottom of .Quote-area with spacing */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for exact centering */
+  border: none;
+  border-radius: 30px;
+  background: #47C9AF; /* Vibrant teal */
+  color: #2C3E50; /* Dark slate gray for better readability */
+  font-size: 1.2rem;
+  font-weight: bold;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s;
 }
   
   .cross-icon {
@@ -47,7 +67,7 @@
     padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
-    min-height: 250px;
+    min-height: 210px;
     margin-top: 20px;
     font-size: 1.5em;
     font-weight: bold;
@@ -68,32 +88,10 @@
   }
 
   .affirmation-generator{
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 80px;
+    padding: 10px;
   }
-
-
-/* Progress button */
-.yes-icon {
-  margin-top: 20px;
-  position: relative;
-  width: 300px;
-  height: 50px;
-  border: none;
-  border-radius: 30px;
-  background: #47C9AF; /* Vibrant teal */
-  color: #2C3E50; /* Dark slate gray for better readability */
-  font-size: 1.2rem;
-  font-weight: bold;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-
-.yes-icon:hover {
-  transform: scale(1.05);
-}
-
+  
 #read-visualize-text {
   position: relative;
   z-index: 2;
