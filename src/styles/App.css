@@ -21,7 +21,6 @@
   width: 100%;
   text-align: center;
   margin-top: 200px;
-  z-index: 1;
 }
 
 .progress-bar-wrapper {
@@ -30,7 +29,6 @@
 
 .nav-bar-wrapper {
   margin-bottom: 80px; /* Adjusts space from the bottom */
-  z-index: 2;
 }
 
 /* Responsive design adjustments */

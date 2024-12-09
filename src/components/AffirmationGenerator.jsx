@@ -56,20 +56,18 @@ const AffirmationGenerator = ({ fetchTrigger }) => {
   return (
     <div className="affirmation-generator">
       <p>{currentAffirmation}</p>
-      <div className="read-visualize-container">
-        <button
-          id="read-visualize-btn"
-          className="yes-icon"
-          onClick={handleYesClick}
-          disabled={progressStep === maxSteps - 1} // Disable button during auto-transition
-        >
-          <span id="read-visualize-text">{progressText}</span>
-          <div
-            className="read-visualize-progress-bar"
-            style={{ width: `${(progressStep / (maxSteps - 1)) * 100}%` }}
-          ></div>
-        </button>
-      </div>
+      <button
+        id="read-visualize-btn"
+        className="yes-icon"
+        onClick={handleYesClick}
+        disabled={progressStep === maxSteps - 1} // Disable button during auto-transition
+      >
+        <span id="read-visualize-text">{progressText}</span>
+        <div
+          className="read-visualize-progress-bar"
+          style={{ width: `${(progressStep / (maxSteps - 1)) * 100}%` }}
+        ></div>
+      </button>
     </div>
   );
 };

@@ -23,7 +23,7 @@ const defaultUserData = {
     [AFFIRMATION_LABELS.gratitude_positivity]: false,
     [AFFIRMATION_LABELS.purpose_fulfillment]: false,
   },
-  dailyGoal: 100, // Default daily affirmation goal
+  dailyGoal: 20, // Default daily affirmation goal
   dailyProgress: {}, // To track progress, reset daily
   jobStatus: JOBSTATUS_LABELS.career_changer, // Default job status
   createdAt: new Date().toISOString(), // Record creation timestamp
