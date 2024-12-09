@@ -6,7 +6,7 @@ import { logUserAction } from "../utils/firebaseHelpers";
 
 const useGoalAndProgress = () => {
   const [dailyGoal, setDailyGoal] = useState(100); // Default to 100
-  const [progress, setProgress] = useState(0);
+  const [dailyProgress, setDailyProgress] = useState(0);
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -30,7 +30,7 @@ const useGoalAndProgress = () => {
 
           // Update progress and dailyGoal in state
           const dailyProgress = data.dailyProgress?.[currentDate] || 0;
-          setProgress(dailyProgress);
+          setDailyProgress(dailyProgress);
 
           if (data.dailyGoal !== undefined) {
             setDailyGoal(data.dailyGoal);
@@ -63,11 +63,11 @@ const useGoalAndProgress = () => {
     }
   };
 
-  const incrementProgress = (incrementValue) => {
+  const incrementDailyProgress = (incrementValue) => {
     const currentDate = getCurrentDate();
-    const newProgress = progress + incrementValue;
+    const newProgress = dailyProgress + incrementValue;
 
-    setProgress(newProgress);
+    setDailyProgress(newProgress);
 
     const user = auth.currentUser;
     if (user) {
@@ -85,10 +85,10 @@ const useGoalAndProgress = () => {
   return {
     dailyGoal,
     setDailyGoal,
-    progress,
-    setProgress,
+    dailyProgress,
+    setDailyProgress,
     handleGoalChange,
-    incrementProgress,
+    incrementDailyProgress,
   };
 };
 

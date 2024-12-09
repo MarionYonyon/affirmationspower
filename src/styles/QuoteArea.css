@@ -40,7 +40,7 @@
     padding-top: 30px;
     padding-left: 30px;
     padding-right: 30px;
-    min-height: 140px;
+    min-height: 280px;
     margin-top: 20px;
     font-size: 1.5em;
     font-weight: bold;
@@ -59,42 +59,49 @@
     color: #777;
     margin-bottom: 10px;
   }
-  
-  .yes-no-container {
-    display: flex;
-    justify-content: space-between;
-    border-top: 1px solid #eee;
-    background-color: #f0f8ff;
-    border-radius: 0 0 20px 20px;
-    overflow: hidden;
-  }
-  
-  .yes-icon img, .no-icon img  {
-    width: 3rem; /* Set a fixed width */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 100%; /* Ensure it does not exceed the button's width */
-  }
-  
-  .no-icon, .yes-icon {
-    flex: 1; /* Make buttons take equal space */
-    padding: 15px 0; /* Adjust padding for height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
-    font-size: 1.2em; /* Adjust font size if needed */
-  }
-  
-  .no-icon {
-    background-color: #ffeb3b;
-  }
-  
-  .yes-icon {
-    background-color: #c8e6c9;
-  }
 
   .affirmation-generator{
     margin-top: 30px;
     margin-bottom: 30px;
   }
+
+
+/* Progress button */
+.yes-icon {
+  margin-top: 20px;
+  position: relative;
+  width: 300px;
+  height: 50px;
+  border: none;
+  border-radius: 30px;
+  background: #47C9AF; /* Vibrant teal */
+  color: #2C3E50; /* Dark slate gray for better readability */
+  font-size: 1.2rem;
+  font-weight: bold;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.yes-icon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+#read-visualize-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* Progress bar inside button */
+.read-visualize-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #39B68D, #A7F4D4); /* Gradient greens */
+  z-index: 1;
+  transition: width 0.5s ease;
+  border-radius: 30px;
+}
