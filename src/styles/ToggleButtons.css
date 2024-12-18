@@ -1,0 +1,29 @@
+.toggle-onoff-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-anchor-button {
+  margin: 10px;
+  width: 70px; /* Button size */
+  height: 60px;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  background: #ffffff; /* Activated button has white background */
+  transition: background 0.3s, transform 0.2s ease-in-out;
+}
+
+.toggle-anchor-button img {
+  width: 40px; /* Icon size */
+  height: 40px;
+}
+
+.breathwork-button.active {
+    border: 2px solid #d8b9ff; /* Add border when active */
+  }

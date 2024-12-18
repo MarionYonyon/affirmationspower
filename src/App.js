@@ -10,6 +10,8 @@ import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute com
 import QuoteArea from "./components/QuoteArea";
 import GoalBar from "./components/GoalBar";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
+import BreathworkAnchor from "./components/BreathworkAnchor";
+import SoundAnchor from "./components/SoundAnchor";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
@@ -66,12 +68,11 @@ function Home() {
         <GoalBar progress={progress} dailyGoal={dailyGoal} />
       </div>
       <div className="quote-area-wrapper">
-        <img
-          src={`${process.env.PUBLIC_URL}/Breathe-symbol-purple.gif`}
-          alt="Breathe Symbol"
-          className="breathe-gif"
-        />
         <QuoteArea progress={progress} setProgress={setProgress} />
+        <div className="toggle-onoff-wrapper">
+          <BreathworkAnchor></BreathworkAnchor>
+          <SoundAnchor></SoundAnchor>
+        </div>
       </div>
       <div className="nav-bar-wrapper">
         <NavBar />
