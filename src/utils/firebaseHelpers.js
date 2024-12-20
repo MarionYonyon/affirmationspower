@@ -106,10 +106,11 @@ export const logEmptyDailyAffirmations = async (
 };
 
 /**
- * Log click actions (YesClick or NoClick) for the current user in the structure logs/{userId}/clicks/{date}.
- * @param {string} clickType - Either "YesClick" or "NoClick".
+ * Log click actions (YesClick) or clicks per progressStep for the current user in the structure logs/{userId}/clicks/{date}.
+ * @param {string|null} clickType - Type of click (e.g., "YesClick" or null for step clicks).
+ * @param {number|null} step - The progress step (optional).
  */
-export const logClickAction = async (clickType) => {
+export const logClickAction = async (clickType, step = null) => {
   const user = auth.currentUser;
   if (!user) {
     console.error("User is not authenticated. Cannot log click action.");
@@ -121,22 +122,23 @@ export const logClickAction = async (clickType) => {
 
   try {
     const docSnap = await getDoc(docRef);
+    const key = step !== null ? `Step${step}` : clickType;
 
     if (docSnap.exists()) {
-      // Increment the count for the click type
+      // Increment the count for the click type or step
       const data = docSnap.data();
       await updateDoc(docRef, {
-        [clickType]: (data[clickType] || 0) + 1,
+        [key]: (data[key] || 0) + 1,
       });
     } else {
       // Create a new document with initial count
-      await setDoc(docRef, {
-        YesClick: clickType === "YesClick" ? 1 : 0,
-        NoClick: clickType === "NoClick" ? 1 : 0,
-      });
+      const initialData = step !== null
+        ? { [key]: 1 }
+        : { [clickType]: 1 };
+      await setDoc(docRef, initialData);
     }
 
-    console.log(`Logged ${clickType} successfully for ${currentDate}.`);
+    console.log(`Logged ${key} successfully for ${currentDate}.`);
   } catch (error) {
     console.error("Error logging click action:", error);
   }

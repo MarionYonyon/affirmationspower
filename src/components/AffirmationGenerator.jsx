@@ -24,11 +24,10 @@ const AffirmationGenerator = ({ fetchTrigger }) => {
   useEffect(() => {
     // Auto-transition after Step 3
     if (progressStep === maxSteps - 1) {
-      // Automatically fetch a new affirmation after the final step
       const timer = setTimeout(() => {
         incrementDailyProgress(1); // Increment daily progress here
+        logClickAction("YesClick"); // Log final step
         setProgressStep(0);
-        logClickAction("YesClick");
         setCurrentAffirmation(
           affirmations[Math.floor(Math.random() * affirmations.length)]
         );
@@ -40,6 +39,8 @@ const AffirmationGenerator = ({ fetchTrigger }) => {
 
   const handleYesClick = () => {
     if (progressStep < maxSteps - 1) {
+      // Log the click for the current progress step
+      logClickAction(null, progressStep);
       // Move to the next step
       setProgressStep(progressStep + 1);
     }
