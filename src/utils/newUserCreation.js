@@ -11,6 +11,7 @@ const defaultUserData = {
   dailyGoal: 20, // Default daily affirmation goal
   dailyProgress: {}, // To track progress, reset daily
   createdAt: new Date().toISOString(), // Record creation timestamp
+  appearance: Object.keys(APPEARANCE_LABELS)[0], // Default to "light" (1st key)
 };
 
 // Dynamically create default affirmations toggles using the keys from AFFIRMATION_LABELS
@@ -22,12 +23,11 @@ const defaultAffirmationsToggles = Object.keys(AFFIRMATION_LABELS).reduce(
   {}
 );
 // Override specific toggles
-defaultAffirmationsToggles.skill_recognition = true;
+defaultAffirmationsToggles.motivation_and_inspiration = true;
 
 const defaultUserSettings = {
   affirmationsToggles: defaultAffirmationsToggles, // Dynamically generated toggles
   jobStatus: Object.keys(JOBSTATUS_LABELS)[1], // Default to "career_changer" (2nd key)
-  appearance: Object.keys(APPEARANCE_LABELS)[0], // Default to "light" (1st key)
 };
 
 // Function to initialize user data

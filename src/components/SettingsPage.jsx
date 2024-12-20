@@ -24,16 +24,19 @@ const SettingsPage = () => {
       <div id="content" className="container">
         <SettingsSection title="GENERAL">
           <SettingsItem label="Topic" value="Work & Career >" />
-          <SettingsItem label="Appearance">
+          <SettingsItem label="Appearance" value="Light >" >
            {/*<Dropdown id="appearance-dropdown" options={appearanceOptions} />*/}
           </SettingsItem>
-          <SettingsItem label="Daily reminder" value=">" />
+          <SettingsItem label="Daily reminder" value="None >" />
+          <SettingsItem label="Language" value="English >" />
           <SettingsItem label="Daily goal">
             <NumberInput
               id="daily-goal-input"
               type="number"
               value={dailyGoal} // Display the current dailyGoal
               onChange={handleGoalChange} // Handle updates to the dailyGoal
+              min={10}
+              max={200}
             />
           </SettingsItem>
           <SettingsItem label="Job Status">

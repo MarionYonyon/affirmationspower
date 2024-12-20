@@ -1,25 +1,38 @@
 import React from "react";
 
-const NumberInput = ({ id, min, max, value, onChange }) => {
-  const handleInputChange = (event) => {
-    const newValue = Number(event.target.value); // Ensure the value is a number
+const NumberDropdown = ({ id, min, max, value, onChange }) => {
+  const generateOptions = (min, max, step) => {
+    const options = [];
+    for (let i = min; i <= max; i += step) {
+      options.push(i);
+    }
+    return options;
+  };
+
+  const handleSelectChange = (event) => {
+    const newValue = Number(event.target.value); // Convert to number
     if (onChange) {
-      onChange(newValue); // Call the onChange handler passed from SettingsPage
+      onChange(newValue); // Call the onChange handler
     }
   };
 
+  const options = generateOptions(min, max, 5); // Increment by 5
+
   return (
-    <input
+    <select
       id={id}
-      type="number"
-      min={min}
-      max={max}
-      className="settings-value"
-      value={value} // Display the current value
-      onChange={handleInputChange} // Trigger updates on change
-      style={{ color: "#673ab7", width: "50px" }}
-    />
+      value={value}
+      onChange={handleSelectChange}
+      className="settings-value dropdown-style"
+
+    >
+      {options.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
   );
 };
 
-export default NumberInput;
+export default NumberDropdown;

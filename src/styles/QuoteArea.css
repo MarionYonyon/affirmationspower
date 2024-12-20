@@ -8,6 +8,7 @@
   justify-content: center; /* Center content vertically */
   align-items: center;
   position: relative; /* Establish a containing block for absolutely positioned children */
+  margin-top: 150px;
 }
 
 .Quote-area {
