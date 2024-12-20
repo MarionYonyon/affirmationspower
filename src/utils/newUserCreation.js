@@ -13,24 +13,21 @@ const defaultUserData = {
   createdAt: new Date().toISOString(), // Record creation timestamp
 };
 
-const defaultUserSettings = {
-  affirmationsToggles: {
-    [AFFIRMATION_LABELS.motivation_and_inspiration]: true,
-    [AFFIRMATION_LABELS.self_confidence]: false,
-    [AFFIRMATION_LABELS.career_growth]: false,
-    [AFFIRMATION_LABELS.resilience]: false,
-    [AFFIRMATION_LABELS.skill_recognition]: false,
-    [AFFIRMATION_LABELS.networking]: false,
-    [AFFIRMATION_LABELS.goal_setting]: false,
-    [AFFIRMATION_LABELS.interview_preparation]: false,
-    [AFFIRMATION_LABELS.stress_relief]: false,
-    [AFFIRMATION_LABELS.financial_abundance]: false,
-    [AFFIRMATION_LABELS.work_life_balance]: false,
-    [AFFIRMATION_LABELS.gratitude_positivity]: false,
-    [AFFIRMATION_LABELS.purpose_fulfillment]: false,
+// Dynamically create default affirmations toggles using the keys from AFFIRMATION_LABELS
+const defaultAffirmationsToggles = Object.keys(AFFIRMATION_LABELS).reduce(
+  (toggles, key) => {
+    toggles[key] = false; // Default all categories to false
+    return toggles;
   },
-  jobStatus: JOBSTATUS_LABELS.career_changer, // Default job status
-  appearance: APPEARANCE_LABELS.light, // Default appearance
+  {}
+);
+// Override specific toggles
+defaultAffirmationsToggles.skill_recognition = true;
+
+const defaultUserSettings = {
+  affirmationsToggles: defaultAffirmationsToggles, // Dynamically generated toggles
+  jobStatus: Object.keys(JOBSTATUS_LABELS)[1], // Default to "career_changer" (2nd key)
+  appearance: Object.keys(APPEARANCE_LABELS)[0], // Default to "light" (1st key)
 };
 
 // Function to initialize user data
