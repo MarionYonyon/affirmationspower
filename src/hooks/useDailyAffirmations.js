@@ -30,7 +30,7 @@ const useDailyAffirmations = () => {
       const currentDate = getCurrentDate();
       console.log("Current date:", currentDate);
 
-      const userDocRef = doc(db, "users", user.uid);
+      const userDocRef = doc(db, "users", user.uid, "settings", "userSettings");
 
       // Fetch the user's data
       const userDoc = await getDoc(userDocRef);
@@ -172,7 +172,7 @@ const useDailyAffirmations = () => {
       return; // Wait until user is set
     }
 
-    const userDocRef = doc(db, "users", user.uid);
+    const userDocRef = doc(db, "users", user.uid, "settings", "userSettings");
 
     // Subscribe to changes in the user's document
     const unsubscribe = onSnapshot(userDocRef, (docSnap) => {

@@ -8,6 +8,12 @@ import {
 
 // Default parameters for new users
 const defaultUserData = {
+  dailyGoal: 20, // Default daily affirmation goal
+  dailyProgress: {}, // To track progress, reset daily
+  createdAt: new Date().toISOString(), // Record creation timestamp
+};
+
+const defaultUserSettings = {
   affirmationsToggles: {
     [AFFIRMATION_LABELS.motivation_and_inspiration]: true,
     [AFFIRMATION_LABELS.self_confidence]: false,
@@ -23,10 +29,7 @@ const defaultUserData = {
     [AFFIRMATION_LABELS.gratitude_positivity]: false,
     [AFFIRMATION_LABELS.purpose_fulfillment]: false,
   },
-  dailyGoal: 20, // Default daily affirmation goal
-  dailyProgress: {}, // To track progress, reset daily
   jobStatus: JOBSTATUS_LABELS.career_changer, // Default job status
-  createdAt: new Date().toISOString(), // Record creation timestamp
   appearance: APPEARANCE_LABELS.light, // Default appearance
 };
 
@@ -35,13 +38,21 @@ export const initializeUserData = async (user) => {
   if (!user) return;
 
   const userDocRef = doc(db, "users", user.uid);
+  const userSettingsRef = doc(db, "users", user.uid, "settings", "userSettings");
 
   try {
     const userDoc = await getDoc(userDocRef);
     if (!userDoc.exists()) {
-      // If the user doesn't exist, set default data
+      // If the user doesn't exist, set default data under "users"
       await setDoc(userDocRef, defaultUserData, { merge: true });
       console.log("Default user data initialized successfully!");
+    }
+
+    const userSettingsDoc = await getDoc(userSettingsRef);
+    if (!userSettingsDoc.exists()) {
+      // Initialize default settings under "settings/userSettings"
+      await setDoc(userSettingsRef, defaultUserSettings, { merge: true });
+      console.log("Default user settings initialized successfully!");
     }
   } catch (error) {
     console.error("Error initializing user data:", error);

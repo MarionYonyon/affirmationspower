@@ -10,7 +10,7 @@ const useJobStatus = () => {
     const fetchJobStatus = async () => {
       const user = auth.currentUser;
       if (user) {
-        const docRef = doc(db, "users", user.uid);
+        const docRef = doc(db, "users", user.uid, "settings", "userSettings");
         const userDoc = await getDoc(docRef);
 
         if (userDoc.exists()) {
@@ -29,7 +29,7 @@ const useJobStatus = () => {
     const user = auth.currentUser;
     if (user) {
       try {
-        const docRef = doc(db, "users", user.uid);
+        const docRef = doc(db, "users", user.uid, "settings", "userSettings");
 
         // Log the job status change
         await logUserAction("jobStatus_change", { newStatus });
