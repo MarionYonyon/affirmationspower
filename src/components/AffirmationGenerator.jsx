@@ -46,7 +46,7 @@ const AffirmationGenerator = ({ fetchTrigger }) => {
   };
 
   const progressText =
-    ["Read Silently", "Read Aloud", "Visualize", "Visualize"][progressStep] ||
+    ["Read Silently", "Read Aloud", "Visualize", "✓"][progressStep] ||
     "Read Silently";
 
   if (loading) {

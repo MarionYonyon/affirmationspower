@@ -1,14 +1,14 @@
 import "../styles/QuoteArea.css";
 import AffirmationGenerator from "./AffirmationGenerator";
-import crossIcon from "../images/icon-cross-quote.png";
+import next from "../images/next.svg";
 import React, { useState } from "react";
 import { logClickAction } from "../utils/firebaseHelpers";
 
 const QuoteArea = () => {
   const [fetchTrigger, setFetchTrigger] = useState(false);
 
-  const handleCrossClick = () => {
-    logClickAction("CrossClick");
+  const handleNextClick = () => {
+    logClickAction("NextClick");
     setFetchTrigger(!fetchTrigger); // Toggle to refresh affirmations
   };
 
@@ -17,8 +17,8 @@ const QuoteArea = () => {
       <div className="Quote">
         <AffirmationGenerator fetchTrigger={fetchTrigger} />
       </div>
-      <button className="cross-icon" onClick={handleCrossClick}>
-        <img src={crossIcon} alt="cross-icon" />
+      <button className="next-icon" onClick={handleNextClick}>
+        <img src={next} alt="next-icon" />
       </button>
     </div>
   );
