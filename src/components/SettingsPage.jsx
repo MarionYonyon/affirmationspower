@@ -29,6 +29,7 @@ const SettingsPage = () => {
           </SettingsItem>
           <SettingsItem label="Daily reminder" value="None >" />
           <SettingsItem label="Language" value="English >" />
+          <SettingsItem label="Background music" value="Ambient Bloom >"/>
           <SettingsItem label="Daily goal">
             <NumberInput
               id="daily-goal-input"
