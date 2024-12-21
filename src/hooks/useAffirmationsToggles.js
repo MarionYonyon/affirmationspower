@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../components/firebaseConfig";
-import { doc, getDoc, setDoc, updateDoc, deleteField } from "firebase/firestore";
+import { doc, onSnapshot, setDoc, updateDoc, deleteField } from "firebase/firestore";
 import { AFFIRMATION_LABELS } from "../utils/constants";
 import { logUserAction } from "../utils/firebaseHelpers";
 
 const useAffirmationsToggles = () => {
-  // Initialize state dynamically from AFFIRMATION_LABELS
   const defaultState = Object.keys(AFFIRMATION_LABELS).reduce(
     (acc, key) => ({
       ...acc,
-      [key]: key === "motivation_and_inspiration", // Only enable "Motivation and Inspiration" by default
+      [key]: key === "motivation_and_inspiration", // Enable "Motivation and Inspiration" by default
     }),
     {}
   );
@@ -17,25 +16,31 @@ const useAffirmationsToggles = () => {
   const [affirmations, setAffirmations] = useState(defaultState);
 
   useEffect(() => {
-    const fetchAffirmations = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const docRef = doc(db, "users", user.uid, "settings", "userSettings");
-        const userDoc = await getDoc(docRef);
+    const user = auth.currentUser;
+    if (!user) {
+      console.warn("User not logged in. Skipping real-time listener.");
+      return;
+    }
 
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          if (data.affirmationsToggles) {
-            setAffirmations((prev) => ({
-              ...prev,
-              ...data.affirmationsToggles,
-            }));
-          }
+    const docRef = doc(db, "users", user.uid, "settings", "userSettings");
+
+    // Real-time listener for the affirmationsToggles field
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.affirmationsToggles) {
+          setAffirmations((prev) => ({
+            ...prev,
+            ...data.affirmationsToggles,
+          }));
         }
+      } else {
+        console.warn("User document does not exist.");
       }
-    };
+    });
 
-    fetchAffirmations();
+    // Cleanup the listener on unmount
+    return () => unsubscribe();
   }, []);
 
   const saveAffirmation = async (uid, affirmationKey, value) => {
@@ -58,20 +63,34 @@ const useAffirmationsToggles = () => {
       try {
         const docRef = doc(db, "users", user.uid, "settings", "userSettings");
 
+        // Check if the toggle being set to false is the last enabled one
+        if (!value) {
+          const remainingToggles = Object.entries(affirmations).filter(
+            ([toggleKey, toggleValue]) => toggleKey !== key && toggleValue
+          );
+
+          if (remainingToggles.length === 0) {
+            console.warn("At least one toggle must remain enabled!");
+            return; // Prevent disabling the last enabled toggle
+          }
+        }
+
         // Log the toggle change
         await logUserAction("toggle_change", { toggle: key, value });
 
         // Delete dailyAffirmations if the toggle changes
-        const currentDate = new Date().toISOString().split("T")[0]; // Get the current date in 'YYYY-MM-DD' format
+        const currentDate = new Date().toISOString().split("T")[0];
         await updateDoc(docRef, {
           [`dailyAffirmations.${currentDate}`]: deleteField(),
         });
-        console.log(`Daily affirmations for ${currentDate} deleted due to toggle change.`);
+        console.log(
+          `Daily affirmations for ${currentDate} deleted due to toggle change.`
+        );
 
         // Save the updated toggle value
         await saveAffirmation(user.uid, key, value);
 
-        // Update local state
+        // Update local state (this is redundant but ensures instant UI updates)
         setAffirmations((prev) => ({
           ...prev,
           [key]: value,
