@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/affirmationspower/static/css/main.c66f1837.css",
+    "main.css": "/affirmationspower/static/css/main.ca936b77.css",
     "main.js": "/affirmationspower/static/js/main.a8537b23.js",
     "static/js/453.22491700.chunk.js": "/affirmationspower/static/js/453.22491700.chunk.js",
     "static/media/soundGrey.svg": "/affirmationspower/static/media/soundGrey.9ae620f9e32fc01150ddd5c8dcd10f4e.svg",
@@ -16,12 +16,12 @@
     "static/media/navHeartBlack.svg": "/affirmationspower/static/media/navHeartBlack.3f1c5f792b339f69deef85f25a683c20.svg",
     "static/media/overcoming-barriers.svg": "/affirmationspower/static/media/overcoming-barriers.2fde38346a5d4e2b54553a81f7bd4861.svg",
     "index.html": "/affirmationspower/index.html",
-    "main.c66f1837.css.map": "/affirmationspower/static/css/main.c66f1837.css.map",
+    "main.ca936b77.css.map": "/affirmationspower/static/css/main.ca936b77.css.map",
     "main.a8537b23.js.map": "/affirmationspower/static/js/main.a8537b23.js.map",
     "453.22491700.chunk.js.map": "/affirmationspower/static/js/453.22491700.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c66f1837.css",
+    "static/css/main.ca936b77.css",
     "static/js/main.a8537b23.js"
   ]
 }
