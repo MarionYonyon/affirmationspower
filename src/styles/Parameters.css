@@ -9,6 +9,6 @@
 /* Responsive design adjustments */
 @media (max-width: 400px) {
   .parameters-page-wrapper {
-    margin-top: 30px;
+    margin-top: 10px;
   }
 }
