@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   height: 100vh;
-  background: #F0FBF4;
+  background: #f0fbf4;
 }
 
 .progress-bar-wrapper,
@@ -12,6 +12,15 @@
 .nav-bar-wrapper {
   width: 100%;
   text-align: center;
+}
+
+.nav-bar-wrapper {
+  height: 71px; /* Fixed height for nav-bar */
+  width: 100%; /* Full width */
+}
+
+.border-wrapper {
+  height: 100vh;
 }
 
 .quote-area-wrapper {
@@ -27,14 +36,8 @@
   margin-top: 20px; /* Adjusts space from the top */
 }
 
-.nav-bar-wrapper {
-  margin-bottom: 80px; /* Adjusts space from the bottom */
-}
-
-/* Responsive design adjustments */
-@media (max-width: 400px) {
-  .App {
-    height: 80vh;
-
+@media (max-width: 768px) {
+  .border-wrapper {
+    height: 80vh; /* Dynamically adjust for mobile browsers */
   }
 }

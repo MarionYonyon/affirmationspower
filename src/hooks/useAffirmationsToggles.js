@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth, db } from "../components/firebaseConfig";
+import { auth, db } from "../utils/firebaseConfig";
 import { doc, onSnapshot, setDoc, updateDoc, deleteField } from "firebase/firestore";
 import { AFFIRMATION_LABELS } from "../utils/constants";
 import { logUserAction } from "../utils/firebaseHelpers";

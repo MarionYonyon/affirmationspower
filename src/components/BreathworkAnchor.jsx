@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/ToggleButtons.css";
 import breathworkGrey from "../images/breathworkGrey.svg";
 import breathworkPurple from "../images/breathworkPurple.svg";
-import { auth, db } from "../components/firebaseConfig";
+import { auth, db } from "../utils/firebaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { logUserAction } from "../utils/firebaseHelpers"; // Assuming this helper exists
 

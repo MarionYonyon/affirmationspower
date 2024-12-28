@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth, db } from "../components/firebaseConfig";
+import { auth, db } from "../utils/firebaseConfig";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
 import { logUserAction } from "../utils/firebaseHelpers";

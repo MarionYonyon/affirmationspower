@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import SettingsPage from "./components/SettingsPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { auth } from "./components/firebaseConfig"; // Import initialized auth from firebaseConfig
+import { auth } from "./utils/firebaseConfig.js"; // Import initialized auth from firebaseConfig
 import { onAuthStateChanged } from "firebase/auth"; // Import onAuthStateChanged from Firebase auth
 import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute component
 import QuoteArea from "./components/QuoteArea";
@@ -13,6 +13,7 @@ import useGoalAndProgress from "./hooks/useGoalAndProgress";
 import BreathworkAnchor from "./components/BreathworkAnchor";
 import SoundAnchor from "./components/SoundAnchor";
 import ParametersPage from "./components/ParametersPage";
+import TimeTracker from "./utils/TimeTracker.js";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
@@ -36,6 +37,7 @@ function App() {
   return (
     <Router basename="/affirmationspower">
       <div className="app-container">
+        {isLoggedIn && <TimeTracker />}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
@@ -54,7 +56,7 @@ function App() {
               </PrivateRoute>
             }
           />
-                    <Route
+          <Route
             path="/parameters"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
@@ -73,14 +75,16 @@ function Home() {
 
   return (
     <div className="App">
-      <div className="progress-bar-wrapper">
-        <GoalBar progress={progress} dailyGoal={dailyGoal} />
-      </div>
-      <div className="quote-area-wrapper">
-        <QuoteArea progress={progress} setProgress={setProgress} />
-        <div className="toggle-onoff-wrapper">
-          <BreathworkAnchor></BreathworkAnchor>
-          <SoundAnchor></SoundAnchor>
+      <div className="border-wrapper">
+        <div className="progress-bar-wrapper">
+          <GoalBar progress={progress} dailyGoal={dailyGoal} />
+        </div>
+        <div className="quote-area-wrapper">
+          <QuoteArea progress={progress} setProgress={setProgress} />
+          <div className="toggle-onoff-wrapper">
+            <BreathworkAnchor></BreathworkAnchor>
+            <SoundAnchor></SoundAnchor>
+          </div>
         </div>
       </div>
       <div className="nav-bar-wrapper">

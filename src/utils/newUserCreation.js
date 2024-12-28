@@ -1,5 +1,5 @@
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { auth, db } from "../components/firebaseConfig";
+import { auth, db } from "./firebaseConfig";
 import {
   AFFIRMATION_LABELS,
   JOBSTATUS_LABELS,

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom"; // Import useLocation for route 
 import "../styles/ToggleButtons.css";
 import soundGrey from "../images/soundGrey.svg";
 import soundPurple from "../images/soundPurple.svg";
-import { auth, db } from "../components/firebaseConfig"; // Import auth for user context
+import { auth, db } from "../utils/firebaseConfig"; // Import auth for user context
 import { doc, setDoc } from "firebase/firestore";
 import { logUserAction } from "../utils/firebaseHelpers"; // Assuming this helper exists
 

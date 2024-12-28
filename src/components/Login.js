@@ -1,9 +1,8 @@
 import "../styles/Login.css";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from './firebaseConfig';
+import { auth } from '../utils/firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { logSessionStart } from '../utils/firebaseHelpers';
 import { initializeUserData } from '../utils/newUserCreation'; // Import the initialization function
 
 const Login = () => {
@@ -28,7 +27,6 @@ const Login = () => {
       await initializeUserData(user); // Ensure user has default parameters in Firestore
 
       // Redirect to main app page on success
-      logSessionStart(); // Start session tracking
       navigate('/');
     } catch (err) {
       setError('Failed to log in. Please check your credentials.');
