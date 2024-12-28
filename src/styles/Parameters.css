@@ -1,0 +1,14 @@
+.parameters-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 400px) {
+  .parameters-page-wrapper {
+    margin-top: 30px;
+  }
+}

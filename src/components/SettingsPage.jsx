@@ -2,13 +2,11 @@ import "../styles/Settings.css";
 import React from "react";
 import SettingsSection from "./SettingsSection";
 import SettingsItem from "./SettingsItem";
-import SwitchToggle from "./SwitchToggle";
 import Dropdown from "./Dropdown";
 import NumberInput from "./NumberInput";
 import NavBar from "./NavBar";
 import Logout from "./Logout";
 import useGoalAndProgress from "../hooks/useGoalAndProgress";
-import { AFFIRMATION_LABELS } from "../utils/constants";
 import { JOBSTATUS_LABELS } from "../utils/constants";
 
 const SettingsPage = () => {
@@ -21,15 +19,15 @@ const SettingsPage = () => {
   return (
     <div className="settings-page-wrapper">
       <NavBar />
-      <div id="content" className="container">
+      <div id="content" className="settings-container">
         <SettingsSection title="GENERAL">
-          <SettingsItem label="Topic" value="Work & Career >" />
-          <SettingsItem label="Appearance" value="Light >" >
-           {/*<Dropdown id="appearance-dropdown" options={appearanceOptions} />*/}
-          </SettingsItem>
-          <SettingsItem label="Daily reminder" value="None >" />
+          {/* <SettingsItem label="Topic" value="Work & Career >" />
+          <SettingsItem label="Appearance" value="Light >">
+            {/*<Dropdown id="appearance-dropdown" options={appearanceOptions} />
+          </SettingsItem>*/}
+          {/* <SettingsItem label="Daily reminder" value="None >" />
           <SettingsItem label="Language" value="English >" />
-          <SettingsItem label="Background music" value="Ambient Bloom >"/>
+          <SettingsItem label="Background music" value="Ambient Bloom >" />*/}
           <SettingsItem label="Daily goal">
             <NumberInput
               id="daily-goal-input"
@@ -50,15 +48,6 @@ const SettingsPage = () => {
             />
           </SettingsItem>
         </SettingsSection>
-
-        <SettingsSection title="AFFIRMATIONS">
-          {Object.entries(AFFIRMATION_LABELS).map(([key, label]) => (
-            <SettingsItem key={key} label={label}>
-              <SwitchToggle dataKey={key} />
-            </SettingsItem>
-          ))}
-        </SettingsSection>
-
         <SettingsSection title="ACCOUNT">
           <Logout />
         </SettingsSection>

@@ -69,7 +69,7 @@ const useDailyAffirmations = () => {
           userData.affirmationsToggles || {}
         )
           .filter(([_, isSelected]) => isSelected) // Keep only topics set to true
-          .map(([topicKey]) => AFFIRMATION_LABELS[topicKey])
+          .map(([topicKey]) =>topicKey)
           .filter(Boolean); // Remove undefined values
 
         if (selectedTopics.length === 0) {
@@ -140,7 +140,7 @@ const useDailyAffirmations = () => {
       try {
         const topicDocRef = doc(
           db,
-          `Topic/Career and Professional Growth/Job Status/${JOBSTATUS_LABELS[jobStatus]}/Practice`,
+          `topic/career_growth/job_status/${jobStatus}/practice`,
           topic
         );
         console.log("Fetching document for topic:", topicDocRef.path);

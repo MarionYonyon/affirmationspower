@@ -1,24 +1,23 @@
 import React from "react";
 import useAffirmationsToggles from "../hooks/useAffirmationsToggles";
+import "../styles/SwitchToggle.css";
 
-const SwitchToggle = ({ dataKey }) => {
+const SwitchToggle = ({ dataKey, label, blockStyle }) => {
   const { affirmations, handleToggleChange } = useAffirmationsToggles();
 
-  const handleChange = (event) => {
-    const value = event.target.checked;
-    handleToggleChange(dataKey, value);
+  const handleChange = () => {
+    const currentValue = affirmations[dataKey] || false;
+    handleToggleChange(dataKey, !currentValue); // Save the key to the database
   };
 
   return (
-    <label className="switch">
-      <input
-        type="checkbox"
-        data-affirmation-key={dataKey}
-        checked={affirmations[dataKey] || false} // Default to false if not in state
-        onChange={handleChange}
-      />
-      <span className="slider"></span>
-    </label>
+    <div
+      className={`button ${blockStyle} ${affirmations[dataKey] ? "selected" : ""}`}
+      onClick={handleChange}
+    >
+      <span>{label}</span> {/* Display the label */}
+      {affirmations[dataKey] && <span className="tick">✓</span>} {/* Tick icon */}
+    </div>
   );
 };
 

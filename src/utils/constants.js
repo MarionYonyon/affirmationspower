@@ -1,18 +1,18 @@
 // Labels for affirmations categories
 export const AFFIRMATION_LABELS = {
-    motivation_and_inspiration: "Motivation and Inspiration",
+    motivation_and_inspiration: "Motivation",
     self_confidence: "Self-Confidence",
-    career_growth: "Career Growth and Advancement",
-    resilience: "Resilience and Perseverance",
-    skill_recognition: "Skill Recognition and Development",
-    networking: "Networking and Connections",
-    goal_setting: "Goal Setting and Achievement",
+    career_growth: "Career Growth",
+    resilience: "Resilience",
+    skill_recognition: "Skill Recognition",
+    networking: "Networking",
+    goal_setting: "Goal Setting",
     interview_preparation: "Interview Preparation",
-    stress_relief: "Stress Relief and Mindfulness",
-    financial_abundance: "Financial Abundance and Stability",
+    stress_relief: "Stress Relief",
+    financial_abundance: "Financials",
     work_life_balance: "Work-Life Balance",
-    gratitude_positivity: "Gratitude and Positivity",
-    purpose_fulfillment:"Purpose and Fulfillment",
+    gratitude_positivity: "Gratitude",
+    purpose_fulfillment:"Purpose",
   };
 
   // Labels for job status categories

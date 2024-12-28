@@ -12,6 +12,7 @@ import GoalBar from "./components/GoalBar";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
 import BreathworkAnchor from "./components/BreathworkAnchor";
 import SoundAnchor from "./components/SoundAnchor";
+import ParametersPage from "./components/ParametersPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
@@ -50,6 +51,14 @@ function App() {
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <SettingsPage />
+              </PrivateRoute>
+            }
+          />
+                    <Route
+            path="/parameters"
+            element={
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <ParametersPage />
               </PrivateRoute>
             }
           />

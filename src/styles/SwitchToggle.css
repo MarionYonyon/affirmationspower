@@ -1,0 +1,72 @@
+.sub-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Purple Block Button Styles */
+.purple-block .button {
+  background-color: #764ebe;
+  color: white;
+  border: 2px solid #764ebe;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  padding-right: 30px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* White Block Button Styles */
+.white-block .button {
+  background-color: #e3f5e6;
+  border: 2px solid #e3f5e6;
+  color: #77768a;
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  padding-right: 30px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Selected Button Styles */
+.button.selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 15px; /* Space for tick */
+}
+
+/* White Block Selected Styles */
+.white-block .button.selected {
+  border: 2px solid #673ab7; /* Border color */
+  color: #673ab7; /* Text color */
+}
+
+.white-block .button.selected .tick {
+  color: #673ab7; /* Tick color */
+  margin-left: auto; /* Push tick to the right */
+}
+
+/* Purple Block Selected Styles */
+.purple-block .button.selected {
+  border: 2px solid #9474cc; /* Border color */
+  background-color: #8561c5; /* Button color */
+  color: white; /* Text color */
+}
+
+.purple-block .button.selected .tick {
+  color: white; /* Tick color */
+  margin-left: auto; /* Push tick to the right */
+}
+
+.tick {
+  font-size: 16px; /* Ensure visibility on mobile */
+  color: inherit;  /* Inherit color from parent button for consistency */
+  margin-left: auto; /* Push tick to the right */
+  display: inline-block; /* Ensure it's treated as a visible element */
+  line-height: 1; /* Avoid extra spacing issues */
+}
