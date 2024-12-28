@@ -17,7 +17,7 @@ const AffirmationTopic = () => {
       "skill_recognition",
     ],
     "Overcoming Barriers": ["stress_relief", "self_confidence", "resilience"],
-    "Special Situations": ["interview_preparation", "networking"],
+    "Special Situations": ["interview_preparation", "networking", "face_rejection"],
     "Mindset & Inspiration": [
       "gratitude_positivity",
       "purpose_fulfillment",

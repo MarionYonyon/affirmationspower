@@ -8,7 +8,7 @@
   justify-content: center; /* Center content vertically */
   align-items: center;
   position: relative; /* Establish a containing block for absolutely positioned children */
-  margin-top: 150px;
+  margin-top: 250px;
 }
 
 .Quote-area {
@@ -153,4 +153,11 @@
   max-width: 360px; /* Set a max width for responsiveness */
   z-index: 0; /* Place it behind the quote area */
   opacity: 0.7; /* Optional: Add transparency for better readability */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 400px) {
+  .quote-area-wrapper {
+    margin-top: 150px;
+  }
 }

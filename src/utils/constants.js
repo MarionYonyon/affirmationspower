@@ -13,6 +13,7 @@ export const AFFIRMATION_LABELS = {
     work_life_balance: "Work-Life Balance",
     gratitude_positivity: "Gratitude",
     purpose_fulfillment:"Purpose",
+    face_rejection: "Face Rejection",
   };
 
   // Labels for job status categories

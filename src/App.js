@@ -76,6 +76,16 @@ function Home() {
   return (
     <div className="App">
       <div className="border-wrapper">
+        {/* <video
+          src={`${process.env.PUBLIC_URL}/background2.mp4`}
+          className="background-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          Your browser does not support the video tag.
+        </video> */}
         <div className="progress-bar-wrapper">
           <GoalBar progress={progress} dailyGoal={dailyGoal} />
         </div>
