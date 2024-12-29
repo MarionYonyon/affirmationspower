@@ -1,18 +1,22 @@
 import "../../styles/LoginPage.css";
 import "../../styles/Buttons.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { initializeUserData } from "../../utils/newUserCreation";
 import LoginIconWhite from "../../images/LoginWhite.svg";
 
 const Login = () => {
-  const [email, setEmail] = useState("example@example.com");
-  const [password, setPassword] = useState("password123");
+  const [email, setEmail] = useState(() => localStorage.getItem("email") || "");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("email", email);
+  }, [email]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,13 +24,19 @@ const Login = () => {
     setError(null);
 
     try {
+      // Set persistence to local by default
+      await setPersistence(auth, browserLocalPersistence);
+
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
       const user = userCredential.user;
+
       await initializeUserData(user);
+      localStorage.setItem("email", email);
+
       navigate("/");
     } catch (err) {
       setError("Failed to log in. Please check your credentials.");
@@ -47,6 +57,7 @@ const Login = () => {
                 type="email"
                 id="email"
                 placeholder="Email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
