@@ -1,0 +1,10 @@
+html, body {
+    height: 100%; /* Ensure the body takes up full height */
+  }
+  
+  #root, .app-container {
+    height: 100%; /* Ensure the root and app-container also take full height */
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+  }

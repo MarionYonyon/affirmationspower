@@ -35,6 +35,10 @@
 .border-wrapper {
   height: 100vh;
   z-index: 1; /* Ensure this wrapper is above the video */
+  display: flex; /* Enable flexbox */
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center buttons horizontally */
+  justify-content: center; /* Center buttons vertically within the container */
 }
 
 .quote-area-wrapper {
@@ -49,10 +53,4 @@
 .progress-bar-wrapper {
   margin-top: 20px; /* Adjusts space from the top */
   z-index: 1; /* Ensures the progress bar is above the video */
-}
-
-@media (max-width: 768px) {
-  .border-wrapper {
-    height: 80vh; /* Dynamically adjust for mobile browsers */
-  }
 }

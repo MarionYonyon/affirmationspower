@@ -1,13 +1,13 @@
 import "../styles/Login.css";
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth } from '../utils/firebaseConfig';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { initializeUserData } from '../utils/newUserCreation'; // Import the initialization function
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../utils/firebaseConfig";
+import { signInWithEmailAndPassword, signInAnonymously } from "firebase/auth";
+import { initializeUserData } from "../utils/newUserCreation"; // Import the initialization function
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("example@example.com"); // Default email
+  const [password, setPassword] = useState("password123"); // Default password
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
@@ -20,51 +20,86 @@ const Login = () => {
 
     try {
       // Attempt to sign in the user
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
       // Call initialization for new user data setup
       const user = userCredential.user;
       await initializeUserData(user); // Ensure user has default parameters in Firestore
 
       // Redirect to main app page on success
-      navigate('/');
+      navigate("/");
     } catch (err) {
-      setError('Failed to log in. Please check your credentials.');
+      setError("Failed to log in. Please check your credentials.");
       console.error("Login error: ", err.message); // Log error for debugging
     } finally {
       setLoading(false); // Stop loading state
     }
   };
 
+  // Handle anonymous login logic
+  const handleAnonymousLogin = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Sign in the user anonymously
+      const userCredential = await signInAnonymously(auth);
+
+      // Call initialization for new user data setup
+      const user = userCredential.user;
+      await initializeUserData(user); // Ensure user has default parameters in Firestore
+
+      // Redirect to main app page on success
+      navigate("/");
+    } catch (err) {
+      setError("Failed to log in anonymously. Please try again.");
+      console.error("Anonymous login error: ", err.message); // Log error for debugging
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="login-container">
-      <h2>Welcome back</h2>
+      <h2>Take a deep breath and dive into your career journey</h2>
       <form onSubmit={handleLogin}>
         <div>
-          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
-            value={email}
+            placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
-            value={password}
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
         {error && <p className="error">{error}</p>}
         <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
+
+      <hr />
+
+      <button
+        onClick={handleAnonymousLogin}
+        disabled={loading}
+        className="anonymous-login-btn"
+      >
+        {loading ? "Logging in anonymously..." : "Continue as Guest"}
+      </button>
     </div>
   );
 };

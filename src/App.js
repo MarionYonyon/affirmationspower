@@ -1,5 +1,5 @@
 import "./styles/App.css";
-import Login from "./components/Login";
+import LoginPage from "./components/LoginPage";
 import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import SettingsPage from "./components/SettingsPage";
@@ -14,6 +14,8 @@ import BreathworkAnchor from "./components/BreathworkAnchor";
 import SoundAnchor from "./components/SoundAnchor";
 import ParametersPage from "./components/ParametersPage";
 import TimeTracker from "./utils/TimeTracker.js";
+import CredentialsPage from "./components/CredentialsPage"; // Import CredentialsPage component
+import SignupPage from "./components/SignupPage.js"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
@@ -39,7 +41,9 @@ function App() {
       <div className="app-container">
         {isLoggedIn && <TimeTracker />}
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login/credentials" element={<CredentialsPage />} />
+          <Route path="/login/sign-up" element={<SignupPage />} />
           <Route
             path="/"
             element={
@@ -75,6 +79,9 @@ function Home() {
 
   return (
     <div className="App">
+        <div className="progress-bar-wrapper">
+          <GoalBar progress={progress} dailyGoal={dailyGoal} />
+        </div>
       <div className="border-wrapper">
         {/* <video
           src={`${process.env.PUBLIC_URL}/background2.mp4`}
@@ -86,9 +93,6 @@ function Home() {
         >
           Your browser does not support the video tag.
         </video> */}
-        <div className="progress-bar-wrapper">
-          <GoalBar progress={progress} dailyGoal={dailyGoal} />
-        </div>
         <div className="quote-area-wrapper">
           <QuoteArea progress={progress} setProgress={setProgress} />
           <div className="toggle-onoff-wrapper">

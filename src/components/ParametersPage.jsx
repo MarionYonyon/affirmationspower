@@ -7,11 +7,13 @@ import Tabs from "./Tabs.js";
 function ParametersPage() {
   return (
     <div className="parameters-page-wrapper">
-      <NavBar />
-      <Tabs />
+      <div className="tabs-container">
+        <Tabs />
+      </div>
       <div className="affirmation-topics-container">
         <AffirmationTopic />
       </div>
+      <NavBar />
     </div>
   );
 }
