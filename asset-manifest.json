@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/affirmationspower/static/css/main.e0c68913.css",
-    "main.js": "/affirmationspower/static/js/main.8b801def.js",
+    "main.js": "/affirmationspower/static/js/main.0bbb1b46.js",
     "static/js/453.22491700.chunk.js": "/affirmationspower/static/js/453.22491700.chunk.js",
     "static/media/soundGrey.svg": "/affirmationspower/static/media/soundGrey.9ae620f9e32fc01150ddd5c8dcd10f4e.svg",
     "static/media/soundPurple.svg": "/affirmationspower/static/media/soundPurple.ef815734792f83a06797a491d05a0c04.svg",
@@ -13,6 +13,7 @@
     "static/media/GoogleIcon.svg": "/affirmationspower/static/media/GoogleIcon.e835cd7c439a0192a883c94c7c1a54ab.svg",
     "static/media/mindset-inspiration.svg": "/affirmationspower/static/media/mindset-inspiration.3b06a78fef5e166b812ff25288fbad14.svg",
     "static/media/next.svg": "/affirmationspower/static/media/next.2fdf68cc18104cdaa4de440fdb834353.svg",
+    "static/media/SignupBlack.svg": "/affirmationspower/static/media/SignupBlack.64838db7860b0e7a67b0b091c17076e9.svg",
     "static/media/SignupWhite.svg": "/affirmationspower/static/media/SignupWhite.a0edcca69fe8a57733f838a25426ca3f.svg",
     "static/media/navPlayBlack.svg": "/affirmationspower/static/media/navPlayBlack.a558724f60c13c40a59da1c6737a5eb8.svg",
     "static/media/Submit.svg": "/affirmationspower/static/media/Submit.ea47aa4733f3d2a6ced92fcf2d53297c.svg",
@@ -26,11 +27,11 @@
     "index.html": "/affirmationspower/index.html",
     "static/media/MicrosoftIcon.svg": "/affirmationspower/static/media/MicrosoftIcon.f6197f18a1a75a99331a142025cfaf73.svg",
     "main.e0c68913.css.map": "/affirmationspower/static/css/main.e0c68913.css.map",
-    "main.8b801def.js.map": "/affirmationspower/static/js/main.8b801def.js.map",
+    "main.0bbb1b46.js.map": "/affirmationspower/static/js/main.0bbb1b46.js.map",
     "453.22491700.chunk.js.map": "/affirmationspower/static/js/453.22491700.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e0c68913.css",
-    "static/js/main.8b801def.js"
+    "static/js/main.0bbb1b46.js"
   ]
 }
