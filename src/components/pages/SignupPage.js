@@ -6,6 +6,7 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../utils/firebaseConfig";
+import { initializeUserData } from "../../utils/newUserCreation";
 import GoogleIcon from "../../images/GoogleIcon.svg";
 import MicrosoftIcon from "../../images/MicrosoftIcon.svg";
 import "../../styles/SignupPage.css";
@@ -39,6 +40,9 @@ const SignUpPage = () => {
         email: user.email,
         createdAt: new Date().toISOString(),
       });
+
+      // Initialize additional user data
+      await initializeUserData(user);
 
       // Automatically log the user in
       await signInWithEmailAndPassword(auth, email, password);
@@ -77,7 +81,6 @@ const SignUpPage = () => {
         <span className="or-text">or continue with Email</span>
         <hr className="divider" />
       </div>
-
       <div className="input-container">
         <div className="password-wrapper">
           <input
@@ -98,23 +101,9 @@ const SignUpPage = () => {
             onFocus={() => setShowPasswordPopup(true)}
             onBlur={() => setShowPasswordPopup(false)}
           />
-          {showPasswordPopup && (
-            <div className="password-popup">
-              <p>Password must:</p>
-              <ul className="password-requirements">
-                <li>Be at least 8 characters</li>
-                <li>Have at least one special character</li>
-                <li>Have at least one number</li>
-                <li>Have at least one alphabet</li>
-                <li>No whitespaces</li>
-              </ul>
-            </div>
-          )}
         </div>
       </div>
-
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-
       <button
         className="signup-access-button"
         onClick={handleSignUp}
@@ -125,7 +114,7 @@ const SignUpPage = () => {
       </button>
       <button
         className="login-subtle-button"
-        onClick={() => navigate("/login/credentials")}
+        onClick={() => navigate("/login/sign-in")}
       >
         LOG IN
         <img src={LoginIconBlack} alt="login-access-icon" />

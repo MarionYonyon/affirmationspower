@@ -5,7 +5,7 @@ import { getCurrentDate } from "../utils/dateUtils";
 import { logUserAction } from "../utils/firebaseHelpers";
 
 const useGoalAndProgress = () => {
-  const [dailyGoal, setDailyGoal] = useState(100); // Default to 100
+  const [dailyGoal, setDailyGoal] = useState(20); // Default to 20
   const [dailyProgress, setDailyProgress] = useState(0);
 
   useEffect(() => {

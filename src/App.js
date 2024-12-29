@@ -1,7 +1,7 @@
 import "./styles/App.css";
 import SettingsPage from "./components/pages/SettingsPage";
 import ParametersPage from "./components/pages/ParametersPage";
-import CredentialsPage from "./components/pages/CredentialsPage"; // Import CredentialsPage component
+import SigninPage from "./components/pages/SigninPage"; // Import CredentialsPage component
 import SignupPage from "./components/pages/SignupPage.js";
 import LoginPage from "./components/pages/LoginPage";
 import TestingComponent from "./components/pages/TestingComponentPage.jsx";
@@ -43,7 +43,7 @@ function App() {
         {isLoggedIn && <TimeTracker />}
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/login/credentials" element={<CredentialsPage />} />
+          <Route path="/login/sign-in" element={<SigninPage />} />
           <Route path="/login/sign-up" element={<SignupPage />} />
           <Route path="/login/testing" element={<TestingComponent />} />
           <Route

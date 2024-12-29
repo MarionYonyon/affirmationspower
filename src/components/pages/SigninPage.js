@@ -3,11 +3,16 @@ import "../../styles/Buttons.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../utils/firebaseConfig";
-import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 import { initializeUserData } from "../../utils/newUserCreation";
 import LoginIconWhite from "../../images/LoginWhite.svg";
+import SignupBlack from "../../images/SignupBlack.svg";
 
-const Login = () => {
+const SigninPage = () => {
   const [email, setEmail] = useState(() => localStorage.getItem("email") || "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -47,43 +52,57 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
+    <div className="container">
       <h1 className="title">
         Welcome <span className="accent">back</span>
       </h1>
-      <p className="subtitle">Take a deep breath and embrace your career journey</p>
-        <div className="login-credentials-container">
-          <div className="login-credentials-container2">
-            <div>
-              <input
-                type="email"
-                id="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
+      <div className="divider-container">
+        <hr className="divider" />
+        <span className="or-text">Log in with your Email</span>
+        <hr className="divider" />
+      </div>
+      <form onSubmit={handleLogin}>
+        <div className="input-container">
+          <div className="password-wrapper">
+            <input
+              type="email"
+              placeholder="Email"
+              className="input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="password-wrapper">
+            <input
+              type="password"
+              placeholder="Password"
+              className="input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
         </div>
-        {error && <p className="error">{error}</p>}
-        <button type="submit" className="login-button" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+        {error && <p className="error-message">{error}</p>}
+        <button
+          type="submit"
+          className="signup-access-button"
+          disabled={loading}
+        >
+          {loading ? "Logging in..." : "LOGIN"}
           <img src={LoginIconWhite} alt="login-access-icon" />
         </button>
-      </div>
-    </form>
+      </form>
+      <button
+        className="login-subtle-button"
+        onClick={() => navigate("/login/sign-up")}
+      >
+        SIGN UP
+        <img src={SignupBlack} alt="signup-access-icon" />
+      </button>
+    </div>
   );
 };
 
-export default Login;
+export default SigninPage;
