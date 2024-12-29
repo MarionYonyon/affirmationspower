@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/affirmationspower/static/css/main.e30942b5.css",
-    "main.js": "/affirmationspower/static/js/main.961711e5.js",
+    "main.css": "/affirmationspower/static/css/main.8b6135bf.css",
+    "main.js": "/affirmationspower/static/js/main.77a55c8b.js",
     "static/js/453.22491700.chunk.js": "/affirmationspower/static/js/453.22491700.chunk.js",
     "static/media/soundGrey.svg": "/affirmationspower/static/media/soundGrey.9ae620f9e32fc01150ddd5c8dcd10f4e.svg",
     "static/media/soundPurple.svg": "/affirmationspower/static/media/soundPurple.ef815734792f83a06797a491d05a0c04.svg",
@@ -10,18 +10,24 @@
     "static/media/breathworkPurple.svg": "/affirmationspower/static/media/breathworkPurple.de1f93c415de76e5ff98622831e5e92c.svg",
     "static/media/navSettingsGrey.svg": "/affirmationspower/static/media/navSettingsGrey.a4cd4fdc00a7bb2054f0dc385b31d8da.svg",
     "static/media/special-situations.svg": "/affirmationspower/static/media/special-situations.232eea101ba001fd1ac94453cf5a62e1.svg",
+    "static/media/GoogleIcon.svg": "/affirmationspower/static/media/GoogleIcon.e835cd7c439a0192a883c94c7c1a54ab.svg",
     "static/media/mindset-inspiration.svg": "/affirmationspower/static/media/mindset-inspiration.3b06a78fef5e166b812ff25288fbad14.svg",
     "static/media/next.svg": "/affirmationspower/static/media/next.2fdf68cc18104cdaa4de440fdb834353.svg",
+    "static/media/SignupWhite.svg": "/affirmationspower/static/media/SignupWhite.a0edcca69fe8a57733f838a25426ca3f.svg",
     "static/media/navPlayBlack.svg": "/affirmationspower/static/media/navPlayBlack.a558724f60c13c40a59da1c6737a5eb8.svg",
+    "static/media/LoginPurple.svg": "/affirmationspower/static/media/LoginPurple.fa9c102adf68215b96bfe0d3360ae400.svg",
+    "static/media/LoginWhite.svg": "/affirmationspower/static/media/LoginWhite.85784eed7ecf8577c76f721b87c290b9.svg",
     "static/media/navHeartBlack.svg": "/affirmationspower/static/media/navHeartBlack.3f1c5f792b339f69deef85f25a683c20.svg",
+    "static/media/LoginGuest.svg": "/affirmationspower/static/media/LoginGuest.33d608e3081167b741cef05158659ffb.svg",
     "static/media/overcoming-barriers.svg": "/affirmationspower/static/media/overcoming-barriers.2fde38346a5d4e2b54553a81f7bd4861.svg",
     "index.html": "/affirmationspower/index.html",
-    "main.e30942b5.css.map": "/affirmationspower/static/css/main.e30942b5.css.map",
-    "main.961711e5.js.map": "/affirmationspower/static/js/main.961711e5.js.map",
+    "static/media/MicrosoftIcon.svg": "/affirmationspower/static/media/MicrosoftIcon.f6197f18a1a75a99331a142025cfaf73.svg",
+    "main.8b6135bf.css.map": "/affirmationspower/static/css/main.8b6135bf.css.map",
+    "main.77a55c8b.js.map": "/affirmationspower/static/js/main.77a55c8b.js.map",
     "453.22491700.chunk.js.map": "/affirmationspower/static/js/453.22491700.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e30942b5.css",
-    "static/js/main.961711e5.js"
+    "static/css/main.8b6135bf.css",
+    "static/js/main.77a55c8b.js"
   ]
 }
