@@ -1,0 +1,98 @@
+button {
+  padding: 8px; /* Adjust padding for smaller size */
+  border: none;
+  border-radius: 15px;
+  height: 60px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex; /* Align items horizontally */
+  align-items: center; /* Vertically center icon and text */
+  gap: 8px; /* Space between icon and text */
+  justify-content: center;
+  width: 250px; /* Align button width with input fields */
+}
+
+.login-access-button {
+  background-color: #d8b9ff;
+  color: #673ab7;
+}
+
+.login-access-button img {
+  width: 25px; /* Reduce icon width */
+  height: 25px; /* Reduce icon height */
+}
+
+.signup-access-button {
+  background-color: #46c9af;
+  color: #fff;
+}
+
+.signup-access-button img {
+  width: 25px; /* Reduce icon width */
+  height: 25px; /* Reduce icon height */
+}
+
+.login-guest-button {
+  background-color: #fff;
+  color: #46c9af;
+}
+
+.login-guest-button img {
+  width: 30px; /* Reduce icon width */
+  height: 30px; /* Reduce icon height */
+  color: #673ab7;
+}
+
+.login-button {
+  background-color: #673ab7;
+  color: #fff;
+}
+
+.login-button img {
+  width: 25px; /* Reduce icon width */
+  height: 25px; /* Reduce icon height */
+}
+
+.submit-button {
+  background-color: #46c9af;
+  color: #2c3e50; /* Dark slate gray for better readability */
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  box-shadow: none;
+  margin: 0; /* Ensure no extra margin is applied */
+  padding: 0; /* Reset padding if any */
+}
+
+.close-button img {
+  width: 25px; /* Reduce icon width */
+  height: 25px; /* Reduce icon height */
+}
+
+.feedback-button {
+  background-color: #ffffff; /* Same background as settings section */
+  color: #333333; /* Text color matching labels */
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: 1px solid #cccccc;
+  width: 100%;
+  padding-left: 80px;
+  padding-right: 80px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow to match settings-section */
+}
+
+.submit-button img {
+  width: 25px; /* Reduce icon width */
+  height: 25px; /* Reduce icon height */
+}

@@ -24,7 +24,7 @@ body {
   justify-content: center; /* Center buttons vertically within the container */
 }
 
-.login-credentials-container{
+.login-credentials-container {
   display: flex; /* Enable flexbox */
   flex-direction: column; /* Stack buttons vertically */
   align-items: center; /* Center buttons horizontally */
@@ -63,65 +63,6 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 15px; /* Adjust font size for smaller inputs */
-}
-
-button {
-  padding: 8px; /* Adjust padding for smaller size */
-  border: none;
-  border-radius: 15px;
-  height: 60px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  display: flex; /* Align items horizontally */
-  align-items: center; /* Vertically center icon and text */
-  gap: 8px; /* Space between icon and text */
-  justify-content: center;
-  width: 250px; /* Align button width with input fields */
-}
-
-.login-access-button {
-  background-color: #d8b9ff;
-  color: #673ab7;
-}
-
-.login-access-button img {
-  width: 25px; /* Reduce icon width */
-  height: 25px; /* Reduce icon height */
-}
-
-
-.signup-access-button {
-  background-color: #46C9AF;
-  color: #fff;
-}
-
-.signup-access-button img {
-  width: 25px; /* Reduce icon width */
-  height: 25px; /* Reduce icon height */
-}
-
-.login-guest-button {
-  background-color: #fff;
-  color: #46c9af;
-}
-
-.login-guest-button img {
-  width: 30px; /* Reduce icon width */
-  height: 30px; /* Reduce icon height */
-  color: #673ab7;
-}
-
-.login-button {
-  background-color: #673ab7;
-  color: #fff;
-}
-
-.login-button img {
-  width: 25px; /* Reduce icon width */
-  height: 25px; /* Reduce icon height */
 }
 
 .error {

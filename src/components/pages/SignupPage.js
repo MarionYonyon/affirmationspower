@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import GoogleIcon from "../images/GoogleIcon.svg";
-import MicrosoftIcon from "../images/MicrosoftIcon.svg";
+import GoogleIcon from "../../images/GoogleIcon.svg";
+import MicrosoftIcon from "../../images/MicrosoftIcon.svg";
 
 const SignUpPage = () => {
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);

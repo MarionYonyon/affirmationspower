@@ -6,7 +6,7 @@
     width: 100%; /* Full width to match settings section */
     background-color: #ffffff; /* Same background as settings section */
     color: #333333; /* Text color matching labels */
-    font-size: 16px; /* Same font size */
+    font-size: 1.2rem;
     font-weight: bold; /* Slight emphasis for the button */
     padding: 12px 16px; /* Match settings section padding */
     border: 1px solid #e0e0e0; /* Subtle border to match settings-section style */

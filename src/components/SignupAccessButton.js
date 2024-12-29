@@ -2,7 +2,7 @@ import React from "react";
 import SignupWhite from "../images/SignupWhite.svg";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
-
+import "../styles/Buttons.css";
 
 const SignupAccessButton = () => {
   const navigate = useNavigate();

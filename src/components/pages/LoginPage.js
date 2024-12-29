@@ -1,9 +1,10 @@
 // LoginPage.js
 import React from "react";
-import "../styles/LoginPage.css";
-import LoginAccessButton from "./LoginAccessButton";
-import LoginGuest from "./LoginGuest";
-import Signup from "./SignupAccessButton";
+import "../../styles/LoginPage.css";
+import "../../styles/Buttons.css";
+import LoginAccessButton from "../LoginAccessButton";
+import LoginGuest from "../LoginGuest";
+import Signup from "../SignupAccessButton";
 
 const LoginPage = () => {
   return (

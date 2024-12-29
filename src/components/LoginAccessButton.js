@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import LoginIconPurple from "../images/LoginPurple.svg";
 
-
 const LoginAccessButton = () => {
   const navigate = useNavigate();
 

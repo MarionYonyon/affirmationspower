@@ -1,0 +1,75 @@
+/* Overlay to cover the whole screen */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup container */
+.popup {
+  position: relative;
+  background: #ffffff;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  margin: 10px;
+}
+
+/* Heading styles */
+.popup h2 {
+  font-size: 1.5em;
+  color: #333333;
+  margin-bottom: 10px;
+  padding-top: 15px;
+}
+
+/* Paragraph styles */
+.popup p {
+  font-size: 1em;
+  color: #555555;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+/* Textarea styling */
+.textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  resize: none;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+/* Input field styling */
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1em;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Container for buttons (buttons themselves styled elsewhere) */
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Space between buttons */
+}

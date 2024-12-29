@@ -5,3 +5,7 @@
   align-items: center;
   height: 100vh; /* Full viewport height */
 }
+
+.feedback-container{
+  padding-bottom: 80px;
+}

@@ -1,8 +1,12 @@
 import "./styles/App.css";
-import LoginPage from "./components/LoginPage";
+import SettingsPage from "./components/pages/SettingsPage";
+import ParametersPage from "./components/pages/ParametersPage";
+import CredentialsPage from "./components/pages/CredentialsPage"; // Import CredentialsPage component
+import SignupPage from "./components/pages/SignupPage.js";
+import LoginPage from "./components/pages/LoginPage";
+import TestingComponent from "./components/pages/TestingComponentPage.jsx";
 import React, { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
-import SettingsPage from "./components/SettingsPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { auth } from "./utils/firebaseConfig.js"; // Import initialized auth from firebaseConfig
 import { onAuthStateChanged } from "firebase/auth"; // Import onAuthStateChanged from Firebase auth
@@ -12,10 +16,7 @@ import GoalBar from "./components/GoalBar";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
 import BreathworkAnchor from "./components/BreathworkAnchor";
 import SoundAnchor from "./components/SoundAnchor";
-import ParametersPage from "./components/ParametersPage";
 import TimeTracker from "./utils/TimeTracker.js";
-import CredentialsPage from "./components/CredentialsPage"; // Import CredentialsPage component
-import SignupPage from "./components/SignupPage.js"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
@@ -44,6 +45,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/login/credentials" element={<CredentialsPage />} />
           <Route path="/login/sign-up" element={<SignupPage />} />
+          <Route path="/login/testing" element={<TestingComponent />} />
           <Route
             path="/"
             element={
@@ -96,8 +98,8 @@ function Home() {
         <div className="quote-area-wrapper">
           <QuoteArea progress={progress} setProgress={setProgress} />
           <div className="toggle-onoff-wrapper">
-            <BreathworkAnchor></BreathworkAnchor>
-            <SoundAnchor></SoundAnchor>
+            <BreathworkAnchor/>
+            <SoundAnchor/>
           </div>
         </div>
       </div>

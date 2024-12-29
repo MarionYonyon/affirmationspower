@@ -1,10 +1,11 @@
-import "../styles/LoginPage.css";
+import "../../styles/LoginPage.css";
+import "../../styles/Buttons.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../utils/firebaseConfig";
+import { auth } from "../../utils/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { initializeUserData } from "../utils/newUserCreation";
-import LoginIconWhite from "../images/LoginWhite.svg";
+import { initializeUserData } from "../../utils/newUserCreation";
+import LoginIconWhite from "../../images/LoginWhite.svg";
 
 const Login = () => {
   const [email, setEmail] = useState("example@example.com");
