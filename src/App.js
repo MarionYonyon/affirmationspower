@@ -22,15 +22,29 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isLoggedIn === null) {
+        setIsLoggedIn(false); // Fallback to logged-out state after timeout
+      }
+    }, 5000); // 5-second timeout
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      clearTimeout(timeout); // Clear the timeout once auth state resolves
       if (user) {
+        console.log("User logged in:", user); // Debugging
         setIsLoggedIn(true);
       } else {
+        console.log("No user logged in."); // Debugging
         setIsLoggedIn(false);
+        localStorage.clear(); // Clear stale data
+        sessionStorage.clear();
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      clearTimeout(timeout); // Cleanup timeout
+      unsubscribe(); // Cleanup auth listener
+    };
   }, []);
 
   if (isLoggedIn === null) {
