@@ -1,4 +1,4 @@
-import "../../styles/LoginPage.css";
+import "../../styles/SignupPage.css";
 import "../../styles/Buttons.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +49,10 @@ const Login = () => {
   return (
     <form onSubmit={handleLogin}>
       <div>
-        <h2>Welcome back</h2>
+      <h1 className="title">
+        Welcome <span className="accent">back</span>
+      </h1>
+      <p className="subtitle">Take a deep breath and embrace your career journey</p>
         <div className="login-credentials-container">
           <div className="login-credentials-container2">
             <div>

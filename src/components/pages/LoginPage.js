@@ -16,6 +16,7 @@ const LoginPage = () => {
       </h3>
       <div className="login-container2">
         <LoginAccessButton />
+        <Signup />
         <LoginGuest />
       </div>
     </div>

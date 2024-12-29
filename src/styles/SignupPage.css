@@ -1,0 +1,93 @@
+.container {
+  font-family: "Arial", sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.accent {
+  color: #673ab7;
+}
+
+.subtitle {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.social-signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center-align buttons */
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.divider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center-align the divider and "OR" text */
+  width: 100%;
+}
+
+.divider {
+  flex: 1;
+  height: 1px;
+  background-color: #ddd;
+  border: none;
+}
+
+.or-text {
+  margin: 10px 10px;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center-align input fields */
+}
+
+.input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-popup {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  width: 250px;
+  text-align: left;
+}
+
+.password-requirements {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+}
+
+.signup-access-button,
+.login-subtle-button {
+  margin: 10px auto; /* Center buttons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

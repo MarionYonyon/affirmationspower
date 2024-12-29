@@ -96,3 +96,19 @@ button {
   width: 25px; /* Reduce icon width */
   height: 25px; /* Reduce icon height */
 }
+
+.login-subtle-button img {
+  width: 25px; /* Reduce icon width */
+  height: 25px; /* Reduce icon height */
+}
+
+.login-subtle-button {
+  background-color: #ffffff; /* Same background as settings section */
+  color: #333333; /* Text color matching labels */
+}
+
+.social-button {
+  background-color: #F5F3F9; /* Same background as settings section */
+  color: #333333; /* Text color matching labels */
+  margin: 0;
+}
