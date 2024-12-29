@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/affirmationspower/static/css/main.86fc6968.css",
-    "main.js": "/affirmationspower/static/js/main.046919fa.js",
+    "main.css": "/affirmationspower/static/css/main.e0c68913.css",
+    "main.js": "/affirmationspower/static/js/main.8b801def.js",
     "static/js/453.22491700.chunk.js": "/affirmationspower/static/js/453.22491700.chunk.js",
     "static/media/soundGrey.svg": "/affirmationspower/static/media/soundGrey.9ae620f9e32fc01150ddd5c8dcd10f4e.svg",
     "static/media/soundPurple.svg": "/affirmationspower/static/media/soundPurple.ef815734792f83a06797a491d05a0c04.svg",
@@ -16,6 +16,7 @@
     "static/media/SignupWhite.svg": "/affirmationspower/static/media/SignupWhite.a0edcca69fe8a57733f838a25426ca3f.svg",
     "static/media/navPlayBlack.svg": "/affirmationspower/static/media/navPlayBlack.a558724f60c13c40a59da1c6737a5eb8.svg",
     "static/media/Submit.svg": "/affirmationspower/static/media/Submit.ea47aa4733f3d2a6ced92fcf2d53297c.svg",
+    "static/media/LoginBlack.svg": "/affirmationspower/static/media/LoginBlack.e457ac12f6ee9ac83118b23f3ebec809.svg",
     "static/media/LoginPurple.svg": "/affirmationspower/static/media/LoginPurple.fa9c102adf68215b96bfe0d3360ae400.svg",
     "static/media/LoginWhite.svg": "/affirmationspower/static/media/LoginWhite.85784eed7ecf8577c76f721b87c290b9.svg",
     "static/media/navHeartBlack.svg": "/affirmationspower/static/media/navHeartBlack.3f1c5f792b339f69deef85f25a683c20.svg",
@@ -24,12 +25,12 @@
     "static/media/close.svg": "/affirmationspower/static/media/close.fbc4607275cc545bcade79f3a9020d51.svg",
     "index.html": "/affirmationspower/index.html",
     "static/media/MicrosoftIcon.svg": "/affirmationspower/static/media/MicrosoftIcon.f6197f18a1a75a99331a142025cfaf73.svg",
-    "main.86fc6968.css.map": "/affirmationspower/static/css/main.86fc6968.css.map",
-    "main.046919fa.js.map": "/affirmationspower/static/js/main.046919fa.js.map",
+    "main.e0c68913.css.map": "/affirmationspower/static/css/main.e0c68913.css.map",
+    "main.8b801def.js.map": "/affirmationspower/static/js/main.8b801def.js.map",
     "453.22491700.chunk.js.map": "/affirmationspower/static/js/453.22491700.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.86fc6968.css",
-    "static/js/main.046919fa.js"
+    "static/css/main.e0c68913.css",
+    "static/js/main.8b801def.js"
   ]
 }
