@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/affirmationspower/static/css/main.86fc6968.css",
-    "main.js": "/affirmationspower/static/js/main.db00c305.js",
+    "main.js": "/affirmationspower/static/js/main.046919fa.js",
     "static/js/453.22491700.chunk.js": "/affirmationspower/static/js/453.22491700.chunk.js",
     "static/media/soundGrey.svg": "/affirmationspower/static/media/soundGrey.9ae620f9e32fc01150ddd5c8dcd10f4e.svg",
     "static/media/soundPurple.svg": "/affirmationspower/static/media/soundPurple.ef815734792f83a06797a491d05a0c04.svg",
@@ -25,11 +25,11 @@
     "index.html": "/affirmationspower/index.html",
     "static/media/MicrosoftIcon.svg": "/affirmationspower/static/media/MicrosoftIcon.f6197f18a1a75a99331a142025cfaf73.svg",
     "main.86fc6968.css.map": "/affirmationspower/static/css/main.86fc6968.css.map",
-    "main.db00c305.js.map": "/affirmationspower/static/js/main.db00c305.js.map",
+    "main.046919fa.js.map": "/affirmationspower/static/js/main.046919fa.js.map",
     "453.22491700.chunk.js.map": "/affirmationspower/static/js/453.22491700.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.86fc6968.css",
-    "static/js/main.db00c305.js"
+    "static/js/main.046919fa.js"
   ]
 }
