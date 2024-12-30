@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/affirmationspower/static/css/main.206c53e9.css",
-    "main.js": "/affirmationspower/static/js/main.1cf0815d.js",
+    "main.css": "/affirmationspower/static/css/main.049b3fdf.css",
+    "main.js": "/affirmationspower/static/js/main.495045f1.js",
     "static/js/453.22491700.chunk.js": "/affirmationspower/static/js/453.22491700.chunk.js",
     "static/media/soundGrey.svg": "/affirmationspower/static/media/soundGrey.9ae620f9e32fc01150ddd5c8dcd10f4e.svg",
     "static/media/soundPurple.svg": "/affirmationspower/static/media/soundPurple.ef815734792f83a06797a491d05a0c04.svg",
@@ -26,12 +26,12 @@
     "static/media/close.svg": "/affirmationspower/static/media/close.fbc4607275cc545bcade79f3a9020d51.svg",
     "index.html": "/affirmationspower/index.html",
     "static/media/MicrosoftIcon.svg": "/affirmationspower/static/media/MicrosoftIcon.f6197f18a1a75a99331a142025cfaf73.svg",
-    "main.206c53e9.css.map": "/affirmationspower/static/css/main.206c53e9.css.map",
-    "main.1cf0815d.js.map": "/affirmationspower/static/js/main.1cf0815d.js.map",
+    "main.049b3fdf.css.map": "/affirmationspower/static/css/main.049b3fdf.css.map",
+    "main.495045f1.js.map": "/affirmationspower/static/js/main.495045f1.js.map",
     "453.22491700.chunk.js.map": "/affirmationspower/static/js/453.22491700.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.206c53e9.css",
-    "static/js/main.1cf0815d.js"
+    "static/css/main.049b3fdf.css",
+    "static/js/main.495045f1.js"
   ]
 }
