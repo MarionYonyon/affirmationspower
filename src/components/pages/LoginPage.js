@@ -9,9 +9,9 @@ import Signup from "../SignupAccessButton";
 const LoginPage = () => {
   return (
     <div className="login-container">
-      <h2>Elevate Your Job Search Mindset</h2>
+      <h2>Elevate Your <span className="accent">Career Mindset</span></h2>
       <h3>
-        Transform your job search journey with positive affirmations and
+        Transform your career journey with positive affirmations and
         breathwork
       </h3>
       <div className="login-container2">
