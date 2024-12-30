@@ -43,7 +43,7 @@ const FeedbackPopup = ({
         </button>
         <h2>We value honest feedback</h2>
         <p>
-          What do you think about our product? <br /> Any improvement ideas?
+          What do you think of our product? <br /> Any improvement ideas?
         </p>
         <form onSubmit={handleSubmit}>
           <textarea

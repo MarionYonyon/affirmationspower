@@ -90,6 +90,7 @@ button {
   padding-left: 80px;
   padding-right: 80px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow to match settings-section */
+  margin: 0;
 }
 
 .submit-button img {
