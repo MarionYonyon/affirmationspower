@@ -17,15 +17,14 @@ import useGoalAndProgress from "./hooks/useGoalAndProgress";
 import BreathworkAnchor from "./components/BreathworkAnchor";
 import SoundAnchor from "./components/SoundAnchor";
 import TimeTracker from "./utils/TimeTracker.js";
+import AppLayout from "./components/AppLayout.js";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null to wait for auth check
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (isLoggedIn === null) {
-        setIsLoggedIn(false); // Fallback to logged-out state after timeout
-      }
+      setIsLoggedIn((prev) => (prev === null ? false : prev)); // Only update if still null
     }, 5000); // 5-second timeout
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -52,41 +51,40 @@ function App() {
   }
 
   return (
-    <Router basename="/affirmationspower">
-      <div className="app-container">
-        {isLoggedIn && <TimeTracker />}
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/login/sign-in" element={<SigninPage />} />
-          <Route path="/login/sign-up" element={<SignupPage />} />
-          <Route path="/login/testing" element={<TestingComponent />} />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute isLoggedIn={isLoggedIn}>
-                <Home />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <PrivateRoute isLoggedIn={isLoggedIn}>
-                <SettingsPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/parameters"
-            element={
-              <PrivateRoute isLoggedIn={isLoggedIn}>
-                <ParametersPage />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
+      <Router
+        basename="/affirmationspower"
+        future={{
+          v7_relativeSplatPath: true,
+          v7_startTransition: true,
+        }}
+      >
+        <AppContent isLoggedIn={isLoggedIn} />
+      </Router>
+  );
+}
+
+function AppContent({ isLoggedIn }) {
+  return (
+    <div className="app-container">
+      {isLoggedIn && <TimeTracker />}
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login/sign-in" element={<SigninPage />} />
+        <Route path="/login/sign-up" element={<SignupPage />} />
+        <Route path="/login/testing" element={<TestingComponent />} />
+        <Route
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <AppLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route path="/" element={<Home />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/parameters" element={<ParametersPage />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
@@ -95,25 +93,15 @@ function Home() {
 
   return (
     <div className="App">
-        <div className="progress-bar-wrapper">
-          <GoalBar progress={progress} dailyGoal={dailyGoal} />
-        </div>
+      <div className="progress-bar-wrapper">
+        <GoalBar progress={progress} dailyGoal={dailyGoal} />
+      </div>
       <div className="border-wrapper">
-        {/* <video
-          src={`${process.env.PUBLIC_URL}/background2.mp4`}
-          className="background-video"
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          Your browser does not support the video tag.
-        </video> */}
         <div className="quote-area-wrapper">
           <QuoteArea progress={progress} setProgress={setProgress} />
           <div className="toggle-onoff-wrapper">
-            <BreathworkAnchor/>
-            <SoundAnchor/>
+            <BreathworkAnchor />
+            <SoundAnchor />
           </div>
         </div>
       </div>

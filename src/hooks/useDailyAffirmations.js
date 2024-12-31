@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
-import { AFFIRMATION_LABELS, JOBSTATUS_LABELS } from "../utils/constants";
 import { auth, db } from "../utils/firebaseConfig";
 
 const useDailyAffirmations = () => {

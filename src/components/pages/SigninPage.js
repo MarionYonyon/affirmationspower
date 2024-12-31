@@ -71,6 +71,7 @@ const SigninPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              autoComplete="email"
             />
           </div>
           <div className="password-wrapper">
@@ -81,6 +82,7 @@ const SigninPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              autoComplete="current-password"
             />
           </div>
         </div>

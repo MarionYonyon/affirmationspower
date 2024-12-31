@@ -1,3 +1,5 @@
-const TestingComponent = []
-
-export default TestingComponent;
+const TestingComponent = () => {
+    return <div>Testing Component</div>;
+  };
+  
+  export default TestingComponent;  

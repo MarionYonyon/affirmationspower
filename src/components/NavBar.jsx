@@ -20,8 +20,8 @@ const NavBar = () => {
           location.pathname === "/parameters" ? "active" : ""
         }`}
       >
-        <img src={navHeartBlack} alt="Affirmation" />
-        <span className="nav-affirmation-text">Affirmations</span>
+        <img src={navHeartBlack} alt="Topics" />
+        <span className="nav-affirmation-text">Topics</span>
       </Link>
       <Link
         to="/"
