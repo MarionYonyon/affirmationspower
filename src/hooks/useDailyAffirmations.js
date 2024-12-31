@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
 import { auth, db } from "../utils/firebaseConfig";
@@ -6,15 +6,15 @@ import { auth, db } from "../utils/firebaseConfig";
 const useDailyAffirmations = () => {
   const [affirmations, setAffirmations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [jobStatus, setJobStatus] = useState(null); // Fetch jobStatus directly
-  let isFetching = false; // Concurrency guard
+  const [jobStatus, setJobStatus] = useState(null);
+  const isFetching = useRef(false); // Use useRef to preserve value across renders
 
-  const fetchAndSaveAffirmations = async () => {
-    if (isFetching) {
-      console.warn("Fetch already in progress. Skipping this call."); // Log for case 6
+  const fetchAndSaveAffirmations = useCallback(async () => {
+    if (isFetching.current) {
+      console.warn("Fetch already in progress. Skipping this call.");
       return; // Prevent concurrent calls
     }
-    isFetching = true;
+    isFetching.current = true;
 
     try {
       setLoading(true);
@@ -45,7 +45,7 @@ const useDailyAffirmations = () => {
           return;
         }
         console.log("Job status found:", userData.jobStatus);
-        setJobStatus(userData.jobStatus); // Update state with jobStatus
+        setJobStatus(userData.jobStatus);
 
         // Ensure toggles are ready before proceeding
         if (!userData.affirmationsToggles) {
@@ -67,9 +67,9 @@ const useDailyAffirmations = () => {
         const selectedTopics = Object.entries(
           userData.affirmationsToggles || {}
         )
-          .filter(([_, isSelected]) => isSelected) // Keep only topics set to true
-          .map(([topicKey]) =>topicKey)
-          .filter(Boolean); // Remove undefined values
+          .filter(([_, isSelected]) => isSelected)
+          .map(([topicKey]) => topicKey)
+          .filter(Boolean);
 
         if (selectedTopics.length === 0) {
           console.warn(
@@ -88,7 +88,7 @@ const useDailyAffirmations = () => {
         );
 
         if (affirmations.length === 0) {
-          console.warn("No affirmations fetched. Check Firestore data."); // Log for case 9
+          console.warn("No affirmations fetched. Check Firestore data.");
         }
 
         // Shuffle and select 20 affirmations
@@ -111,7 +111,7 @@ const useDailyAffirmations = () => {
           );
           console.log("Affirmations for the day saved successfully.");
         } catch (error) {
-          console.error("Error saving daily affirmations:", error); // Log for case 10
+          console.error("Error saving daily affirmations:", error);
         }
 
         setAffirmations(randomAffirmations);
@@ -119,12 +119,12 @@ const useDailyAffirmations = () => {
         console.error("User document does not exist.");
       }
     } catch (error) {
-      console.error("Error fetching and saving daily affirmations:", error); // Log for case 9
+      console.error("Error fetching and saving daily affirmations:", error);
     } finally {
       setLoading(false);
-      isFetching = false; // Reset the guard
+      isFetching.current = false; // Reset the guard
     }
-  };
+  }, []);
 
   const fetchAffirmationsFromJobStatus = async (jobStatus, topics) => {
     const affirmations = [];
@@ -167,8 +167,8 @@ const useDailyAffirmations = () => {
   useEffect(() => {
     const user = auth.currentUser;
     if (!user) {
-      console.warn("User not logged in. Skipping useEffect."); // Log for case 2
-      return; // Wait until user is set
+      console.warn("User not logged in. Skipping useEffect.");
+      return;
     }
 
     const userDocRef = doc(db, "users", user.uid, "settings", "userSettings");
@@ -186,7 +186,13 @@ const useDailyAffirmations = () => {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []); // Removed jobStatus from dependency array
+  }, [fetchAndSaveAffirmations]);
+
+  useEffect(() => {
+    if (jobStatus) {
+      console.log("Job status updated:", jobStatus); // Use jobStatus here
+    }
+  }, [jobStatus]);
 
   return { affirmations, loading };
 };
