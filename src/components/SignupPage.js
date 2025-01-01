@@ -5,14 +5,14 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../../utils/firebaseConfig";
-import { initializeUserData } from "../../utils/newUserCreation";
-import GoogleIcon from "../../images/GoogleIcon.svg";
-import MicrosoftIcon from "../../images/MicrosoftIcon.svg";
-import "../../styles/SignupPage.css";
-import "../../styles/Buttons.css";
-import SignupWhite from "../../images/SignupWhite.svg";
-import LoginIconBlack from "../../images/LoginBlack.svg";
+import { auth, db } from "../utils/firebaseConfig";
+import { initializeUserData } from "../utils/newUserCreation";
+import GoogleIcon from "../images/GoogleIcon.svg";
+import MicrosoftIcon from "../images/MicrosoftIcon.svg";
+import "../styles/SignupPage.css";
+import "../styles/Buttons.css";
+import SignupWhite from "../images/SignupWhite.svg";
+import LoginIconBlack from "../images/LoginBlack.svg";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState("");

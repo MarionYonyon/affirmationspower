@@ -1,13 +1,12 @@
 import "../styles/AffirmationTopics.css";
 import React from "react";
-import SwitchToggle from "./SwitchToggle";
-import { AFFIRMATION_LABELS } from "../utils/constants";
+import CategoryToggle from "./CategoryToggle";
 import futureSelfIcon from "../images/future-self.svg";
 import overcomingBarriersIcon from "../images/overcoming-barriers.svg";
 import specialSituationsIcon from "../images/special-situations.svg";
 import mindsetInspirationIcon from "../images/mindset-inspiration.svg";
 
-const AffirmationTopic = () => {
+const AffirmationTopics = ({ selectedCategories, handleCategoryChange }) => {
   // Define categories for the keys
   const categories = {
     "Future Self": [
@@ -34,20 +33,17 @@ const AffirmationTopic = () => {
         : "white-block";
 
     return (
-      <div className={`block ${blockStyle}`}>
+      <div className={`block ${blockStyle}`} key={title}>
         <div className="main-text">
           <img src={icon} alt={`${title} Icon`} className="icon" />
           {title}
         </div>
         <div className="sub-buttons">
-          {keys.map((key) => (
-            <SwitchToggle
-              key={key}
-              dataKey={key}
-              label={AFFIRMATION_LABELS[key]}
-              blockStyle={blockStyle} // Pass block style as a prop
-            />
-          ))}
+          <CategoryToggle
+            keys={keys}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={handleCategoryChange}
+          />
         </div>
       </div>
     );
@@ -75,4 +71,4 @@ const AffirmationTopic = () => {
   );
 };
 
-export default AffirmationTopic;
+export default AffirmationTopics;
