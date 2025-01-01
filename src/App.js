@@ -13,7 +13,6 @@ import SoundAnchor from "./components/SoundAnchor"; // Reintroduced
 import QuoteArea from "./components/QuoteArea"; // Already present
 import GoalBar from "./components/GoalBar"; // Reintroduced
 import TimeTracker from "./utils/TimeTracker"; // Already present
-import AppLayout from "./components/AppLayout"; // Already present
 import PrivateRoute from "./components/PrivateRoute"; // Already present
 import useAffirmations from "./hooks/useAffirmations"; // From NEW PROJECT
 import useUserSettings from "./hooks/useUserSettings"; // From NEW PROJECT
@@ -31,7 +30,6 @@ const App = () => {
   const {
     affirmations,
     currentAffirmation,
-    currentIndex,
     setCurrentIndex,
     nextAffirmation,
     selectedCategories,
@@ -39,8 +37,8 @@ const App = () => {
     jobStatus,
     setJobStatus,
     setTogglesChanged,
-  } = useAffirmations();
-  const { dailyGoal, setDailyGoal, dailyProgress, incrementDailyProgress } =
+  } = useAffirmations(userSettings);
+  const { dailyGoal, dailyProgress, incrementDailyProgress } =
     useGoalAndProgress();
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const App = () => {
       clearTimeout(timeout);
       if (user) {
         console.log("User logged in:", user);
-        setUserId(user.uid); // Set the userId from the logged-in user
+        setUserId(user.uid);
         setIsLoggedIn(true);
       } else {
         console.log("No user logged in.");
@@ -96,10 +94,17 @@ const App = () => {
         setJobStatus(userSettings.jobStatus);
       }
       if (!localStorage.getItem("currentIndex")) {
-        setCurrentIndex(userSettings.currentIndex || 0); // Initialize currentIndex
+        setCurrentIndex(userSettings.currentIndex || 0);
       }
     }
-  }, [loading, userSettings, initialized, setSelectedCategories, setJobStatus, setCurrentIndex]);
+  }, [
+    loading,
+    userSettings,
+    initialized,
+    setSelectedCategories,
+    setJobStatus,
+    setCurrentIndex,
+  ]);
 
   useEffect(() => {
     const currentDate = new Date().toISOString().split("T")[0];
@@ -144,71 +149,59 @@ const App = () => {
           <Route
             path="/parameters"
             element={
-              <ParametersPage
-                selectedCategories={selectedCategories}
-                handleCategoryChange={handleCategoryChange}
-              />
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <ParametersPage
+                  selectedCategories={selectedCategories}
+                  handleCategoryChange={handleCategoryChange}
+                />
+              </PrivateRoute>
             }
           />
           <Route
-            path="/practice"
+            path="/"
             element={
-              <QuoteArea>
-                <ProgressPractice
-                  currentAffirmation={currentAffirmation}
-                  nextAffirmation={nextAffirmation}
-                  loading={loading}
-                />
-              </QuoteArea>
+              <PrivateRoute isLoggedIn={isLoggedIn}>
+                <div className="App">
+                  <div className="progress-bar-wrapper">
+                    <GoalBar progress={dailyProgress} dailyGoal={dailyGoal} />
+                  </div>
+                  <div className="border-wrapper">
+                    <div className="quote-area-wrapper">
+                      <QuoteArea>
+                        <ProgressPractice
+                          currentAffirmation={currentAffirmation}
+                          nextAffirmation={nextAffirmation}
+                          loading={loading}
+                        />
+                      </QuoteArea>
+                      <div className="toggle-onoff-wrapper">
+                        <BreathworkAnchor />
+                        <SoundAnchor />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="nav-bar-wrapper">
+                    <NavBar />
+                  </div>
+                </div>
+              </PrivateRoute>
             }
           />
           <Route
             path="/settings"
             element={
-              <SettingsPage
-                jobStatus={jobStatus}
-                setJobStatus={handleJobStatusChange}
-              />
-            }
-          />
-          <Route
-            element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
-                <AppLayout />
+                <SettingsPage
+                  jobStatus={jobStatus}
+                  setJobStatus={handleJobStatusChange}
+                />
               </PrivateRoute>
             }
-          >
-            <Route path="/" element={<Home />} />
-          </Route>
+          />
         </Routes>
       </div>
     </Router>
   );
 };
-
-function Home() {
-  const { dailyGoal, dailyProgress, incrementDailyProgress } =
-    useGoalAndProgress();
-
-  return (
-    <div className="App">
-      <div className="progress-bar-wrapper">
-        <GoalBar progress={dailyProgress} dailyGoal={dailyGoal} />
-      </div>
-      <div className="border-wrapper">
-        <div className="quote-area-wrapper">
-          <QuoteArea />
-          <div className="toggle-onoff-wrapper">
-            <BreathworkAnchor />
-            <SoundAnchor />
-          </div>
-        </div>
-      </div>
-      <div className="nav-bar-wrapper">
-        <NavBar />
-      </div>
-    </div>
-  );
-}
 
 export default App;
