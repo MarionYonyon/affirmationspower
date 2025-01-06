@@ -48,7 +48,7 @@ const SignUpPage = () => {
       await signInWithEmailAndPassword(auth, email, password);
 
       // Redirect to the home page
-      navigate("/");
+      navigate("/affirmationspower/parameters");
     } catch (error) {
       setErrorMessage("Failed to sign up. Please try again.");
       console.error("SignUp error: ", error.message);

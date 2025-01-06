@@ -18,7 +18,7 @@ const LoginGuest = () => {
       const userCredential = await signInAnonymously(auth);
       const user = userCredential.user;
       await initializeUserData(user);
-      navigate("/");
+      navigate("/affirmationspower/parameters");
     } catch (err) {
       setError("Failed to log in anonymously. Please try again.");
       console.error("Anonymous login error: ", err.message);
