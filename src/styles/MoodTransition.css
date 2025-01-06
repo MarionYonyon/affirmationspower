@@ -1,0 +1,56 @@
+.mood-transition-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .mood-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    width: 60px;
+    text-align: center;
+  }
+  
+  .mood-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .sad-icon {
+    color: #ff6f6f; /* Light red for "Overwhelmed" */
+    max-width: 50px;
+  }
+  
+  .happy-icon {
+    color: #7b61ff; /* Purple for "Thriving" */
+    max-width: 50px;
+  }
+  
+  .mood-text {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .thriving-text {
+    color: #7b61ff; /* Same purple as the happy icon */
+    font-weight: bold;
+}
+  
+  .arrow {
+    font-size: 1.5rem;
+    margin: 0;
+
+    color: #7b61ff;
+    font-weight: bold;
+  }
+  

@@ -1,0 +1,225 @@
+.onboarding-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: linear-gradient(#daf2de, white); /* Updated gradient */
+  color: #333333;
+  min-width: 250px;
+  max-width: 380px;
+  position: relative;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.comparison {
+  display: flex;
+  justify-content: space-around;
+  max-width: 100%; /* Ensure child elements respect their max-width */
+}
+
+.onboarding-title {
+  font-size: 2.1rem; /* Adjust the size as needed */
+  font-weight: bold; /* Make the title bold */
+  text-align: center; /* Center align the title */
+  color: #673ab7; /* Use a professional color */
+  transition: transform 0.3s ease, color 0.3s ease; /* Add some subtle animation */
+  max-width: 280px;
+}
+
+.onboarding-content p {
+  font-size: 1.1rem; /* Slightly larger text for better readability */
+  color: #474747; /* Neutral text color */
+  line-height: 1.6; /* Increase line spacing for better readability */
+  text-align: center; /* Center align the text */
+  margin: 0.5rem 0; /* Add spacing between paragraphs */
+  font-weight: 400; /* Normal weight for readability */
+}
+
+.onboarding-screen {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 300px;
+  padding: 0px;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  padding: 10px;
+  padding-left: 40px;
+  background: white;
+  text-align: left;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 270px;
+}
+
+li:hover {
+  border: #673ab7;
+  background: green;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  gap: 10px; /* Add spacing between buttons */
+}
+
+.next-button {
+  position: fixed; /* Ensures it stays fixed to the top of the viewport */
+  bottom: 20px; /* Distance from the bottom of the viewport */
+  left: 50%; /* Positions the button relative to the center of the viewport */
+  transform: translateX(-50%); /* Centers the button horizontally */
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 340px;
+  min-width: 250px;
+  border: none;
+  border-radius: 15px;
+  width: 120px;
+  height: 50px;
+  background-color: #673ab7;
+  color: white;
+  cursor: pointer;
+}
+
+.skip-button {
+  position: absolute; /* Position relative to .onboarding-container */
+  top: 60px; /* Distance from the top of the container */
+  right: 10px; /* Distance from the right of the container */
+  width: 10px;
+  height: 50px;
+  background: transparent;
+  color: #4b4b4b;
+  border: none;
+  box-shadow: none;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  z-index: 1; /* Ensure it's above other elements inside the container */
+}
+
+.comparison {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.state {
+  text-align: center;
+}
+
+.graph-placeholder {
+  height: 150px;
+  background: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+/* Progress Bar */
+.progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Ensures it stays fixed to the top of the viewport */
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 340px;
+  min-width: 250px;
+  margin: 0 auto; /* Centers it horizontally */
+}
+
+.progress-step {
+  width: 50px;
+  height: 5px;
+  background-color: white;
+  border-radius: 5px;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
+}
+
+.progress-step.active {
+  background-color: #673ab7;
+}
+
+.welcome-picture {
+  position: relative;
+  width: 100%; /* Adjust the width as needed */
+  max-width: 300px; /* Limit the max width */
+  margin: 20px auto; /* Add spacing around the image */
+  display: block; /* Ensures the image is a block-level element */
+  border-radius: 15px;
+}
+
+.brain-picture {
+  position: relative;
+  width: 100%; /* Adjust the width as needed */
+  max-width: 50px; /* Limit the max width */
+  margin: 5px auto; /* Add spacing around the image */
+  display: block; /* Ensures the image is a block-level element */
+}
+
+/* Icon Styles */
+.icon-onboardingdd {
+  position: relative;
+  color: #673ab7; /* Icon part uses this color */
+  max-width: 50px; /* Limit the max width */
+}
+
+.icon-onboarding {
+  width: 35px; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0 auto 10px; /* Center the image and add spacing below */
+  display: block; /* Ensures the image is block-level */
+  background-color: white; /* Circle background for white block */
+  padding: 10px;
+  border-radius: 50px;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 400px) {
+  .skip-button {
+    top: 60px; /* Distance from the top of the container */
+    right: 20px; /* Distance from the right of the container */
+  }
+  .onboarding-container {
+    margin-bottom: 50px;
+    max-width: 100%;
+  }
+}
+
+.graph-container {
+  max-width: 500px;
+  margin: 0 auto; /* Center the graph */
+  padding: 20px;
+}
+
+h1 {
+  margin: 5px;
+}

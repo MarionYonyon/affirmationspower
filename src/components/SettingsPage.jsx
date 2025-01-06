@@ -6,7 +6,7 @@ import Dropdown from "./Dropdown";
 import NumberInput from "./NumberInput";
 import NavBar from "./NavBar";
 import Logout from "./Logout";
-import useGoalAndProgress from "C:/Users/mario/OneDrive/Bureau/Dev/affirmations-v3/src/hooks/useGoalAndProgress.js";
+import useGoalAndProgress from "../hooks/useGoalAndProgress.js";
 import { JOBSTATUS_LABELS } from "../utils/constants";
 import FeedbackButton from "./FeedbackButton";
 

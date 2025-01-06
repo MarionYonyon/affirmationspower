@@ -1,17 +1,21 @@
 import "../styles/QuoteArea.css";
-import ProgressPractice from "./ProgressPractice"; // Replacing AffirmationGenerator
+import ProgressPractice from "./ProgressPractice";
 import React from "react";
 import { logClickAction } from "../utils/firebaseHelpers";
 import useAffirmations from "../hooks/useAffirmations";
 import next from "../images/next.svg";
 
 const QuoteArea = () => {
-  const { currentAffirmation, nextAffirmation, loading } = useAffirmations(); // Using state management from useAffirmations.js
+  const { currentAffirmation, nextAffirmation, loading } = useAffirmations();
 
   const handleNextClick = () => {
     logClickAction("NextClick");
-    nextAffirmation(); // Move to the next affirmation
+    nextAffirmation();
   };
+
+  if (loading) {
+    return <p>Loading affirmations...</p>;
+  }
 
   return (
     <div className="Quote-area">

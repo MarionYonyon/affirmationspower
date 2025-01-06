@@ -9,12 +9,17 @@
  * @returns {Array} - The shuffled and limited array with elements evenly distributed across categories.
  */
 const shuffleAndLimit = (categoryMap, limit) => {
-  if (typeof categoryMap !== 'object' || categoryMap === null) {
+  console.log("Input categoryMap:", categoryMap);
+  console.log("Limit:", limit);
+
+  if (typeof categoryMap !== "object" || categoryMap === null) {
     console.error("Provided value is not a valid category map:", categoryMap);
     return [];
   }
 
   const categories = Object.keys(categoryMap);
+  console.log("Categories:", categories);
+
   const totalCategories = categories.length;
 
   if (totalCategories === 0) {
@@ -26,6 +31,9 @@ const shuffleAndLimit = (categoryMap, limit) => {
   const itemsPerCategory = Math.floor(limit / totalCategories);
   let remainingSlots = limit % totalCategories;
 
+  console.log("Items per category:", itemsPerCategory);
+  console.log("Remaining slots:", remainingSlots);
+
   const result = [];
 
   categories.forEach((category) => {
@@ -35,6 +43,8 @@ const shuffleAndLimit = (categoryMap, limit) => {
       console.warn(`Skipping category '${category}' as its value is not an array.`);
       return;
     }
+
+    console.log(`Shuffling items for category '${category}':`, items);
 
     // Shuffle the items in the category
     const shuffledItems = items.sort(() => 0.5 - Math.random());
@@ -49,8 +59,12 @@ const shuffleAndLimit = (categoryMap, limit) => {
     }
   });
 
+  console.log("Final result before shuffle:", result);
+
   // Shuffle the final result array
   const finalShuffledResult = result.sort(() => 0.5 - Math.random());
+
+  console.log("Final shuffled result:", finalShuffledResult);
 
   return finalShuffledResult;
 };
