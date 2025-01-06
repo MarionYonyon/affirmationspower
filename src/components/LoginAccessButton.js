@@ -6,7 +6,7 @@ const LoginAccessButton = () => {
   const navigate = useNavigate();
 
   return (
-    <button className="login-access-button" onClick={() => navigate("/login/sign-in")}>
+    <button className="login-access-button" onClick={() => navigate("/affirmationspower/login/sign-in")}>
       Login
       <img src={LoginIconPurple} alt="login-access-icon" />
     </button>

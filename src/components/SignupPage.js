@@ -114,7 +114,7 @@ const SignUpPage = () => {
       </button>
       <button
         className="login-subtle-button"
-        onClick={() => navigate("/login/sign-in")}
+        onClick={() => navigate("/affirmationspower/login/sign-in")}
       >
         LOG IN
         <img src={LoginIconBlack} alt="login-access-icon" />

@@ -10,7 +10,7 @@ const SignupAccessButton = () => {
   return (
     <button
       className="signup-access-button"
-      onClick={() => navigate("/login/sign-up")}
+      onClick={() => navigate("/affirmationspower/login/sign-up")}
     >
       Sign Up
       <img src={SignupWhite} alt="signup-access-icon" />

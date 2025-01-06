@@ -75,12 +75,12 @@ const App = () => {
       <div className="app-container">
         {isLoggedIn && <TimeTracker />}
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/login/sign-in" element={<SigninPage />} />
-          <Route path="/login/sign-up" element={<SignupPage />} />
-          <Route path="/login/testing" element={<TestingComponent />} />
+          <Route path="/affirmationspower/login" element={<LoginPage />} />
+          <Route path="/affirmationspower/login/sign-in" element={<SigninPage />} />
+          <Route path="/affirmationspower/login/sign-up" element={<SignupPage />} />
+          <Route path="/affirmationspower/login/testing" element={<TestingComponent />} />
           <Route
-            path="/parameters"
+            path="/affirmationspower/parameters"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <ParametersPage
@@ -91,7 +91,7 @@ const App = () => {
             }
           />
           <Route
-            path="/"
+            path="/affirmationspower/practice"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <div className="App">
@@ -115,7 +115,7 @@ const App = () => {
             }
           />
           <Route
-            path="/settings"
+            path="/affirmationspower/settings"
             element={
               <PrivateRoute isLoggedIn={isLoggedIn}>
                 <SettingsPage

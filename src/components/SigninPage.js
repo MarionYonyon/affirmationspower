@@ -42,7 +42,7 @@ const SigninPage = () => {
       await initializeUserData(user);
       localStorage.setItem("email", email);
 
-      navigate("/");
+      navigate("/affirmationspower/parameters");
     } catch (err) {
       setError("Failed to log in. Please check your credentials.");
       console.error("Login error: ", err.message);
@@ -98,7 +98,7 @@ const SigninPage = () => {
       </form>
       <button
         className="login-subtle-button"
-        onClick={() => navigate("/login/sign-up")}
+        onClick={() => navigate("/affirmationspower/login/sign-up")}
       >
         SIGN UP
         <img src={SignupBlack} alt="signup-access-icon" />

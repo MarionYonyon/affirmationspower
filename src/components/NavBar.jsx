@@ -15,7 +15,7 @@ const NavBar = () => {
         <span className="nav-home-text">Home</span>
       </button>*/}
       <Link
-        to="/parameters"
+        to="/affirmationspower/parameters"
         className={`nav-button ${
           location.pathname === "/parameters" ? "active" : ""
         }`}
@@ -24,7 +24,7 @@ const NavBar = () => {
         <span className="nav-affirmation-text">Topics</span>
       </Link>
       <Link
-        to="/"
+        to="/affirmationspower/practice"
         className={`nav-button ${location.pathname === "/" ? "active" : ""}`}
       >
         <img src={navPlayBlack} alt="Practice" />
@@ -35,7 +35,7 @@ const NavBar = () => {
         <span className="nav-metrics-text">Metrics</span>
       </button>*/}
       <Link
-        to="/settings"
+        to="/affirmationspower/settings"
         className={`nav-button ${
           location.pathname === "/settings" ? "active" : ""
         }`}

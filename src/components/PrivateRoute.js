@@ -12,7 +12,7 @@ const PrivateRoute = ({ isLoggedIn, children }) => {
   }
 
   console.log("PrivateRoute: User is", isLoggedIn ? "logged in" : "logged out");
-  return isLoggedIn ? children : <Navigate to="/login" replace />;
+  return isLoggedIn ? children : <Navigate to="/affirmationspower/login" replace />;
 };
 
 export default PrivateRoute;
