@@ -29,7 +29,7 @@ const CategoryToggle = ({
   };
 
   return (
-    <div className="container2">
+    <div className="category-container"> {/* Changed from container2 */}
       {keys.map((category) => (
         <div
           key={category}

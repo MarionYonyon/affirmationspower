@@ -14,6 +14,13 @@ body {
     margin-bottom: 20px;
 }
 
+.category-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 5px; /* Add vertical spacing between buttons */
+}
+
+
 .block {
     padding: 10px;
     border-radius: 18px;
@@ -21,6 +28,11 @@ body {
     flex-direction: column;
     justify-content: space-between;
     max-width: 200px;
+}
+
+.sub-buttons {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Stack items vertically */
 }
 
 .purple-block {
