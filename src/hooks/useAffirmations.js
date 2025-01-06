@@ -51,7 +51,7 @@ const useAffirmations = () => {
         }
 
         // Shuffle and limit affirmations
-        const limitedAffirmations = shuffleAndLimit(categoryMap, 4); // Max 4 affirmations
+        const limitedAffirmations = shuffleAndLimit(categoryMap, 30); // Max 30 affirmations
         console.log("Limited affirmations:", limitedAffirmations);
 
         setAffirmations(limitedAffirmations);
