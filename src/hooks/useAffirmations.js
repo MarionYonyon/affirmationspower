@@ -19,12 +19,10 @@ const useAffirmations = () => {
   const [currentIndex, setCurrentIndex] = useState(
     () => parseInt(localStorage.getItem("currentIndex"), 10) || 0
   );
-  const [loading, setLoading] = useState(false); // New loading state
   const [togglesChanged, setTogglesChanged] = useState(false);
 
   useEffect(() => {
     const fetchAffirmations = async () => {
-      setLoading(true); // Start loading
       try {
         console.log("Fetching affirmations...");
         console.log("Job Status:", jobStatus);
@@ -65,8 +63,6 @@ const useAffirmations = () => {
         localStorage.setItem("currentIndex", "0");
       } catch (error) {
         console.error("Error fetching affirmations:", error);
-      } finally {
-        setLoading(false); // Stop loading
       }
     };
 
@@ -110,7 +106,6 @@ const useAffirmations = () => {
     currentIndex,
     setCurrentIndex,
     nextAffirmation,
-    loading, // Expose loading state
   };
 };
 
