@@ -1,6 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 import { DEFAULT_USER_DATA, DEFAULT_USER_SETTINGS } from "../constants";
+import { getUserSettingsPath } from "./pathUtils";
 
 // Initialize Firestore data for a new user
 export const initializeUserData = async (user) => {
@@ -12,7 +13,8 @@ export const initializeUserData = async (user) => {
   console.log("Initializing user data for user ID:", user.uid);
 
   const userDocRef = doc(db, "users", user.uid);
-  const userSettingsRef = doc(db, `users/${user.uid}/settings/preferences`);
+  const userSettingsPath = getUserSettingsPath(user.uid);
+  const userSettingsRef = doc(db, userSettingsPath);
 
   try {
     const userDoc = await getDoc(userDocRef);
