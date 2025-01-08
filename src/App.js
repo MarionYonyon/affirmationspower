@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./styles/App.css";
 import SettingsPage from "./components/SettingsPage";
@@ -16,14 +16,10 @@ import TimeTracker from "./utils/TimeTracker";
 import PrivateRoute from "./components/PrivateRoute";
 import useAffirmations from "./hooks/useAffirmations";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./utils/firebaseConfig";
+import { AppProvider } from "./context/AppContext";
 import ProgressPractice from "./components/ProgressPractice";
 
-const App = () => {
-  const [userId, setUserId] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
-
+const AppContent = () => {
   const {
     affirmations,
     currentAffirmation,
@@ -36,25 +32,9 @@ const App = () => {
     selectedCategories,
     setSelectedCategories,
     setTogglesChanged,
-  } = useAffirmations(userId);
+  } = useAffirmations();
 
   const { dailyGoal, dailyProgress } = useGoalAndProgress();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserId(user.uid);
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-        setUserId(null);
-        localStorage.clear();
-        sessionStorage.clear();
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const handleCategoryChange = (newCategories) => {
     setSelectedCategories(newCategories);
@@ -66,23 +46,32 @@ const App = () => {
     setTogglesChanged(true);
   };
 
-  if (isLoggedIn === null || affirmationsLoading) {
+  if (affirmationsLoading) {
     return <p>Loading...</p>;
   }
 
   return (
     <Router>
       <div className="app-container">
-        {isLoggedIn && <TimeTracker />}
+        <TimeTracker />
         <Routes>
           <Route path="/affirmationspower/login" element={<LoginPage />} />
-          <Route path="/affirmationspower/login/sign-in" element={<SigninPage />} />
-          <Route path="/affirmationspower/login/sign-up" element={<SignupPage />} />
-          <Route path="/affirmationspower/login/testing" element={<TestingComponent />} />
+          <Route
+            path="/affirmationspower/login/sign-in"
+            element={<SigninPage />}
+          />
+          <Route
+            path="/affirmationspower/login/sign-up"
+            element={<SignupPage />}
+          />
+          <Route
+            path="/affirmationspower/login/testing"
+            element={<TestingComponent />}
+          />
           <Route
             path="/affirmationspower/parameters"
             element={
-              <PrivateRoute isLoggedIn={isLoggedIn}>
+              <PrivateRoute>
                 <ParametersPage
                   selectedCategories={selectedCategories}
                   handleCategoryChange={handleCategoryChange}
@@ -93,7 +82,7 @@ const App = () => {
           <Route
             path="/affirmationspower/practice"
             element={
-              <PrivateRoute isLoggedIn={isLoggedIn}>
+              <PrivateRoute>
                 <div className="App">
                   <div className="progress-bar-wrapper">
                     <GoalBar progress={dailyProgress} dailyGoal={dailyGoal} />
@@ -117,7 +106,7 @@ const App = () => {
           <Route
             path="/affirmationspower/settings"
             element={
-              <PrivateRoute isLoggedIn={isLoggedIn}>
+              <PrivateRoute>
                 <SettingsPage
                   jobStatus={jobStatus}
                   setJobStatus={handleJobStatusChange}
@@ -130,5 +119,11 @@ const App = () => {
     </Router>
   );
 };
+
+const App = () => (
+  <AppProvider>
+    <AppContent />
+  </AppProvider>
+);
 
 export default App;

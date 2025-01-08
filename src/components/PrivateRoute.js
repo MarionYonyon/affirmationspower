@@ -1,18 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
-const PrivateRoute = ({ isLoggedIn, children }) => {
-  useEffect(() => {
-    console.log("PrivateRoute rendered: isLoggedIn =", isLoggedIn);
-  });
+const PrivateRoute = ({ children }) => {
+  const { isLoggedIn } = useContext(AppContext);
 
   if (isLoggedIn === null) {
-    console.log("PrivateRoute: Waiting for authentication state...");
+    // Render a loading state until the authentication status is determined
     return <p>Loading...</p>;
   }
 
-  console.log("PrivateRoute: User is", isLoggedIn ? "logged in" : "logged out");
-  return isLoggedIn ? children : <Navigate to="/affirmationspower/login" replace />;
+  return isLoggedIn ? children : <Navigate to="/affirmationspower/login" />;
 };
 
 export default PrivateRoute;
