@@ -6,7 +6,7 @@ import shuffleAndLimit from "../utils/shuffleAndLimit";
 const useAffirmations = () => {
   const [selectedCategories, setSelectedCategories] = useState(() => {
     const storedCategories = localStorage.getItem("selectedCategories");
-    return storedCategories ? JSON.parse(storedCategories) : []; // Default to an empty array
+    return storedCategories ? JSON.parse(storedCategories) : null; // Default to an empty array
   });
 
   const [jobStatus, setJobStatus] = useState(() => {
