@@ -2,7 +2,6 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 import {
   AFFIRMATION_LABELS,
-  JOBSTATUS_LABELS,
   APPEARANCE_LABELS,
 } from "./constants"; // Import the constants
 

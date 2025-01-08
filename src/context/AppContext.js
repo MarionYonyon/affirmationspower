@@ -13,21 +13,15 @@ export const AppProvider = ({ children }) => {
     affirmations,
     currentAffirmation,
     nextAffirmation,
-    loading: affirmationsLoading,
-    selectedCategories,
-    setSelectedCategories,
-    jobStatus,
-    setJobStatus,
     setTogglesChanged,
     currentIndex,
-    setCurrentIndex,
-  } = useAffirmations(userId);
+  } = useAffirmations(userId, userSettings);
 
   useFirestoreSync({
     userId,
     affirmations,
-    jobStatus,
-    selectedCategories,
+    jobStatus: userSettings.jobStatus,
+    selectedCategories: userSettings.selectedCategories,
     currentIndex,
     initialized,
   });
@@ -37,13 +31,11 @@ export const AppProvider = ({ children }) => {
       console.warn("At least one category must remain enabled.");
       return;
     }
-    setSelectedCategories(newCategories);
     setUserSettings({ ...userSettings, selectedCategories: newCategories });
     setTogglesChanged(true);
   };
 
   const handleJobStatusChange = (newStatus) => {
-    setJobStatus(newStatus);
     setUserSettings({ ...userSettings, jobStatus: newStatus });
     setTogglesChanged(true);
   };
@@ -58,15 +50,9 @@ export const AppProvider = ({ children }) => {
         affirmations,
         currentAffirmation,
         nextAffirmation,
-        affirmationsLoading,
         settingsLoading,
-        selectedCategories,
-        setSelectedCategories,
-        jobStatus,
-        setJobStatus,
         setTogglesChanged,
         currentIndex,
-        setCurrentIndex,
         handleCategoryChange,
         handleJobStatusChange,
       }}
