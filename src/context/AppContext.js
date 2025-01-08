@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebaseConfig";
 import useAffirmations from "../hooks/useAffirmations";
+import useUserSettings from "../hooks/useUserSettings";
 
 export const AppContext = createContext();
 
@@ -9,7 +10,11 @@ export const AppProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  // Include affirmations logic
+  // User settings
+  const { userSettings, setUserSettings, loading: settingsLoading } =
+    useUserSettings(userId);
+
+  // Affirmations logic
   const {
     affirmations,
     currentAffirmation,
@@ -43,10 +48,13 @@ export const AppProvider = ({ children }) => {
       value={{
         userId,
         isLoggedIn,
+        userSettings,
+        setUserSettings,
         affirmations,
         currentAffirmation,
         nextAffirmation,
         affirmationsLoading,
+        settingsLoading,
         selectedCategories,
         setSelectedCategories,
         jobStatus,

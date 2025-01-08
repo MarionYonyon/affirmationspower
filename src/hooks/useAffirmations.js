@@ -10,6 +10,9 @@ const useAffirmations = () => {
   const { selectedCategories: defaultCategories, jobStatus: defaultJobStatus } =
     initializeSettings();
 
+  console.log("Default categories from initializeSettings:", defaultCategories);
+  console.log("Default job status from initializeSettings:", defaultJobStatus);
+
   const [selectedCategories, setSelectedCategories] =
     useState(defaultCategories);
   const [jobStatus, setJobStatus] = useState(defaultJobStatus);
@@ -21,12 +24,16 @@ const useAffirmations = () => {
   );
   const [togglesChanged, setTogglesChanged] = useState(false);
 
+  // Log initial values of selectedCategories and jobStatus
+  console.log("Initial selected categories:", selectedCategories);
+  console.log("Initial job status:", jobStatus);
+
   useEffect(() => {
     const fetchAffirmations = async () => {
       try {
         console.log("Fetching affirmations...");
-        console.log("Job Status:", jobStatus);
-        console.log("Selected Categories:", selectedCategories);
+        console.log("Job Status during fetch:", jobStatus);
+        console.log("Selected Categories during fetch:", selectedCategories);
 
         let categoryMap = {};
 
@@ -67,12 +74,14 @@ const useAffirmations = () => {
     };
 
     if (togglesChanged) {
+      console.log("Toggles have changed. Fetching affirmations...");
       fetchAffirmations();
       setTogglesChanged(false);
     }
   }, [togglesChanged, jobStatus, selectedCategories]);
 
   useEffect(() => {
+    console.log("selectedCategories changed. Saving to localStorage:", selectedCategories);
     localStorage.setItem(
       "selectedCategories",
       JSON.stringify(selectedCategories)
@@ -80,16 +89,19 @@ const useAffirmations = () => {
   }, [selectedCategories]);
 
   useEffect(() => {
+    console.log("jobStatus changed. Saving to localStorage:", jobStatus);
     localStorage.setItem("jobStatus", jobStatus);
   }, [jobStatus]);
 
   useEffect(() => {
+    console.log("currentIndex changed. Saving to localStorage:", currentIndex);
     localStorage.setItem("currentIndex", currentIndex.toString());
   }, [currentIndex]);
 
   const nextAffirmation = () => {
     setCurrentIndex((prevIndex) => {
       const newIndex = (prevIndex + 1) % affirmations.length; // Loop back to the start
+      console.log("Moving to next affirmation. New index:", newIndex);
       localStorage.setItem("currentIndex", newIndex.toString());
       return newIndex;
     });

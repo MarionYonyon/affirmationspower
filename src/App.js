@@ -24,22 +24,20 @@ const AppContent = () => {
     currentAffirmation,
     nextAffirmation,
     affirmationsLoading,
-    selectedCategories,
-    setSelectedCategories,
-    jobStatus,
-    setJobStatus,
+    userSettings,
+    setUserSettings,
     setTogglesChanged,
   } = useContext(AppContext);
 
   const { dailyGoal, dailyProgress } = useGoalAndProgress();
 
   const handleCategoryChange = (newCategories) => {
-    setSelectedCategories(newCategories);
+    setUserSettings({ ...userSettings, selectedCategories: newCategories });
     setTogglesChanged(true);
   };
 
   const handleJobStatusChange = (newStatus) => {
-    setJobStatus(newStatus);
+    setUserSettings({ ...userSettings, jobStatus: newStatus });
     setTogglesChanged(true);
   };
 
@@ -70,7 +68,7 @@ const AppContent = () => {
             element={
               <PrivateRoute>
                 <ParametersPage
-                  selectedCategories={selectedCategories}
+                  selectedCategories={userSettings.selectedCategories}
                   handleCategoryChange={handleCategoryChange}
                 />
               </PrivateRoute>
@@ -105,7 +103,7 @@ const AppContent = () => {
             element={
               <PrivateRoute>
                 <SettingsPage
-                  jobStatus={jobStatus}
+                  jobStatus={userSettings.jobStatus}
                   setJobStatus={handleJobStatusChange}
                 />
               </PrivateRoute>
