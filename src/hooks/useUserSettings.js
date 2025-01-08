@@ -4,17 +4,9 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../utils/firebaseConfig";
 
 const useUserSettings = (userId) => {
-  const [userSettings, setUserSettings] = useState(() => {
-    // Prioritize localStorage values during initialization
-    const selectedCategories = localStorage.getItem("selectedCategories");
-    const jobStatus = localStorage.getItem("jobStatus");
-
-    return {
-      selectedCategories: selectedCategories
-        ? JSON.parse(selectedCategories)
-        : ["financial_abundance"],
-      jobStatus: jobStatus || "unemployed",
-    };
+  const [userSettings, setUserSettings] = useState({
+    selectedCategories: ["financial_abundance"], // Default value
+    jobStatus: "unemployed", // Default value
   });
 
   const [loading, setLoading] = useState(true);
@@ -30,10 +22,7 @@ const useUserSettings = (userId) => {
 
         if (docSnap.exists()) {
           console.log("Fetched user settings:", docSnap.data());
-          setUserSettings((prevSettings) => ({
-            ...prevSettings,
-            ...docSnap.data(),
-          }));
+          setUserSettings(docSnap.data());
         } else {
           console.log("No user settings found. Using defaults.");
         }
@@ -61,21 +50,13 @@ const useUserSettings = (userId) => {
         return;
       }
 
-      // Validate newSettings
       const serializableSettings = JSON.parse(JSON.stringify(newSettings)); // Ensure serializable
 
       const userDoc = doc(db, `users/${userId}/settings/preferences`);
       await setDoc(userDoc, serializableSettings, { merge: true });
 
-      console.log("User settings saved:", serializableSettings);
+      console.log("User settings saved to Firestore:", serializableSettings);
       setUserSettings(serializableSettings);
-
-      // Save to localStorage
-      localStorage.setItem(
-        "selectedCategories",
-        JSON.stringify(serializableSettings.selectedCategories)
-      );
-      localStorage.setItem("jobStatus", serializableSettings.jobStatus);
     } catch (error) {
       console.error("Error saving user settings:", error);
     }
