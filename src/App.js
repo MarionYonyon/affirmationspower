@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./styles/App.css";
 import SettingsPage from "./components/SettingsPage";
@@ -14,9 +14,8 @@ import QuoteArea from "./components/QuoteArea";
 import GoalBar from "./components/GoalBar";
 import TimeTracker from "./utils/TimeTracker";
 import PrivateRoute from "./components/PrivateRoute";
-import useAffirmations from "./hooks/useAffirmations";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
-import { AppProvider } from "./context/AppContext";
+import { AppProvider, AppContext } from "./context/AppContext";
 import ProgressPractice from "./components/ProgressPractice";
 
 const AppContent = () => {
@@ -24,15 +23,13 @@ const AppContent = () => {
     affirmations,
     currentAffirmation,
     nextAffirmation,
-    loading: affirmationsLoading,
-    userSettings,
-    setUserSettings,
-    jobStatus,
-    setJobStatus,
+    affirmationsLoading,
     selectedCategories,
     setSelectedCategories,
+    jobStatus,
+    setJobStatus,
     setTogglesChanged,
-  } = useAffirmations();
+  } = useContext(AppContext);
 
   const { dailyGoal, dailyProgress } = useGoalAndProgress();
 

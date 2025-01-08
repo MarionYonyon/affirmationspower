@@ -1,19 +1,19 @@
 import "../styles/QuoteArea.css";
 import ProgressPractice from "./ProgressPractice";
-import React from "react";
+import React, { useContext } from "react";
 import { logClickAction } from "../utils/firebaseHelpers";
-import useAffirmations from "../hooks/useAffirmations";
+import { AppContext } from "../context/AppContext";
 import next from "../images/next.svg";
 
 const QuoteArea = () => {
-  const { currentAffirmation, nextAffirmation, loading } = useAffirmations();
+  const { currentAffirmation, nextAffirmation, affirmationsLoading } = useContext(AppContext);
 
   const handleNextClick = () => {
     logClickAction("NextClick");
     nextAffirmation();
   };
 
-  if (loading) {
+  if (affirmationsLoading) {
     return <p>Loading affirmations...</p>;
   }
 
@@ -23,7 +23,7 @@ const QuoteArea = () => {
         <ProgressPractice
           currentAffirmation={currentAffirmation}
           nextAffirmation={handleNextClick}
-          loading={loading}
+          loading={affirmationsLoading}
         />
       </div>
       <button className="next-icon" onClick={handleNextClick}>
