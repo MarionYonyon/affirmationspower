@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { fetchFirestoreDoc, saveFirestoreDoc } from "../utils/firebase/firestoreUtils";
 import shuffleAndLimit from "../utils/shuffleAndLimit";
+import { DEFAULT_USER_SETTINGS } from "../utils/constants";
 
 
 // Hook: Manages user settings
@@ -23,7 +24,7 @@ const useUserSettings = (userId) => {
         setUserSettings(settings);
       } else {
         console.warn(`No settings found for userId: ${userId}`);
-        setUserSettings({});
+        setUserSettings({ ...DEFAULT_USER_SETTINGS });
       }
 
       setLoading(false);
@@ -50,6 +51,7 @@ const useUserSettings = (userId) => {
 
   return { userSettings, setUserSettings: saveUserSettings, loading };
 };
+
 
 // Hook: Manages affirmations
 const useAffirmations = (userId, userSettings) => {

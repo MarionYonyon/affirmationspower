@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
-import { defaultUserData, defaultUserSettings } from "../constants";
+import { DEFAULT_USER_DATA, DEFAULT_USER_SETTINGS } from "../constants";
 
 // Initialize Firestore data for a new user
 export const initializeUserData = async (user) => {
@@ -12,13 +12,13 @@ export const initializeUserData = async (user) => {
   try {
     const userDoc = await getDoc(userDocRef);
     if (!userDoc.exists()) {
-      await setDoc(userDocRef, defaultUserData, { merge: true });
+      await setDoc(userDocRef, DEFAULT_USER_DATA, { merge: true });
       console.log("Default user data initialized successfully!");
     }
 
     const userSettingsDoc = await getDoc(userSettingsRef);
     if (!userSettingsDoc.exists()) {
-      await setDoc(userSettingsRef, defaultUserSettings, { merge: true });
+      await setDoc(userSettingsRef, DEFAULT_USER_SETTINGS, { merge: true });
       console.log("Default user settings initialized successfully!");
     }
   } catch (error) {

@@ -16,6 +16,7 @@ import TimeTracker from "./utils/TimeTracker";
 import PrivateRoute from "./components/PrivateRoute";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
 import { AppProvider, AppContext } from "./context/AppContext";
+import { DEFAULT_USER_SETTINGS } from "./utils/constants";
 
 const AppContent = () => {
   const {
@@ -32,10 +33,11 @@ const AppContent = () => {
     return <p>Loading...</p>;
   }
 
-    // Default values for userSettings properties if they are undefined
-    const selectedCategories = userSettings?.selectedCategories || [];
-    const jobStatus = userSettings?.jobStatus || "";
-  
+  // Use default values from constants
+  const selectedCategories =
+    userSettings?.selectedCategories ||
+    DEFAULT_USER_SETTINGS.selectedCategories;
+  const jobStatus = userSettings?.jobStatus || DEFAULT_USER_SETTINGS.jobStatus;
 
   return (
     <Router>

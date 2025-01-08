@@ -35,14 +35,14 @@ export const APPEARANCE_LABELS = {
 
 
 // Default data
-export const defaultUserData = {
+export const DEFAULT_USER_DATA = {
   dailyGoal: 20,
   dailyProgress: {},
   createdAt: new Date().toISOString(),
   appearance: "light",
 };
 
-export const defaultUserSettings = {
+export const DEFAULT_USER_SETTINGS = {
   selectedCategories: ["motivation_and_inspiration"],
   jobStatus: "unemployed",
 };

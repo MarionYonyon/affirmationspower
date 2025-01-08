@@ -2,6 +2,8 @@ import React, { createContext } from "react";
 import useAuthState from "../hooks/useAuthState";
 import useFirestoreSync from "../hooks/useFirestoreSync";
 import { useUserSettings, useAffirmations } from "../hooks/newHook";
+import { DEFAULT_USER_SETTINGS } from "../utils/constants";
+
 
 export const AppContext = createContext();
 
@@ -9,7 +11,7 @@ export const AppProvider = ({ children }) => {
   const { userId, isLoggedIn, initialized } = useAuthState();
 
   // Use the new hooks for user settings and affirmations
-  const { userSettings = {}, setUserSettings, loading: settingsLoading } = useUserSettings(userId);
+  const { userSettings = DEFAULT_USER_SETTINGS, setUserSettings, loading: settingsLoading } = useUserSettings(userId);
   const {
     affirmations = [],
     currentAffirmation = null,
