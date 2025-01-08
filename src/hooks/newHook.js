@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
-import { fetchFirestoreDoc, saveFirestoreDoc } from "../utils/firebase/firestoreUtils";
+import {
+  fetchFirestoreDoc,
+  saveFirestoreDoc,
+} from "../utils/firebase/firestoreUtils";
 import shuffleAndLimit from "../utils/shuffleAndLimit";
 import { DEFAULT_USER_SETTINGS } from "../utils/constants";
-
+import { getUserSettingsPath, getAffirmationPath } from "../utils/firebase/pathUtils";
 
 // Hook: Manages user settings
 const useUserSettings = (userId) => {
@@ -17,7 +20,7 @@ const useUserSettings = (userId) => {
         return;
       }
 
-      const path = `users/${userId}/settings/preferences`;
+      const path = getUserSettingsPath(userId);
       const settings = await fetchFirestoreDoc(path);
 
       if (settings) {
@@ -44,14 +47,13 @@ const useUserSettings = (userId) => {
       return;
     }
 
-    const path = `users/${userId}/settings/preferences`;
+    const path = getUserSettingsPath(userId);
     await saveFirestoreDoc(path, newSettings);
     setUserSettings(newSettings);
   };
 
   return { userSettings, setUserSettings: saveUserSettings, loading };
 };
-
 
 // Hook: Manages affirmations
 const useAffirmations = (userId, userSettings) => {
@@ -61,19 +63,30 @@ const useAffirmations = (userId, userSettings) => {
 
   useEffect(() => {
     const fetchAffirmations = async () => {
-      if (!userId || !userSettings?.selectedCategories?.length || !userSettings?.jobStatus) return;
+      if (
+        !userId ||
+        !userSettings?.selectedCategories?.length ||
+        !userSettings?.jobStatus
+      ) {
+        console.warn("Missing userId, selected categories, or job status.");
+        return;
+      }
 
       let categoryMap = {};
 
-      for (const category of userSettings.selectedCategories) {
-        const path = `/topic/career_growth/job_status/${userSettings.jobStatus}/practice/${category}`;
-        const data = await fetchFirestoreDoc(path);
-        categoryMap[category] = data ? Object.values(data) : [];
-      }
+      try {
+        for (const category of userSettings.selectedCategories) {
+          const path = getAffirmationPath(userSettings.jobStatus, category);
+          const data = await fetchFirestoreDoc(path);
+          categoryMap[category] = data ? Object.values(data) : [];
+        }
 
-      const limitedAffirmations = shuffleAndLimit(categoryMap, 30); // Max 30 affirmations
-      setAffirmations(limitedAffirmations);
-      setCurrentIndex(0); // Reset index when new affirmations are fetched
+        const limitedAffirmations = shuffleAndLimit(categoryMap, 30); // Max 30 affirmations
+        setAffirmations(limitedAffirmations);
+        setCurrentIndex(0); // Reset index when new affirmations are fetched
+      } catch (error) {
+        console.error("Error fetching affirmations:", error);
+      }
     };
 
     if (togglesChanged) {
