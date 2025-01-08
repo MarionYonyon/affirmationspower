@@ -8,26 +8,28 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const { userId, isLoggedIn, initialized } = useAuthState();
-  const { userSettings, setUserSettings, loading: settingsLoading } = useUserSettings(userId);
+
+  // Always call hooks and handle the absence of userId inside the hooks
+  const { userSettings = {}, setUserSettings, loading: settingsLoading } = useUserSettings(userId);
   const {
-    affirmations,
-    currentAffirmation,
-    nextAffirmation,
-    setTogglesChanged,
-    currentIndex,
+    affirmations = [],
+    currentAffirmation = null,
+    nextAffirmation = () => {},
+    setTogglesChanged = () => {},
+    currentIndex = 0,
   } = useAffirmations(userId, userSettings);
 
   useFirestoreSync({
     userId,
     affirmations,
-    jobStatus: userSettings.jobStatus,
-    selectedCategories: userSettings.selectedCategories,
+    jobStatus: userSettings?.jobStatus || "",
+    selectedCategories: userSettings?.selectedCategories || [],
     currentIndex,
     initialized,
   });
 
   const handleCategoryChange = (newCategories) => {
-    if (newCategories.length === 0) {
+    if (!userSettings || newCategories.length === 0) {
       console.warn("At least one category must remain enabled.");
       return;
     }
@@ -36,6 +38,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const handleJobStatusChange = (newStatus) => {
+    if (!userSettings) return;
     setUserSettings({ ...userSettings, jobStatus: newStatus });
     setTogglesChanged(true);
   };

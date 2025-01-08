@@ -1,14 +1,9 @@
-// useUserSettings.js
 import { useState, useEffect } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../utils/firebaseConfig";
 
 const useUserSettings = (userId) => {
-  const [userSettings, setUserSettings] = useState({
-    selectedCategories: ["financial_abundance"], // Default value
-    jobStatus: "unemployed", // Default value
-  });
-
+  const [userSettings, setUserSettings] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Fetch settings from Firestore
@@ -24,7 +19,7 @@ const useUserSettings = (userId) => {
           console.log("Fetched user settings:", docSnap.data());
           setUserSettings(docSnap.data());
         } else {
-          console.log("No user settings found. Using defaults.");
+          throw new Error("User settings not found. Ensure initialization.");
         }
       } catch (error) {
         console.error("Error fetching user settings:", error);
