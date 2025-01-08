@@ -1,27 +1,26 @@
-// useAffirmations.js
-
 import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebaseConfig";
 import shuffleAndLimit from "../utils/shuffleAndLimit";
-import initializeSettings from "../components/initializeSettings";
 
 const useAffirmations = () => {
-  const { selectedCategories: defaultCategories, jobStatus: defaultJobStatus } =
-    initializeSettings();
+  const [selectedCategories, setSelectedCategories] = useState(() => {
+    const storedCategories = localStorage.getItem("selectedCategories");
+    return storedCategories ? JSON.parse(storedCategories) : null;
+  });
 
-  console.log("Default categories from initializeSettings:", defaultCategories);
-  console.log("Default job status from initializeSettings:", defaultJobStatus);
+  const [jobStatus, setJobStatus] = useState(() => {
+    return localStorage.getItem("jobStatus");
+  });
 
-  const [selectedCategories, setSelectedCategories] =
-    useState(defaultCategories);
-  const [jobStatus, setJobStatus] = useState(defaultJobStatus);
-  const [affirmations, setAffirmations] = useState(
-    () => JSON.parse(localStorage.getItem("affirmations")) || []
-  );
-  const [currentIndex, setCurrentIndex] = useState(
-    () => parseInt(localStorage.getItem("currentIndex"), 10) || 0
-  );
+  const [affirmations, setAffirmations] = useState(() => {
+    return JSON.parse(localStorage.getItem("affirmations")) || [];
+  });
+
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    return parseInt(localStorage.getItem("currentIndex"), 10) || 0;
+  });
+
   const [togglesChanged, setTogglesChanged] = useState(false);
 
   // Log initial values of selectedCategories and jobStatus
@@ -81,7 +80,10 @@ const useAffirmations = () => {
   }, [togglesChanged, jobStatus, selectedCategories]);
 
   useEffect(() => {
-    console.log("selectedCategories changed. Saving to localStorage:", selectedCategories);
+    console.log(
+      "selectedCategories changed. Saving to localStorage:",
+      selectedCategories
+    );
     localStorage.setItem(
       "selectedCategories",
       JSON.stringify(selectedCategories)
