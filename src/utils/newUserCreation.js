@@ -25,17 +25,23 @@ const defaultAffirmationsToggles = Object.keys(AFFIRMATION_LABELS).reduce(
 // Override specific toggles
 defaultAffirmationsToggles.motivation_and_inspiration = true;
 
+// Default user settings
 const defaultUserSettings = {
-  affirmationsToggles: defaultAffirmationsToggles, // Dynamically generated toggles
-  jobStatus: Object.keys(JOBSTATUS_LABELS)[1], // Default to "career_changer" (2nd key)
+  selectedCategories: ["motivation_and_inspiration"], // Default category
+  jobStatus: "unemployed", // Default job status
 };
 
-// Function to initialize user data
+/**
+ * Initializes Firestore data for a new user.
+ *
+ * @param {string} userId - The unique ID of the user from Firebase Authentication.
+ * @returns {Promise<void>} Resolves when the default data is successfully written to Firestore.
+ */
 export const initializeUserData = async (user) => {
   if (!user) return;
 
   const userDocRef = doc(db, "users", user.uid);
-  const userSettingsRef = doc(db, "users", user.uid, "settings", "userSettings");
+  const userSettingsRef = doc(db, `users/${user.uid}/settings/preferences`);
 
   try {
     const userDoc = await getDoc(userDocRef);
@@ -47,7 +53,7 @@ export const initializeUserData = async (user) => {
 
     const userSettingsDoc = await getDoc(userSettingsRef);
     if (!userSettingsDoc.exists()) {
-      // Initialize default settings under "settings/userSettings"
+      // Initialize default settings under "/settings/preferences"
       await setDoc(userSettingsRef, defaultUserSettings, { merge: true });
       console.log("Default user settings initialized successfully!");
     }

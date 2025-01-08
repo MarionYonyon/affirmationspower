@@ -10,7 +10,7 @@ const useAffirmations = () => {
   });
 
   const [jobStatus, setJobStatus] = useState(() => {
-    return localStorage.getItem("jobStatus") || ""; // Default to an empty string
+    return localStorage.getItem("jobStatus") || null; // Default to an empty string
   });
 
   const [affirmations, setAffirmations] = useState(() => {
