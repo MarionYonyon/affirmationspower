@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { db } from "../utils/firebaseConfig";
+import { db } from "../utils/firebase/firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 
 const useFeedbackSubmit = () => {

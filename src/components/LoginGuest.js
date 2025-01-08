@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../utils/firebaseConfig";
+import { auth } from "../utils/firebase/firebaseConfig";
 import { signInAnonymously } from "firebase/auth";
-import { initializeUserData } from "../utils/newUserCreation";
+import { initializeUserData } from "../utils/firebase/initializationUtils";
 import LoginGuestIcon from "../images/LoginGuest.svg";
 
 const LoginGuest = () => {

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { auth, db } from "../utils/firebaseConfig";
+import { auth, db } from "../utils/firebase/firebaseConfig";
 import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
-import { logUserAction } from "../utils/firebaseHelpers";
+import { logUserAction } from "../utils/firebase/loggingUtils";
 
 const useGoalAndProgress = () => {
   const [dailyGoal, setDailyGoal] = useState(20); // Default to 20

@@ -32,3 +32,17 @@ export const APPEARANCE_LABELS = {
   light: "Light",
   dark: "Dark",
 }
+
+
+// Default data
+export const defaultUserData = {
+  dailyGoal: 20,
+  dailyProgress: {},
+  createdAt: new Date().toISOString(),
+  appearance: "light",
+};
+
+export const defaultUserSettings = {
+  selectedCategories: ["motivation_and_inspiration"],
+  jobStatus: "unemployed",
+};

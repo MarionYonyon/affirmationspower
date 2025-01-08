@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { getCurrentUser } from "./firebaseHelpers";
+import { useState, useEffect } from "react";
+import { getCurrentUser } from "./firebase/userUtils";
 import { getCurrentDate } from "./dateUtils";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import { db } from "./firebase/firebaseConfig";
 
 function TimeTracker() {
   const [timeSpent, setTimeSpent] = useState(0); // Total time spent in seconds for the current session

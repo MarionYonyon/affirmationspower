@@ -1,5 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "./firebaseConfig";
+import { saveFirestoreDoc } from "./firestoreUtils";
 
 /**
  * Saves daily affirmations for a specific date in Firestore.
@@ -9,7 +8,7 @@ import { db } from "./firebaseConfig";
  * @param {Array} affirmations - The affirmations to save for the given date.
  * @returns {Promise<void>} Resolves when affirmations are successfully saved.
  */
-const saveDailyAffirmations = async (userId, date, affirmations) => {
+export const saveDailyAffirmations = async (userId, date, affirmations) => {
   try {
     console.log("saveDailyAffirmations called with:", { userId, date, affirmations });
 
@@ -19,20 +18,18 @@ const saveDailyAffirmations = async (userId, date, affirmations) => {
       );
     }
 
-    const userDocRef = doc(db, `users/${userId}/settings/preferences`);
-    const updatedData = {
+    const path = `users/${userId}/settings/preferences`;
+    const data = {
       dailyAffirmations: {
         [date]: affirmations,
       },
     };
 
-    // Save affirmations to Firestore
-    await setDoc(userDocRef, updatedData, { merge: true });
+    // Use the generic `saveFirestoreDoc` to save the data
+    await saveFirestoreDoc(path, data);
     console.log(`Daily affirmations saved for user: ${userId}, date: ${date}`);
   } catch (error) {
     console.error("Error saving daily affirmations:", error);
     throw error; // Propagate error for higher-level handling
   }
 };
-
-export default saveDailyAffirmations;

@@ -1,7 +1,7 @@
 import "../styles/QuoteArea.css";
 import ProgressPractice from "./ProgressPractice";
 import React, { useContext } from "react";
-import { logClickAction } from "../utils/firebaseHelpers";
+import { logClickAction } from "../utils/firebase/loggingUtils";
 import { AppContext } from "../context/AppContext";
 import next from "../images/next.svg";
 

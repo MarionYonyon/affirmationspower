@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../utils/firebaseConfig";
-import saveDailyAffirmations from "../utils/saveDailyAffirmations";
+import { db } from "../utils/firebase/firebaseConfig";
+import { saveDailyAffirmations } from "../utils/firebase/saveDailyAffirmations";
 
 const useFirestoreSync = ({
   userId,

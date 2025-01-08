@@ -1,15 +1,14 @@
 import React, { createContext } from "react";
 import useAuthState from "../hooks/useAuthState";
 import useFirestoreSync from "../hooks/useFirestoreSync";
-import useAffirmations from "../hooks/useAffirmations";
-import useUserSettings from "../hooks/useUserSettings";
+import { useUserSettings, useAffirmations } from "../hooks/newHook";
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const { userId, isLoggedIn, initialized } = useAuthState();
 
-  // Always call hooks and handle the absence of userId inside the hooks
+  // Use the new hooks for user settings and affirmations
   const { userSettings = {}, setUserSettings, loading: settingsLoading } = useUserSettings(userId);
   const {
     affirmations = [],
@@ -19,6 +18,7 @@ export const AppProvider = ({ children }) => {
     currentIndex = 0,
   } = useAffirmations(userId, userSettings);
 
+  // Firestore sync logic (unchanged)
   useFirestoreSync({
     userId,
     affirmations,
@@ -28,6 +28,7 @@ export const AppProvider = ({ children }) => {
     initialized,
   });
 
+  // Category change handler
   const handleCategoryChange = (newCategories) => {
     if (!userSettings || newCategories.length === 0) {
       console.warn("At least one category must remain enabled.");
@@ -37,6 +38,7 @@ export const AppProvider = ({ children }) => {
     setTogglesChanged(true);
   };
 
+  // Job status change handler
   const handleJobStatusChange = (newStatus) => {
     if (!userSettings) return;
     setUserSettings({ ...userSettings, jobStatus: newStatus });
