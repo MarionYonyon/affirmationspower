@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../utils/firebase/firebaseConfig";
 import { saveDailyAffirmations } from "../utils/firebase/saveDailyAffirmations";
+import { saveCurrentIndex } from "../utils/firebase/saveCurrentIndex";
 
 const useFirestoreSync = ({
   userId,
@@ -11,8 +10,10 @@ const useFirestoreSync = ({
   currentIndex,
   initialized,
 }) => {
+  // Sync daily affirmations
   useEffect(() => {
     const currentDate = new Date().toISOString().split("T")[0];
+
     if (userId && affirmations.length > 0) {
       saveDailyAffirmations(
         userId,
@@ -28,19 +29,12 @@ const useFirestoreSync = ({
     }
   }, [jobStatus, selectedCategories, affirmations, userId]);
 
+  // Sync current index
   useEffect(() => {
-    const saveCurrentIndex = async () => {
-      try {
-        const userDocRef = doc(db, `users/${userId}/settings/preferences`);
-        await setDoc(userDocRef, { currentIndex }, { merge: true });
-        console.log("Current index saved to Firestore:", currentIndex);
-      } catch (error) {
-        console.error("Error saving current index:", error);
-      }
-    };
-
-    if (initialized) {
-      saveCurrentIndex();
+    if (initialized && userId) {
+      saveCurrentIndex(userId, currentIndex).catch((error) =>
+        console.error("Error saving current index:", error)
+      );
     }
   }, [currentIndex, userId, initialized]);
 };

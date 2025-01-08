@@ -1,17 +1,22 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import useAuthState from "../hooks/useAuthState";
 import useFirestoreSync from "../hooks/useFirestoreSync";
 import { useUserSettings, useAffirmations } from "../hooks/newHook";
 import { DEFAULT_USER_SETTINGS } from "../utils/constants";
 
-
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
+  const [initializing, setInitializing] = useState(true); // State to track initialization
   const { userId, isLoggedIn, initialized } = useAuthState();
 
   // Use the new hooks for user settings and affirmations
-  const { userSettings = DEFAULT_USER_SETTINGS, setUserSettings, loading: settingsLoading } = useUserSettings(userId);
+  const {
+    userSettings = DEFAULT_USER_SETTINGS,
+    setUserSettings,
+    loading: settingsLoading,
+  } = useUserSettings(userId);
+
   const {
     affirmations = [],
     currentAffirmation = null,
@@ -20,7 +25,7 @@ export const AppProvider = ({ children }) => {
     currentIndex = 0,
   } = useAffirmations(userId, userSettings);
 
-  // Firestore sync logic (unchanged)
+  // Firestore sync logic
   useFirestoreSync({
     userId,
     affirmations,
@@ -29,6 +34,25 @@ export const AppProvider = ({ children }) => {
     currentIndex,
     initialized,
   });
+
+  // Ensure initialization completes before proceeding
+  React.useEffect(() => {
+    if (userId && initialized) {
+      const initialize = async () => {
+        try {
+          // Add your initialization logic here if needed
+          setInitializing(false);
+        } catch (error) {
+          console.error("Error during initialization:", error);
+          setInitializing(false);
+        }
+      };
+
+      initialize();
+    } else {
+      setInitializing(false);
+    }
+  }, [userId, initialized]);
 
   // Category change handler
   const handleCategoryChange = (newCategories) => {
@@ -50,6 +74,7 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        initializing,
         userId,
         isLoggedIn,
         userSettings,

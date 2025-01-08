@@ -20,6 +20,7 @@ import { DEFAULT_USER_SETTINGS } from "./utils/constants";
 
 const AppContent = () => {
   const {
+    initializing,
     currentAffirmation,
     affirmationsLoading,
     userSettings,
@@ -29,7 +30,7 @@ const AppContent = () => {
 
   const { dailyGoal, dailyProgress } = useGoalAndProgress();
 
-  if (affirmationsLoading) {
+  if (initializing || affirmationsLoading) {
     return <p>Loading...</p>;
   }
 
