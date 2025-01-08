@@ -6,11 +6,17 @@ const PrivateRoute = ({ children }) => {
   const { isLoggedIn } = useContext(AppContext);
 
   if (isLoggedIn === null) {
-    // Render a loading state until the authentication status is determined
+    // Render a loading state until authentication status is determined
     return <p>Loading...</p>;
   }
 
-  return isLoggedIn ? children : <Navigate to="/affirmationspower/login" />;
+  // If not logged in, redirect to login page
+  if (!isLoggedIn) {
+    return <Navigate to="/affirmationspower/login" />;
+  }
+
+  // If logged in, render the protected route
+  return children;
 };
 
 export default PrivateRoute;

@@ -6,11 +6,11 @@ import shuffleAndLimit from "../utils/shuffleAndLimit";
 const useAffirmations = () => {
   const [selectedCategories, setSelectedCategories] = useState(() => {
     const storedCategories = localStorage.getItem("selectedCategories");
-    return storedCategories ? JSON.parse(storedCategories) : null;
+    return storedCategories ? JSON.parse(storedCategories) : []; // Default to an empty array
   });
 
   const [jobStatus, setJobStatus] = useState(() => {
-    return localStorage.getItem("jobStatus");
+    return localStorage.getItem("jobStatus") || ""; // Default to an empty string
   });
 
   const [affirmations, setAffirmations] = useState(() => {
