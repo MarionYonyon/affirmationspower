@@ -5,7 +5,7 @@ import shuffleAndLimit from "../utils/shuffleAndLimit";
 
 const useAffirmations = (userId, userSettings) => {
   const [affirmations, setAffirmations] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState();
   const [togglesChanged, setTogglesChanged] = useState(false);
 
   useEffect(() => {
