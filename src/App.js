@@ -16,13 +16,10 @@ import TimeTracker from "./utils/TimeTracker";
 import PrivateRoute from "./components/PrivateRoute";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
 import { AppProvider, AppContext } from "./context/AppContext";
-import ProgressPractice from "./components/ProgressPractice";
 
 const AppContent = () => {
   const {
-    affirmations,
     currentAffirmation,
-    nextAffirmation,
     affirmationsLoading,
     userSettings,
     setUserSettings,
