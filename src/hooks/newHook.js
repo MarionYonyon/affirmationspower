@@ -17,13 +17,14 @@ const useUserSettings = (userId) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUserSettings = async () => {
-      if (!userId) {
-        setUserSettings(null);
-        setLoading(false);
-        return;
-      }
+    if (!userId) {
+      console.log("No user ID. Skipping user settings fetch.");
+      setUserSettings(null); // Ensure state is reset
+      setLoading(false);
+      return;
+    }
 
+    const fetchUserSettings = async () => {
       const path = getUserSettingsPath(userId);
       const settings = await fetchFirestoreDoc(path);
 
@@ -41,7 +42,10 @@ const useUserSettings = (userId) => {
   }, [userId]);
 
   const saveUserSettings = async (newSettings) => {
-    if (!userId) return;
+    if (!userId) {
+      console.warn("No user ID. Skipping user settings save.");
+      return;
+    }
 
     if (
       newSettings.selectedCategories &&
@@ -67,19 +71,46 @@ const useAffirmations = (userId, userSettings) => {
   const [newAffirmationsFetched, setNewAffirmationsFetched] = useState(false); // Track if new affirmations were fetched
 
   useEffect(() => {
+    if (!userId) {
+      console.log("No user ID. Skipping affirmations initialization.");
+      setAffirmations([]); // Reset affirmations when no user is logged in
+      setCurrentIndex(0); // Reset the index
+      setNewAffirmationsFetched(false); // Reset the fetch flag
+      return;
+    }
+
     const initializeAffirmations = async () => {
       const today = new Date().toISOString().split("T")[0];
+
+      console.log("Starting initialization of affirmations...");
+      console.log("Today's date:", today);
+      console.log("Current user settings:", userSettings);
+      console.log("Affirmations state before initialization:", affirmations);
+      console.log("Current togglesChanged:", togglesChanged);
+      console.log(
+        "New affirmations fetched this session:",
+        newAffirmationsFetched
+      );
+
+      if (!userSettings) {
+        console.log("No user settings available. Clearing affirmations...");
+        setAffirmations([]);
+        setCurrentIndex(0);
+        setNewAffirmationsFetched(false);
+        return;
+      }
 
       // Case 1: Affirmations for current day do not exist
       if (!userSettings?.dailyAffirmations?.[today]?.length) {
         console.log(
-          "CASE 1: No affirmations for today. Fetching new affirmations..."
+          "CASE 1: No affirmations for today found in dailyAffirmations."
         );
         if (
           userId &&
           userSettings?.selectedCategories?.length &&
           userSettings?.jobStatus
         ) {
+          console.log("CASE 1: Fetching new affirmations...");
           try {
             const categoryMap = {};
 
@@ -95,7 +126,10 @@ const useAffirmations = (userId, userSettings) => {
               })
             );
 
-            console.log("Final categoryMap after fetching:", categoryMap);
+            console.log(
+              "CASE 1: Final categoryMap after fetching:",
+              categoryMap
+            );
 
             const newAffirmations = shuffleAndLimit(categoryMap, 4); // Limit to 4 affirmations
             setAffirmations(newAffirmations);
@@ -103,14 +137,15 @@ const useAffirmations = (userId, userSettings) => {
 
             // Save the new affirmations to Firestore
             await saveDailyAffirmations(userId, today, newAffirmations);
-            console.log("New affirmations saved successfully!");
+            console.log("CASE 1: New affirmations saved successfully!");
 
             // Mark that new affirmations were fetched
             setNewAffirmationsFetched(true);
           } catch (error) {
-            console.error("Error fetching affirmations:", error);
+            console.error("CASE 1: Error fetching affirmations:", error);
           }
         }
+        console.log("Exiting CASE 1.");
         return;
       }
 
@@ -120,22 +155,29 @@ const useAffirmations = (userId, userSettings) => {
         !togglesChanged &&
         !newAffirmationsFetched // Skip if new affirmations were just fetched
       ) {
-        console.log("CASE 2: Using existing affirmations for today.");
+        console.log(
+          "CASE 2: Affirmations for today exist and togglesChanged is false."
+        );
         setAffirmations(userSettings.dailyAffirmations[today]);
         setCurrentIndex(0);
+        console.log(
+          "CASE 2: Affirmations state updated with existing affirmations."
+        );
+        console.log("Exiting CASE 2.");
         return;
       }
 
       // Case 3: Affirmations for current day exist but togglesChanged is true
       if (userSettings?.dailyAffirmations?.[today]?.length && togglesChanged) {
         console.log(
-          "CASE 3: Fetching new affirmations due to togglesChanged..."
+          "CASE 3: Affirmations for today exist, but togglesChanged is true."
         );
         if (
           userId &&
           userSettings?.selectedCategories?.length &&
           userSettings?.jobStatus
         ) {
+          console.log("CASE 3: Fetching updated affirmations...");
           try {
             const categoryMap = {};
 
@@ -151,7 +193,10 @@ const useAffirmations = (userId, userSettings) => {
               })
             );
 
-            console.log("Final categoryMap after togglesChanged:", categoryMap);
+            console.log(
+              "CASE 3: Final categoryMap after togglesChanged:",
+              categoryMap
+            );
 
             const updatedAffirmations = shuffleAndLimit(categoryMap, 4); // Limit to 4 affirmations
             setAffirmations(updatedAffirmations);
@@ -159,15 +204,19 @@ const useAffirmations = (userId, userSettings) => {
 
             // Save the updated affirmations to Firestore
             await saveDailyAffirmations(userId, today, updatedAffirmations);
-            console.log("Updated affirmations saved successfully!");
+            console.log("CASE 3: Updated affirmations saved successfully!");
 
             // Mark that new affirmations were fetched
             setNewAffirmationsFetched(true);
           } catch (error) {
-            console.error("Error fetching updated affirmations:", error);
+            console.error(
+              "CASE 3: Error fetching updated affirmations:",
+              error
+            );
           }
         }
         setTogglesChanged(false);
+        console.log("Exiting CASE 3.");
       }
     };
 

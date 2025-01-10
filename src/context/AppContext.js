@@ -61,9 +61,10 @@ export const AppProvider = ({ children }) => {
   React.useEffect(() => {
     if (!userId) {
       console.log("No user logged in. Resetting state to default.");
-      setUserSettings(DEFAULT_USER_SETTINGS);
+      setUserSettings(DEFAULT_USER_SETTINGS); // Reset user settings
+      setTogglesChanged(false); // Reset togglesChanged in useAffirmations
     }
-  }, [userId, setUserSettings]);
+  }, [userId, setUserSettings, setTogglesChanged]);
 
   // Log the current state whenever userSettings or affirmations change
   React.useEffect(() => {

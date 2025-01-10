@@ -14,6 +14,12 @@ const useFirestoreSync = ({
   useEffect(() => {
     const currentDate = new Date().toISOString().split("T")[0];
 
+    // Guard clause: Exit early if no user is logged in
+    if (!userId) {
+      console.log("No user ID provided. Skipping Firestore sync.");
+      return;
+    }
+
     if (userId && affirmations.length > 0) {
       saveDailyAffirmations(
         userId,
@@ -28,6 +34,6 @@ const useFirestoreSync = ({
         );
     }
   }, [jobStatus, selectedCategories, affirmations, userId]);
-}
+};
 
 export default useFirestoreSync;
