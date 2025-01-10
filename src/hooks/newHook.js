@@ -10,6 +10,7 @@ import {
   getAffirmationPath,
 } from "../utils/firebase/pathUtils";
 import { saveDailyAffirmations } from "../utils/firebase/saveDailyAffirmations";
+import { saveCurrentIndex } from "../utils/firebase/saveCurrentIndex";
 
 // Hook: Manages user settings
 const useUserSettings = (userId) => {
@@ -227,6 +228,19 @@ const useAffirmations = (userId, userSettings) => {
     setCurrentIndex((prevIndex) => {
       const newIndex = (prevIndex + 1) % affirmations.length; // Loop back to the start
       console.log(`Advancing to next affirmation: index ${newIndex}`);
+
+      if (userId) {
+        saveCurrentIndex(userId, newIndex)
+          .then(() => {
+            console.log(`Current index (${newIndex}) saved to Firestore.`);
+          })
+          .catch((error) => {
+            console.error("Error saving current index to Firestore:", error);
+          });
+      } else {
+        console.log("No user ID available. Skipping index save.");
+      }
+
       return newIndex;
     });
   };
