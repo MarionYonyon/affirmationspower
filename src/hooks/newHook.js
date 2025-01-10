@@ -71,6 +71,15 @@ const useAffirmations = (userId, userSettings) => {
   const [togglesChanged, setTogglesChanged] = useState(false);
   const [newAffirmationsFetched, setNewAffirmationsFetched] = useState(false); // Track if new affirmations were fetched
 
+  // Debugging: Log changes to togglesChanged and newAffirmationsFetched
+  useEffect(() => {
+    console.log("togglesChanged updated to:", togglesChanged);
+  }, [togglesChanged]);
+
+  useEffect(() => {
+    console.log("newAffirmationsFetched updated to:", newAffirmationsFetched);
+  }, [newAffirmationsFetched]);
+
   useEffect(() => {
     if (!userId) {
       console.log("No user ID. Skipping affirmations initialization.");
@@ -142,6 +151,7 @@ const useAffirmations = (userId, userSettings) => {
 
             // Mark that new affirmations were fetched
             setNewAffirmationsFetched(true);
+            console.log("CASE 1: newAffirmationsFetched set to true.");
           } catch (error) {
             console.error("CASE 1: Error fetching affirmations:", error);
           }
@@ -150,39 +160,40 @@ const useAffirmations = (userId, userSettings) => {
         return;
       }
 
-     // Case 2: Affirmations for current day exist and togglesChanged is false
-if (
-  userSettings?.dailyAffirmations?.[today]?.length &&
-  !togglesChanged &&
-  !newAffirmationsFetched // Skip if new affirmations were just fetched
-) {
-  console.log(
-    "CASE 2: Affirmations for today exist and togglesChanged is false."
-  );
+      // Case 2: Affirmations for current day exist and togglesChanged is false
+      if (
+        userSettings?.dailyAffirmations?.[today]?.length &&
+        !togglesChanged &&
+        !newAffirmationsFetched // Skip if new affirmations were just fetched
+      ) {
+        console.log(
+          "CASE 2: Affirmations for today exist and togglesChanged is false."
+        );
 
-  const existingAffirmations = userSettings.dailyAffirmations[today];
-  setAffirmations(existingAffirmations);
+        const existingAffirmations = userSettings.dailyAffirmations[today];
+        setAffirmations(existingAffirmations);
 
-  const validIndex =
-    userSettings.currentIndex >= 0 &&
-    userSettings.currentIndex < existingAffirmations.length
-      ? userSettings.currentIndex
-      : 0; // Ensure the currentIndex is within bounds
+        const validIndex =
+          userSettings.currentIndex >= 0 &&
+          userSettings.currentIndex < existingAffirmations.length
+            ? userSettings.currentIndex
+            : 0; // Ensure the currentIndex is within bounds
 
-  console.log(`CASE 2: currentIndex mapped to validIndex (${validIndex}).`);
-  
-  setCurrentIndex(validIndex);
+        console.log(
+          `CASE 2: currentIndex mapped to validIndex (${validIndex}).`
+        );
 
-  // Immediately update the current affirmation
-  console.log("CASE 2: Updating current affirmation...");
-  setAffirmations(existingAffirmations);
-  console.log(
-    "CASE 2: Affirmations state updated with existing affirmations."
-  );
-  console.log("Exiting CASE 2.");
-  return;
-}
+        setCurrentIndex(validIndex);
 
+        // Immediately update the current affirmation
+        console.log("CASE 2: Updating current affirmation...");
+        setAffirmations(existingAffirmations);
+        console.log(
+          "CASE 2: Affirmations state updated with existing affirmations."
+        );
+        console.log("Exiting CASE 2.");
+        return;
+      }
 
       // Case 3: Affirmations for current day exist but togglesChanged is true
       if (userSettings?.dailyAffirmations?.[today]?.length && togglesChanged) {
@@ -225,6 +236,12 @@ if (
 
             // Mark that new affirmations were fetched
             setNewAffirmationsFetched(true);
+            console.log("CASE 3: newAffirmationsFetched set to true.");
+            // Delay resetting togglesChanged
+            setTimeout(() => {
+              setTogglesChanged(false);
+              console.log("CASE 3: togglesChanged reset.");
+            }, 0);
           } catch (error) {
             console.error(
               "CASE 3: Error fetching updated affirmations:",
@@ -232,7 +249,6 @@ if (
             );
           }
         }
-        setTogglesChanged(false);
         console.log("Exiting CASE 3.");
       }
     };
