@@ -21,3 +21,28 @@ export const getUserSettingsPath = (userId) => {
     return `/topic/career_growth/job_status/${jobStatus}/practice/${category}`;
   };
   
+/**
+ * Constructs the Firestore path for logging user actions.
+ * @param {string} userId - The ID of the user.
+ * @param {string} timestamp - The timestamp of the action.
+ * @returns {string} - Firestore path for the user's action log.
+ */
+export const getUserActionLogPath = (userId, timestamp) => {
+  if (!userId || !timestamp) {
+    throw new Error("Both userId and timestamp are required to construct the user action log path.");
+  }
+  return `logs/${userId}/actions/${timestamp}`;
+};
+
+/**
+ * Constructs the Firestore path for logging user clicks.
+ * @param {string} userId - The ID of the user.
+ * @param {string} currentDate - The current date in ISO format or any standard date format.
+ * @returns {string} - Firestore path for the user's click log.
+ */
+export const getUserClickLogPath = (userId, currentDate) => {
+  if (!userId || !currentDate) {
+    throw new Error("Both userId and currentDate are required to construct the user click log path.");
+  }
+  return `logs/${userId}/clicks/${currentDate}`;
+};

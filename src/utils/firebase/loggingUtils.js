@@ -2,6 +2,7 @@ import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { getCurrentDate } from "../dateUtils";
 import { getCurrentUser } from "./userUtils";
+import { getUserActionLogPath, getUserClickLogPath } from "./pathUtils";
 
 // Log user action
 export const logUserAction = async (action, details = {}) => {
@@ -15,7 +16,7 @@ export const logUserAction = async (action, details = {}) => {
   const logEntry = { action, details, timestamp, email: user.email };
 
   try {
-    const docRef = doc(db, `logs/${user.uid}/actions`, timestamp);
+    const docRef = doc(db, getUserActionLogPath(user.uid, timestamp));
     await setDoc(docRef, logEntry);
     console.log("Log saved successfully:", logEntry);
   } catch (error) {
@@ -32,7 +33,7 @@ export const logClickAction = async (clickType, step = null) => {
   }
 
   const currentDate = getCurrentDate();
-  const docRef = doc(db, `logs/${user.uid}/clicks`, currentDate);
+  const docRef = doc(db, getUserClickLogPath(user.uid, currentDate));
 
   try {
     const docSnap = await getDoc(docRef);
