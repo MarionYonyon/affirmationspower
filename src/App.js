@@ -14,7 +14,6 @@ import QuoteArea from "./components/QuoteArea";
 import GoalBar from "./components/GoalBar";
 import TimeTracker from "./utils/TimeTracker";
 import PrivateRoute from "./components/PrivateRoute";
-import useGoalAndProgress from "./hooks/useGoalAndProgress";
 import { AppProvider, AppContext } from "./context/AppContext";
 import { DEFAULT_USER_SETTINGS } from "./utils/constants";
 import Onboarding from "./components/Onboarding";
@@ -28,8 +27,6 @@ const AppContent = () => {
     handleCategoryChange,
     handleJobStatusChange,
   } = useContext(AppContext);
-
-  const { dailyGoal, dailyProgress } = useGoalAndProgress();
 
   // Log the state retrieved from the context
 
@@ -82,7 +79,7 @@ const AppContent = () => {
               <PrivateRoute>
                 <div className="App">
                   <div className="progress-bar-wrapper">
-                    <GoalBar progress={dailyProgress} dailyGoal={dailyGoal} />
+                    <GoalBar />
                   </div>
                   <div className="border-wrapper">
                     <div className="quote-area-wrapper">

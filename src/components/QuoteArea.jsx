@@ -3,14 +3,17 @@ import ProgressPractice from "./ProgressPractice";
 import React, { useContext } from "react";
 import { logClickAction } from "../utils/firebase/loggingUtils";
 import { AppContext } from "../context/AppContext";
+import useGoalAndProgress from "../hooks/useGoalAndProgress"; // Import the hook
 import next from "../images/next.svg";
 
 const QuoteArea = () => {
   const { currentAffirmation, nextAffirmation, affirmationsLoading } = useContext(AppContext);
+  const { incrementDailyProgress } = useGoalAndProgress(); // Use the hook
 
   const handleNextClick = () => {
-    logClickAction("NextClick");
-    nextAffirmation();
+    logClickAction("NextClick"); // Log the click action
+    incrementDailyProgress(1); // Increment progress by 1
+    nextAffirmation(); // Proceed to the next affirmation
   };
 
   if (affirmationsLoading) {
