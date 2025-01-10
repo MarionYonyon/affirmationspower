@@ -61,11 +61,19 @@ const shuffleAndLimit = (categoryMap, limit) => {
 
   console.log("Final result before shuffle:", result);
 
-  // Shuffle the final result array
-  const finalShuffledResult = result.sort(() => 0.5 - Math.random());
+  // Fisher-Yates Shuffle for the final result array
+  const fisherYatesShuffle = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); // Random index
+      [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+    }
+    return array;
+  };
 
+  const finalShuffledResult = fisherYatesShuffle([...result]);
   console.log("Final shuffled result:", finalShuffledResult);
 
+  // Return the shuffled result
   return finalShuffledResult;
 };
 
