@@ -41,6 +41,7 @@ export const AppProvider = ({ children }) => {
       const initialize = async () => {
         try {
           // Add your initialization logic here if needed
+          console.log("Initialization successful.");
           setInitializing(false);
         } catch (error) {
           console.error("Error during initialization:", error);
@@ -50,9 +51,25 @@ export const AppProvider = ({ children }) => {
 
       initialize();
     } else {
+      console.log("No user ID or app not initialized yet.");
       setInitializing(false);
     }
   }, [userId, initialized]);
+
+  	
+  // Reset state on logout or if no user is authenticated
+  React.useEffect(() => {
+    if (!userId) {
+      console.log("No user logged in. Resetting state to default.");
+      setUserSettings(DEFAULT_USER_SETTINGS);
+    }
+  }, [userId, setUserSettings]);
+
+  // Log the current state whenever userSettings or affirmations change
+  React.useEffect(() => {
+    console.log("Current User Settings:", userSettings);
+    console.log("Current Affirmations:", affirmations);
+  }, [userSettings, affirmations]);
 
   // Category change handler
   const handleCategoryChange = (newCategories) => {
@@ -60,6 +77,7 @@ export const AppProvider = ({ children }) => {
       console.warn("At least one category must remain enabled.");
       return;
     }
+    console.log("Changing categories to:", newCategories);
     setUserSettings({ ...userSettings, selectedCategories: newCategories });
     setTogglesChanged(true);
   };
@@ -67,6 +85,7 @@ export const AppProvider = ({ children }) => {
   // Job status change handler
   const handleJobStatusChange = (newStatus) => {
     if (!userSettings) return;
+    console.log("Changing job status to:", newStatus);
     setUserSettings({ ...userSettings, jobStatus: newStatus });
     setTogglesChanged(true);
   };

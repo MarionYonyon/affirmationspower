@@ -28,15 +28,6 @@ const useFirestoreSync = ({
         );
     }
   }, [jobStatus, selectedCategories, affirmations, userId]);
-
-  // Sync current index
-  useEffect(() => {
-    if (initialized && userId) {
-      saveCurrentIndex(userId, currentIndex).catch((error) =>
-        console.error("Error saving current index:", error)
-      );
-    }
-  }, [currentIndex, userId, initialized]);
-};
+}
 
 export default useFirestoreSync;

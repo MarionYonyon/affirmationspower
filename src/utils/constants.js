@@ -43,6 +43,6 @@ export const DEFAULT_USER_DATA = {
 };
 
 export const DEFAULT_USER_SETTINGS = {
-  selectedCategories: ["motivation_and_inspiration"],
+  selectedCategories: ["motivation_and_inspiration", "resilience"],
   jobStatus: "unemployed",
 };

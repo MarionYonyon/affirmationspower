@@ -21,14 +21,17 @@ import { DEFAULT_USER_SETTINGS } from "./utils/constants";
 const AppContent = () => {
   const {
     initializing,
-    currentAffirmation,
     affirmationsLoading,
+    currentAffirmation,
     userSettings,
     handleCategoryChange,
     handleJobStatusChange,
   } = useContext(AppContext);
 
   const { dailyGoal, dailyProgress } = useGoalAndProgress();
+
+   // Log the state retrieved from the context
+  
 
   if (initializing || affirmationsLoading) {
     return <p>Loading...</p>;
