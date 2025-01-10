@@ -70,7 +70,8 @@ export const AppProvider = ({ children }) => {
   React.useEffect(() => {
     console.log("Current User Settings:", userSettings);
     console.log("Current Affirmations:", affirmations);
-  }, [userSettings, affirmations]);
+    console.log("Current Affirmation:", currentAffirmation);
+  }, [userSettings, affirmations, currentAffirmation]);
 
   // Category change handler
   const handleCategoryChange = (newCategories) => {
