@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Onboarding.css";
 import StarPurple from "../images/StarPurple.svg";
 import Testimonial from "./Testimonial";
@@ -7,6 +8,8 @@ import MoodTransition from "./MoodTransition";
 const Onboarding = () => {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false); // State for fade-out animation
+  const navigate = useNavigate(); // Initialize navigate function
 
   const screens = [
     {
@@ -142,15 +145,27 @@ const Onboarding = () => {
   ];
 
   const handleNext = () => {
-    setTransitioning(true);
-    setTimeout(() => {
-      setTransitioning(false);
-      setCurrentScreen((prev) => Math.min(prev + 1, screens.length - 1));
-    }, 500); // Matches the CSS transition duration
+    if (currentScreen === screens.length - 1) {
+      // Trigger fade-out and navigate
+      setFadeOut(true);
+      setTimeout(() => {
+        navigate("/affirmationspower/parameters");
+      }, 1000); // Matches the fade-out duration
+    } else {
+      setTransitioning(true);
+      setTimeout(() => {
+        setTransitioning(false);
+        setCurrentScreen((prev) => Math.min(prev + 1, screens.length - 1));
+      }, 500); // Matches the CSS transition duration
+    }
   };
 
   return (
-    <div className="onboarding-container">
+    <div
+      className={`onboarding-container ${
+        fadeOut ? "fade-out-container" : ""
+      }`}
+    >
       {/* Progress Indicator */}
       <div className="progress-container">
         {screens.map((_, index) => (

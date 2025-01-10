@@ -42,7 +42,7 @@ const SigninPage = () => {
       await initializeUserData(user);
       localStorage.setItem("email", email);
 
-      navigate("/affirmationspower/parameters");
+      navigate("/affirmationspower/practice");
     } catch (err) {
       setError("Failed to log in. Please check your credentials.");
       console.error("Login error: ", err.message);

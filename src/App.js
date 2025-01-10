@@ -17,6 +17,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import useGoalAndProgress from "./hooks/useGoalAndProgress";
 import { AppProvider, AppContext } from "./context/AppContext";
 import { DEFAULT_USER_SETTINGS } from "./utils/constants";
+import Onboarding from "./components/Onboarding";
 
 const AppContent = () => {
   const {
@@ -30,8 +31,7 @@ const AppContent = () => {
 
   const { dailyGoal, dailyProgress } = useGoalAndProgress();
 
-   // Log the state retrieved from the context
-  
+  // Log the state retrieved from the context
 
   if (initializing || affirmationsLoading) {
     return <p>Loading...</p>;
@@ -58,8 +58,12 @@ const AppContent = () => {
             element={<SignupPage />}
           />
           <Route
-            path="/affirmationspower/login/testing"
-            element={<TestingComponent />}
+            path="/affirmationspower/onboarding"
+            element={
+              <PrivateRoute>
+                <Onboarding />
+              </PrivateRoute>
+            }
           />
           <Route
             path="/affirmationspower/parameters"
