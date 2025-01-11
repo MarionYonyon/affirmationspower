@@ -12,13 +12,26 @@ export const logUserAction = async (action, details = {}) => {
     return;
   }
 
+  const currentDate = getCurrentDate();
+  const docRef = doc(db, getUserActionLogPath(user.uid, currentDate));
   const timestamp = new Date().toISOString();
-  const logEntry = { action, details, timestamp, email: user.email };
 
   try {
-    const docRef = doc(db, getUserActionLogPath(user.uid, timestamp));
-    await setDoc(docRef, logEntry);
-    console.log("Log saved successfully:", logEntry);
+    const docSnap = await getDoc(docRef);
+    const key = `${action}_${timestamp}`;
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      await updateDoc(docRef, {
+        [key]: { details, timestamp},
+      });
+    } else {
+      await setDoc(docRef, {
+        [key]: { details, timestamp},
+      });
+    }
+
+    console.log(`Logged action '${action}' successfully for ${currentDate}.`);
   } catch (error) {
     console.error("Error logging user action:", error);
   }

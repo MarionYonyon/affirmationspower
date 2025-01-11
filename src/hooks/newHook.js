@@ -11,6 +11,7 @@ import {
 } from "../utils/firebase/pathUtils";
 import { saveDailyAffirmations } from "../utils/firebase/saveDailyAffirmations";
 import { saveCurrentIndex } from "../utils/firebase/saveCurrentIndex";
+import { logUserAction } from "../utils/firebase/loggingUtils";
 
 // Hook: Manages user settings
 const useUserSettings = (userId) => {
@@ -55,6 +56,15 @@ const useUserSettings = (userId) => {
       console.warn("Cannot save settings with no categories enabled.");
       return;
     }
+
+    // Log jobStatus changes
+    if (newSettings.jobStatus !== userSettings?.jobStatus) {
+      await logUserAction("jobStatusChange", {
+        oldValue: userSettings?.jobStatus,
+        newValue: newSettings.jobStatus,
+      });
+    }
+    console.log(`Logging toggle change for jobStatus`);
 
     const path = getUserSettingsPath(userId);
     await saveFirestoreDoc(path, newSettings);
@@ -281,7 +291,6 @@ const useAffirmations = (userId, userSettings) => {
   return {
     affirmations,
     currentAffirmation: affirmations[currentIndex] || null,
-    setTogglesChanged,
     currentIndex,
     nextAffirmation,
   };
