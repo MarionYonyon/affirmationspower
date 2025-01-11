@@ -291,6 +291,7 @@ const useAffirmations = (userId, userSettings) => {
   return {
     affirmations,
     currentAffirmation: affirmations[currentIndex] || null,
+    setTogglesChanged,
     currentIndex,
     nextAffirmation,
   };
