@@ -10,7 +10,7 @@ const Logout = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/affirmationspower/login'); // Redirect to the login page after logging out
+      navigate('/login'); // Redirect to the login page after logging out
     } catch (error) {
       console.error("Logout error:", error.message); // Log error for debugging
     }

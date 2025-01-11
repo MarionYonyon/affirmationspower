@@ -2,7 +2,7 @@
   "name": "affirmations-v3",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://marionyonyon.github.io/affirmationspower/login",
+  "homepage": "https://marionyonyon.github.io/affirmationspower/",
   "dependencies": {
     "@firebase/analytics": "^0.10.10",
     "@testing-library/jest-dom": "^5.17.0",

@@ -149,7 +149,7 @@ const Onboarding = () => {
       // Trigger fade-out and navigate
       setFadeOut(true);
       setTimeout(() => {
-        navigate("/affirmationspower/parameters");
+        navigate("/parameters");
       }, 1000); // Matches the fade-out duration
     } else {
       setTransitioning(true);

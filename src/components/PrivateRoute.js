@@ -12,7 +12,7 @@ const PrivateRoute = ({ children }) => {
 
   // If not logged in, redirect to login page
   if (!isLoggedIn) {
-    return <Navigate to="/affirmationspower/login" />;
+    return <Navigate to="/login" />;
   }
 
   // If logged in, render the protected route

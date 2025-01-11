@@ -48,7 +48,7 @@ const SignUpPage = () => {
       await signInWithEmailAndPassword(auth, email, password);
 
       // Redirect to the home page
-      navigate("/affirmationspower/onboarding");
+      navigate("/onboarding");
     } catch (error) {
       setErrorMessage("Failed to sign up. Please try again.");
       console.error("SignUp error: ", error.message);
@@ -114,7 +114,7 @@ const SignUpPage = () => {
       </button>
       <button
         className="login-subtle-button"
-        onClick={() => navigate("/affirmationspower/login/sign-in")}
+        onClick={() => navigate("/login/sign-in")}
       >
         LOG IN
         <img src={LoginIconBlack} alt="login-access-icon" />

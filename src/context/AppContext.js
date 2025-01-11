@@ -8,6 +8,7 @@ export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [initializing, setInitializing] = useState(true); // State to track initialization
+  const [idx, setIdx] = useState(33);
   const { userId, isLoggedIn, initialized } = useAuthState();
 
   // Use the new hooks for user settings and affirmations
@@ -56,7 +57,6 @@ export const AppProvider = ({ children }) => {
     }
   }, [userId, initialized]);
 
-  	
   // Reset state on logout or if no user is authenticated
   React.useEffect(() => {
     if (!userId) {
@@ -108,6 +108,8 @@ export const AppProvider = ({ children }) => {
         currentIndex,
         handleCategoryChange,
         handleJobStatusChange,
+        idx,
+        setIdx,
       }}
     >
       {children}

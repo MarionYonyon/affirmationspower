@@ -17,6 +17,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { AppProvider, AppContext } from "./context/AppContext";
 import { DEFAULT_USER_SETTINGS } from "./utils/constants";
 import Onboarding from "./components/Onboarding";
+import { Navigate } from "react-router-dom";
 
 const AppContent = () => {
   const {
@@ -41,21 +42,26 @@ const AppContent = () => {
   const jobStatus = userSettings?.jobStatus || DEFAULT_USER_SETTINGS.jobStatus;
 
   return (
-    <Router>
+    <Router basename="/affirmationspower">
       <div className="app-container">
         <TimeTracker />
         <Routes>
-          <Route path="/affirmationspower/login" element={<LoginPage />} />
+          {/* Default route: Redirect based on login status */}
           <Route
-            path="/affirmationspower/login/sign-in"
-            element={<SigninPage />}
+            path="/"
+            element={
+              userSettings?.isLoggedIn ? (
+                <Navigate to="/practice" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login/sign-in" element={<SigninPage />} />
+          <Route path="/login/sign-up" element={<SignupPage />} />
           <Route
-            path="/affirmationspower/login/sign-up"
-            element={<SignupPage />}
-          />
-          <Route
-            path="/affirmationspower/onboarding"
+            path="/onboarding"
             element={
               <PrivateRoute>
                 <Onboarding />
@@ -63,7 +69,7 @@ const AppContent = () => {
             }
           />
           <Route
-            path="/affirmationspower/parameters"
+            path="/parameters"
             element={
               <PrivateRoute>
                 <ParametersPage
@@ -74,7 +80,7 @@ const AppContent = () => {
             }
           />
           <Route
-            path="/affirmationspower/practice"
+            path="/practice"
             element={
               <PrivateRoute>
                 <div className="App">
@@ -98,7 +104,7 @@ const AppContent = () => {
             }
           />
           <Route
-            path="/affirmationspower/settings"
+            path="/settings"
             element={
               <PrivateRoute>
                 <SettingsPage
