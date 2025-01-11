@@ -141,7 +141,7 @@ const useAffirmations = (userId, userSettings) => {
               categoryMap
             );
 
-            const newAffirmations = shuffleAndLimit(categoryMap, 4); // Limit to 4 affirmations
+            const newAffirmations = shuffleAndLimit(categoryMap, 30); // Limit to 30 affirmations
             setAffirmations(newAffirmations);
             setCurrentIndex(0);
 
@@ -226,7 +226,7 @@ const useAffirmations = (userId, userSettings) => {
               categoryMap
             );
 
-            const updatedAffirmations = shuffleAndLimit(categoryMap, 4); // Limit to 4 affirmations
+            const updatedAffirmations = shuffleAndLimit(categoryMap, 30); // Limit to 30 affirmations
             setAffirmations(updatedAffirmations);
             setCurrentIndex(0);
 

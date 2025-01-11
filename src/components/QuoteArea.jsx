@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { logClickAction } from "../utils/firebase/loggingUtils";
 import { AppContext } from "../context/AppContext";
 import useGoalAndProgress from "../hooks/useGoalAndProgress"; // Import the hook
-import next from "../images/next.svg";
+import skip from "../images/skip.svg";
 
 const QuoteArea = () => {
   const { currentAffirmation, nextAffirmation, affirmationsLoading } = useContext(AppContext);
@@ -13,6 +13,11 @@ const QuoteArea = () => {
   const handleNextClick = () => {
     logClickAction("NextClick"); // Log the click action
     incrementDailyProgress(1); // Increment progress by 1
+    nextAffirmation(); // Proceed to the next affirmation
+  };
+
+  const handleSkipClick = () => {
+    logClickAction("SkipClick"); // Log the click action
     nextAffirmation(); // Proceed to the next affirmation
   };
 
@@ -29,8 +34,8 @@ const QuoteArea = () => {
           loading={affirmationsLoading}
         />
       </div>
-      <button className="next-icon" onClick={handleNextClick}>
-        <img src={next} alt="next-icon" />
+      <button className="skip-icon" onClick={handleSkipClick}>
+        <img src={skip} alt="skip-icon" />
       </button>
     </div>
   );
