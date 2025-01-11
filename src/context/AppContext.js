@@ -3,6 +3,7 @@ import useAuthState from "../hooks/useAuthState";
 import useFirestoreSync from "../hooks/useFirestoreSync";
 import { useUserSettings, useAffirmations } from "../hooks/newHook";
 import { DEFAULT_USER_SETTINGS } from "../utils/constants";
+import { logUserAction } from "../utils/firebase/loggingUtils";
 
 export const AppContext = createContext();
 
@@ -74,12 +75,24 @@ export const AppProvider = ({ children }) => {
   }, [userSettings, affirmations, currentAffirmation]);
 
   // Category change handler
-  const handleCategoryChange = (newCategories) => {
+  const handleCategoryChange = async (newCategories) => {
     if (!userSettings || newCategories.length === 0) {
       console.warn("At least one category must remain enabled.");
       return;
     }
+
     console.log("Changing categories to:", newCategories);
+
+    // Log the change to Firestore
+    try {
+      await logUserAction("categoryChange", {
+        selectedCategories: newCategories,
+      });
+      console.log("Category change logged successfully.");
+    } catch (error) {
+      console.error("Failed to log category change:", error);
+    }
+
     setUserSettings({ ...userSettings, selectedCategories: newCategories });
     setTogglesChanged(true);
   };
