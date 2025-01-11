@@ -98,9 +98,22 @@ export const AppProvider = ({ children }) => {
   };
 
   // Job status change handler
-  const handleJobStatusChange = (newStatus) => {
+  const handleJobStatusChange = async (newStatus) => {
     if (!userSettings) return;
+
     console.log("Changing job status to:", newStatus);
+
+    // Log the change to Firestore
+    try {
+      await logUserAction("jobStatusChange", {
+        oldValue: userSettings.jobStatus,
+        newValue: newStatus,
+      });
+      console.log("Job status change logged successfully.");
+    } catch (error) {
+      console.error("Failed to log job status change:", error);
+    }
+
     setUserSettings({ ...userSettings, jobStatus: newStatus });
     setTogglesChanged(true);
   };

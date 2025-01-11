@@ -57,15 +57,6 @@ const useUserSettings = (userId) => {
       return;
     }
 
-    // Log jobStatus changes
-    if (newSettings.jobStatus !== userSettings?.jobStatus) {
-      await logUserAction("jobStatusChange", {
-        oldValue: userSettings?.jobStatus,
-        newValue: newSettings.jobStatus,
-      });
-    }
-    console.log(`Logging toggle change for jobStatus`);
-
     const path = getUserSettingsPath(userId);
     await saveFirestoreDoc(path, newSettings);
     setUserSettings(newSettings);
