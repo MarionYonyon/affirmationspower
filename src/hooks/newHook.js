@@ -11,7 +11,6 @@ import {
 } from "../utils/firebase/pathUtils";
 import { saveDailyAffirmations } from "../utils/firebase/saveDailyAffirmations";
 import { saveCurrentIndex } from "../utils/firebase/saveCurrentIndex";
-import { logUserAction } from "../utils/firebase/loggingUtils";
 
 // Hook: Manages user settings
 const useUserSettings = (userId) => {
