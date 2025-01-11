@@ -11,13 +11,18 @@ import {
 import { initializeUserData } from "../utils/firebase/initializationUtils";
 import LoginIconWhite from "../images/LoginWhite.svg";
 import SignupBlack from "../images/SignupBlack.svg";
+import useAuthState from "../hooks/useAuthState";
 
 const SigninPage = () => {
   const [email, setEmail] = useState(() => localStorage.getItem("email") || "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useAuthState();
   const navigate = useNavigate();
+  if (isLoggedIn) {
+    navigate("/practice");
+  }
 
   useEffect(() => {
     localStorage.setItem("email", email);

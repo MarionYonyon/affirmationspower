@@ -13,6 +13,7 @@ import "../styles/SignupPage.css";
 import "../styles/Buttons.css";
 import SignupWhite from "../images/SignupWhite.svg";
 import LoginIconBlack from "../images/LoginBlack.svg";
+import useAuthState from "../hooks/useAuthState";
 
 const SignUpPage = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,11 @@ const SignUpPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
+  const { isLoggedIn } = useAuthState();
   const navigate = useNavigate();
+  if (isLoggedIn) {
+    navigate("/practice");
+  }
 
   const handleSignUp = async () => {
     setLoading(true);
