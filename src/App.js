@@ -42,7 +42,7 @@ const AppContent = () => {
   const jobStatus = userSettings?.jobStatus || DEFAULT_USER_SETTINGS.jobStatus;
 
   return (
-    <Router basename="/affirmationspower">
+    <Router basename="/">
       <div className="app-container">
         <TimeTracker />
         <Routes>

@@ -3,8 +3,8 @@ import React from "react";
 import { StyleSheet, SafeAreaView, KeyboardAvoidingView } from "react-native";
 import { WebView } from "react-native-webview";
 
-const WEBVIEW_URL_PROD = "https://marionyonyon.github.io/affirmationspower/";
-const WEBVIEW_URL_LOCAL = "http://192.168.1.35:3000/affirmationspower/";
+const WEBVIEW_URL_PROD = "https://app.guardience.co/";
+const WEBVIEW_URL_LOCAL = "http://192.168.1.35:3000/guardience/";
 
 const isLocal = true;
 
