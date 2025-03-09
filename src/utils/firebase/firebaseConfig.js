@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCsi6d-ttdoRpqZ79yAMkIsMDN1ObR56Vw",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "positive-affirmations-6f4de.firebaseapp.com",
   projectId: "positive-affirmations-6f4de",
   storageBucket: "positive-affirmations-6f4de.appspot.com",
   messagingSenderId: "673466441825",
-  appId: "1:673466441825:web:f55187a876022c1886ca20",
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
   measurementId: "G-ESWHMNTB6C",
 };
 

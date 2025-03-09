@@ -39,7 +39,7 @@ const Onboarding = () => {
         <>
           <img src={StarPurple} alt="Star Purple" className="icon-onboarding" />
           <span className="onboarding-title">
-            The #1 app for mindset and career growth
+            An app for mindset and career growth
           </span>
         </>
       ),
@@ -49,14 +49,7 @@ const Onboarding = () => {
             Built on principles endorsed by career coaches and mental health
             experts worldwide.
           </p>
-          <Testimonial
-            rating="⭐️⭐️⭐️⭐️⭐️"
-            quote="This app is amazing! 10/10 would recommend."
-            author="My mum"
-          />
-                    <p>
-            This is a beta version, it will evolve!
-          </p>
+          <p>This is a beta version, it will evolve!</p>
         </>
       ),
     },
@@ -128,7 +121,7 @@ const Onboarding = () => {
           </p>
         </>
       ),
-    }
+    },
     /*{
       title: (
         <span className="onboarding-title">
@@ -162,9 +155,7 @@ const Onboarding = () => {
 
   return (
     <div
-      className={`onboarding-container ${
-        fadeOut ? "fade-out-container" : ""
-      }`}
+      className={`onboarding-container ${fadeOut ? "fade-out-container" : ""}`}
     >
       {/* Progress Indicator */}
       <div className="progress-container">
