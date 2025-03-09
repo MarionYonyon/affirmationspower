@@ -69,6 +69,14 @@ const AppContent = () => {
             }
           />
           <Route
+            path="/testing"
+            element={
+              <PrivateRoute>
+                <TestingComponent />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="/parameters"
             element={
               <PrivateRoute>
