@@ -280,7 +280,7 @@ const useAffirmations = (userId, userSettings) => {
 
   return {
     affirmations,
-    currentAffirmation: affirmations[currentIndex] || null,
+    currentAffirmation: affirmations[currentIndex]?.text || "", // Extract only text
     setTogglesChanged,
     currentIndex,
     nextAffirmation,

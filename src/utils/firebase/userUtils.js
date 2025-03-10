@@ -7,7 +7,8 @@ export const getCurrentUser = () => auth.currentUser;
 // Fetch user-specific Firestore document
 export const fetchUserDoc = async (uid, collection = "users") => {
   const path = `${collection}/${uid}`;
-  return await fetchFirestoreDoc(path);
+  const data = await fetchFirestoreDoc(path);
+  return data ? { text: data.text, audioUrl: data.audioUrl } : null;
 };
 
 // Save user-specific Firestore document

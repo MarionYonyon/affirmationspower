@@ -10,7 +10,11 @@ import { saveFirestoreDoc } from "./firestoreUtils";
  */
 export const saveDailyAffirmations = async (userId, date, affirmations) => {
   try {
-    console.log("saveDailyAffirmations called with:", { userId, date, affirmations });
+    console.log("saveDailyAffirmations called with:", {
+      userId,
+      date,
+      affirmations,
+    });
 
     if (!userId || !date || !Array.isArray(affirmations)) {
       throw new Error(
@@ -19,9 +23,15 @@ export const saveDailyAffirmations = async (userId, date, affirmations) => {
     }
 
     const path = `users/${userId}/settings/preferences`;
+
+    const formattedAffirmations = affirmations.map((affirmation) => ({
+      text: affirmation.text || "",
+      audioUrl: affirmation.audioUrl || "",
+    }));
+
     const data = {
       dailyAffirmations: {
-        [date]: affirmations,
+        [date]: formattedAffirmations,
       },
     };
 

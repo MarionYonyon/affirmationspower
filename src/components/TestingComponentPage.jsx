@@ -2,15 +2,9 @@ import React, { useState } from "react";
 import { getPresignedUrl } from "../api/getPresignedUrl";
 
 const audioKeys = [
-  "career_growth/career_changer/career_growth/01.wav",
-  "career_growth/career_changer/career_growth/02.wav",
-  "career_growth/career_changer/career_growth/03.wav",
-  "career_growth/career_changer/career_growth/04.wav",
-  "career_growth/career_changer/career_growth/05.wav",
-  "career_growth/career_changer/career_growth/06.wav",
-  "career_growth/career_changer/career_growth/07.wav",
-  "career_growth/career_changer/career_growth/08.wav",
-  "career_growth/career_changer/career_growth/09.wav",
+  "career/career_changer/push_through_failure/07.wav",
+  "career_test/career_changer/career_growth/02.wav",
+  "career/career_changer/enjoy_your_work/03.wav",
 ];
 
 const AudioPlayer = () => {
