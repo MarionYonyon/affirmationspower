@@ -11,7 +11,6 @@ const audioKeys = [
   "career_growth/career_changer/career_growth/07.wav",
   "career_growth/career_changer/career_growth/08.wav",
   "career_growth/career_changer/career_growth/09.wav",
-  "career_growth/career_changer/career_growth/10.wav",
 ];
 
 const AudioPlayer = () => {
