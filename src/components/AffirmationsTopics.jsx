@@ -7,7 +7,8 @@ const AffirmationTopics = ({ selectedCategories, handleCategoryChange }) => {
   const renderSection = (title, { icon, keys }) => {
     // Determine the block style based on the title
     const blockStyle =
-      title === "Future Self" || title === "Mindset & Inspiration"
+      title === "Confidence & Self-Belief" ||
+      title === "Success & Career Growth"
         ? "purple-block"
         : "white-block";
 
