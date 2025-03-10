@@ -21,7 +21,7 @@ export const getAffirmationPath = (jobStatus, category) => {
       "Both jobStatus and category are required to construct the affirmation path."
     );
   }
-  return `/topic/career_growth2/job_status/${jobStatus}/practice/${category}`;
+  return `/topic2/career/job_status/${jobStatus}/practice/${category}`;
 };
 
 /**
