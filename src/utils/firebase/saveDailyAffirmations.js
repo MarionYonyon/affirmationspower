@@ -1,5 +1,4 @@
 import { saveFirestoreDoc } from "./firestoreUtils";
-import { AFFIRMATION_LABELS } from "../constants"; // Import valid categories
 
 /**
  * Saves daily affirmations for a specific date in Firestore.
@@ -25,12 +24,10 @@ export const saveDailyAffirmations = async (userId, date, affirmations) => {
 
     const path = `users/${userId}/settings/preferences`;
 
-    const formattedAffirmations = affirmations
-      .filter((affirmation) => affirmation.text in AFFIRMATION_LABELS) // 🔥 Filter valid affirmations
-      .map((affirmation) => ({
-        text: affirmation.text || "",
-        audioUrl: affirmation.audioUrl || "",
-      }));
+    const formattedAffirmations = affirmations.map((affirmation) => ({
+      text: affirmation.text || "",
+      audioUrl: affirmation.audioUrl || "",
+    }));
 
     const data = {
       dailyAffirmations: {
