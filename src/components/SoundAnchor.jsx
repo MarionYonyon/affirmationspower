@@ -1,21 +1,38 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom"; // Import useLocation for route detection
+import { useLocation } from "react-router-dom"; // For route detection
 import "../styles/ToggleButtons.css";
 import soundGrey from "../images/soundGrey.svg";
 import soundPurple from "../images/soundPurple.svg";
-import { auth, db } from "../utils/firebase/firebaseConfig"; // Import auth for user context
+import { auth, db } from "../utils/firebase/firebaseConfig"; // Firebase imports
 import { doc, setDoc } from "firebase/firestore";
-import { logUserAction } from "../utils/firebase/loggingUtils"; // Assuming this helper exists
+import { logUserAction } from "../utils/firebase/loggingUtils"; // Logging helper
+import { getPresignedUrl } from "../api/getPresignedUrl"; // Import function to fetch pre-signed URL
+
+const AUDIO_KEY = "music/01.wav"; // S3 path for the audio file
+const fadeOutDuration = 1000; // Fade-out duration in milliseconds
 
 const SoundAnchor = () => {
   const [isActive, setIsActive] = useState(false);
-  const audioRef = useRef(
-    new Audio(`${process.env.PUBLIC_URL}/AnchorMusic1.mp3`)
-  );
-  const location = useLocation(); // Get the current route location
-  const fadeOutDuration = 1000; // Fade-out duration in milliseconds
+  const [audioUrl, setAudioUrl] = useState(null);
+  const audioRef = useRef(new Audio());
+  const location = useLocation(); // Get current route
 
-  // Ensure the audio loops
+  // Function to fetch the pre-signed URL
+  const fetchAudioUrl = async () => {
+    try {
+      const url = await getPresignedUrl(AUDIO_KEY);
+      if (url) {
+        setAudioUrl(url);
+        audioRef.current.src = url; // Set the new audio source
+      } else {
+        console.error("Failed to fetch pre-signed URL.");
+      }
+    } catch (error) {
+      console.error("Error fetching pre-signed URL:", error);
+    }
+  };
+
+  // Ensure the audio loops and loads dynamically
   useEffect(() => {
     audioRef.current.loop = true;
     audioRef.current.volume = 1; // Ensure the volume is at max initially
@@ -49,6 +66,9 @@ const SoundAnchor = () => {
         setIsActive(newState);
 
         if (newState) {
+          if (!audioUrl) {
+            await fetchAudioUrl(); // Fetch pre-signed URL only when needed
+          }
           audioRef.current.volume = 1; // Reset volume to full on play
           await audioRef.current.play().catch((err) => {
             console.error("Error playing audio:", err);
