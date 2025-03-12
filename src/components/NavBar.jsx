@@ -30,7 +30,7 @@ const NavBar = () => {
         className={`nav-button ${location.pathname === "/" ? "active" : ""}`}
       >
         <img src={navReadBlack} alt="Read" />
-        <span className="nav-read-text">Read</span>
+        <span className="nav-read-text">Read.</span>
       </Link>
       {/*<button className="nav-button">
         <img src={navMetricsGrey} alt="Metrics" />
