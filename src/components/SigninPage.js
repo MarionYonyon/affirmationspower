@@ -21,7 +21,7 @@ const SigninPage = () => {
   const { isLoggedIn } = useAuthState();
   const navigate = useNavigate();
   if (isLoggedIn) {
-    navigate("/practice");
+    navigate("/read");
   }
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const SigninPage = () => {
       await initializeUserData(user);
       localStorage.setItem("email", email);
 
-      navigate("/practice");
+      navigate("/read");
     } catch (err) {
       setError("Failed to log in. Please check your credentials.");
       console.error("Login error: ", err.message);

@@ -12,7 +12,7 @@ const LoginPage = () => {
   const { isLoggedIn } = useAuthState();
   const navigate = useNavigate();
   if (isLoggedIn) {
-    navigate("/practice");
+    navigate("/read");
   }
   return (
     <div className="login-container">

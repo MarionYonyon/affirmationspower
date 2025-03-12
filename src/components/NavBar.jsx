@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import navPlayBlack from "../images/navPlayBlack.svg";
 import navSettingsGrey from "../images/navSettingsGrey.svg";
 import navHeartBlack from "../images/navHeartBlack.svg";
+import navListenBlack from "../images/icon-listen.svg";
+import navReadBlack from "../images/icon-read.svg";
 
 const NavBar = () => {
   const location = useLocation(); // Get the current route path
@@ -24,13 +26,13 @@ const NavBar = () => {
         <span className="nav-affirmation-text">Topics</span>
       </Link>
       <Link
-        to="/practice"
+        to="/read"
         className={`nav-button ${location.pathname === "/" ? "active" : ""}`}
       >
-        <img src={navPlayBlack} alt="Practice" />
-        <span className="nav-practice-text">Practice</span>
+        <img src={navReadBlack} alt="Read" />
+        <span className="nav-read-text">Read</span>
       </Link>
-       {/*<button className="nav-button">
+      {/*<button className="nav-button">
         <img src={navMetricsGrey} alt="Metrics" />
         <span className="nav-metrics-text">Metrics</span>
       </button>*/}

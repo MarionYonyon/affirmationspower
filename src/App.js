@@ -51,7 +51,7 @@ const AppContent = () => {
             path="/"
             element={
               userSettings?.isLoggedIn ? (
-                <Navigate to="/practice" />
+                <Navigate to="/read" />
               ) : (
                 <Navigate to="/login" />
               )
@@ -88,7 +88,7 @@ const AppContent = () => {
             }
           />
           <Route
-            path="/practice"
+            path="/read"
             element={
               <PrivateRoute>
                 <div className="App">
@@ -108,6 +108,15 @@ const AppContent = () => {
                     <NavBar />
                   </div>
                 </div>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/listen"
+            element={
+              <PrivateRoute>
+                <TestingComponent />
+                <NavBar />
               </PrivateRoute>
             }
           />

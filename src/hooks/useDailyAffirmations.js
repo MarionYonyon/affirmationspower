@@ -142,7 +142,7 @@ const useDailyAffirmations = () => {
       try {
         const topicDocRef = doc(
           db,
-          `topic2/career/job_status/${jobStatus}/practice`,
+          `topic2/career/job_status/${jobStatus}/read`,
           topic
         );
         console.log("Fetching document for topic:", topicDocRef.path);

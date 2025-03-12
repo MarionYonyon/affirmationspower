@@ -24,7 +24,7 @@ const SignUpPage = () => {
   const { isLoggedIn } = useAuthState();
   const navigate = useNavigate();
   if (isLoggedIn) {
-    navigate("/practice");
+    navigate("/read");
   }
 
   const handleSignUp = async () => {
