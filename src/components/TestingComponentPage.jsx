@@ -1,27 +1,23 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { getPresignedUrl } from "../api/getPresignedUrl";
+import { AppContext } from "../context/AppContext"; // Import AppContext
 
-const audioKeys = Array.from(
-  { length: 2 },
-  (_, i) =>
-    `career/career_changer/push_through_failure/${String(i + 1).padStart(
-      2,
-      "0"
-    )}.wav`
-);
-
-const introKey = "intro-outro-voice/intro/01.wav";
-const outroKey = "intro-outro-voice/outro/01.wav";
-const musicKey = "music/01.wav";
+const introKey =
+  "https://affirmations-ms-audio.s3.eu-north-1.amazonaws.com/intro-outro-voice/intro/01.wav";
+const outroKey =
+  "https://affirmations-ms-audio.s3.eu-north-1.amazonaws.com/intro-outro-voice/outro/01.wav";
+const musicKey =
+  "https://affirmations-ms-audio.s3.eu-north-1.amazonaws.com/music/01.wav";
 
 const AudioPlayer = () => {
+  const { affirmations } = useContext(AppContext); // Get affirmations from context
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   const audioContextRef = useRef(null);
   const gainNodeRef = useRef(null);
   const musicSourceRef = useRef(null);
   const buffersRef = useRef({});
-  const activeSourcesRef = useRef([]); // Track active audio sources
+  const activeSourcesRef = useRef([]);
 
   const initAudioContext = () => {
     if (!audioContextRef.current) {
@@ -50,12 +46,12 @@ const AudioPlayer = () => {
     volumeNode.gain.value = gain;
     source.connect(volumeNode).connect(audioContextRef.current.destination);
     source.start(startTime);
-    activeSourcesRef.current.push(source); // Keep track of active sources
+    activeSourcesRef.current.push(source);
   };
 
   const stopAllAudio = () => {
     activeSourcesRef.current.forEach((source) => source.stop());
-    activeSourcesRef.current = []; // Clear the list
+    activeSourcesRef.current = [];
     musicSourceRef.current?.stop();
     if (audioContextRef.current) {
       audioContextRef.current.close();
@@ -71,8 +67,19 @@ const AudioPlayer = () => {
     setPlaying(true);
     setLoading(true);
 
+    // 🔹 Get all audioUrls from Firebase affirmations
+    const audioUrls = affirmations
+      .map((affirmation) => affirmation.audioUrl)
+      .filter((url) => url); // Remove empty/null entries
+
+    if (audioUrls.length === 0) {
+      console.error("No valid audio URLs available.");
+      stopAllAudio();
+      return;
+    }
+
     const [introBuffer, musicBuffer, ...affirmationBuffers] =
-      await fetchAudioBuffers([introKey, musicKey, ...audioKeys, outroKey]);
+      await fetchAudioBuffers([introKey, musicKey, ...audioUrls, outroKey]);
 
     const outroBuffer = affirmationBuffers.pop();
 
