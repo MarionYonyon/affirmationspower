@@ -8,7 +8,7 @@ import {
   setPersistence,
   browserLocalPersistence,
 } from "firebase/auth";
-import { initializeUserData } from "../utils/firebase/initializationUtils";
+import { initializeUserData } from "../utils/firebase/initializeUserData";
 import LoginIconWhite from "../images/LoginWhite.svg";
 import SignupBlack from "../images/SignupBlack.svg";
 import useAuthState from "../hooks/useAuthState";

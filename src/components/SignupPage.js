@@ -6,7 +6,7 @@ import {
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../utils/firebase/firebaseConfig";
-import { initializeUserData } from "../utils/firebase/initializationUtils";
+import { initializeUserData } from "../utils/firebase/initializeUserData";
 import GoogleIcon from "../images/GoogleIcon.svg";
 import MicrosoftIcon from "../images/MicrosoftIcon.svg";
 import "../styles/SignupPage.css";

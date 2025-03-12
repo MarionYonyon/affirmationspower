@@ -1,7 +1,15 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
-import { DEFAULT_USER_DATA, DEFAULT_USER_SETTINGS } from "../constants";
+import {
+  DEFAULT_USER_DATA,
+  DEFAULT_USER_SETTINGS,
+  AFFIRMATION_LABELS,
+} from "../constants";
 import { getUserSettingsPath } from "./pathUtils";
+
+// Ensure selected categories are valid
+const filterValidCategories = (categories) =>
+  categories.filter((category) => category in AFFIRMATION_LABELS);
 
 // Initialize Firestore data for a new user
 export const initializeUserData = async (user) => {
@@ -21,21 +29,36 @@ export const initializeUserData = async (user) => {
     if (!userDoc.exists()) {
       console.log("User document does not exist. Setting default user data.");
       await setDoc(userDocRef, DEFAULT_USER_DATA, { merge: true });
-      console.log("Default user data initialized successfully!");
+      console.log("✅ Default user data initialized successfully!");
     } else {
-      console.log("User document already exists. Skipping default data initialization.");
+      console.log(
+        "User document already exists. Skipping default data initialization."
+      );
     }
 
     const userSettingsDoc = await getDoc(userSettingsRef);
     if (!userSettingsDoc.exists()) {
-      console.log("User settings document does not exist. Setting default user settings.");
-      await setDoc(userSettingsRef, DEFAULT_USER_SETTINGS, { merge: true });
-      console.log("Default user settings initialized successfully!");
+      console.log(
+        "User settings document does not exist. Setting default user settings."
+      );
+
+      // Ensure only valid categories are saved
+      const filteredSettings = {
+        ...DEFAULT_USER_SETTINGS,
+        selectedCategories: filterValidCategories(
+          DEFAULT_USER_SETTINGS.selectedCategories
+        ),
+      };
+
+      await setDoc(userSettingsRef, filteredSettings, { merge: true });
+      console.log("✅ Default user settings initialized successfully!");
     } else {
-      console.log("User settings document already exists. Skipping default settings initialization.");
+      console.log(
+        "User settings document already exists. Skipping default settings initialization."
+      );
     }
   } catch (error) {
-    console.error("Error initializing user data:", error);
+    console.error("❌ Error initializing user data:", error);
   }
 };
 
@@ -45,9 +68,12 @@ auth.onAuthStateChanged(async (user) => {
     console.log("Auth state changed. User is logged in:", user.uid);
     try {
       await initializeUserData(user);
-      console.log("User data initialization completed successfully.");
+      console.log("✅ User data initialization completed successfully.");
     } catch (error) {
-      console.error("Error during onAuthStateChanged initialization:", error);
+      console.error(
+        "❌ Error during onAuthStateChanged initialization:",
+        error
+      );
     }
   } else {
     console.log("Auth state changed. No user is logged in.");

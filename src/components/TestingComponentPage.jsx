@@ -3,7 +3,6 @@ import { getPresignedUrl } from "../api/getPresignedUrl";
 
 const audioKeys = [
   "career/career_changer/push_through_failure/07.wav",
-  "career_test/career_changer/career_growth/02.wav",
   "career/career_changer/enjoy_your_work/03.wav",
 ];
 

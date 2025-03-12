@@ -4,13 +4,14 @@ import {
   saveFirestoreDoc,
 } from "../utils/firebase/firestoreUtils";
 import shuffleAndLimit from "../utils/shuffleAndLimit";
-import { DEFAULT_USER_SETTINGS } from "../utils/constants";
+import { DEFAULT_USER_SETTINGS, AFFIRMATION_LABELS } from "../utils/constants";
 import {
   getUserSettingsPath,
   getAffirmationPath,
 } from "../utils/firebase/pathUtils";
 import { saveDailyAffirmations } from "../utils/firebase/saveDailyAffirmations";
 import { saveCurrentIndex } from "../utils/firebase/saveCurrentIndex";
+import { cleanUserCategories } from "../utils/cleanUserCategories"; // Import the cleanup function
 
 // Hook: Manages user settings
 const useUserSettings = (userId) => {
@@ -20,16 +21,39 @@ const useUserSettings = (userId) => {
   useEffect(() => {
     if (!userId) {
       console.log("No user ID. Skipping user settings fetch.");
-      setUserSettings(null); // Ensure state is reset
+      setUserSettings(null);
       setLoading(false);
       return;
     }
 
     const fetchUserSettings = async () => {
       const path = getUserSettingsPath(userId);
-      const settings = await fetchFirestoreDoc(path);
+      let settings = await fetchFirestoreDoc(path);
 
       if (settings) {
+        await cleanUserCategories(userId); // 🔥 Remove old categories
+
+        // ✅ Ensure at least one category is selected after cleanup
+        let validCategories =
+          settings.selectedCategories?.filter(
+            (category) => category in AFFIRMATION_LABELS
+          ) || [];
+
+        if (validCategories.length === 0) {
+          console.warn(
+            "⚠️ No valid categories left after cleanup. Assigning default category..."
+          );
+          validCategories = [Object.keys(AFFIRMATION_LABELS)[0]]; // Pick first valid category
+
+          // ✅ Save the fixed settings
+          const updatedSettings = {
+            ...settings,
+            selectedCategories: validCategories,
+          };
+          await saveFirestoreDoc(path, updatedSettings);
+          settings = updatedSettings;
+        }
+
         setUserSettings(settings);
       } else {
         console.warn(`No settings found for userId: ${userId}`);
@@ -49,16 +73,34 @@ const useUserSettings = (userId) => {
     }
 
     if (
-      newSettings.selectedCategories &&
+      !newSettings.selectedCategories ||
       newSettings.selectedCategories.length === 0
     ) {
-      console.warn("Cannot save settings with no categories enabled.");
+      console.warn("⚠️ Cannot save settings with no categories enabled.");
       return;
     }
 
+    // ✅ Auto-remove old categories BEFORE saving
+    const validCategories = newSettings.selectedCategories.filter(
+      (category) => category in AFFIRMATION_LABELS
+    );
+
+    // ✅ Prevent reintroducing old categories
+    if (validCategories.length !== newSettings.selectedCategories.length) {
+      console.log(
+        "⚠️ Removing outdated categories before saving:",
+        newSettings.selectedCategories
+      );
+    }
+
+    const cleanedSettings = {
+      ...newSettings,
+      selectedCategories: validCategories,
+    };
+
     const path = getUserSettingsPath(userId);
-    await saveFirestoreDoc(path, newSettings);
-    setUserSettings(newSettings);
+    await saveFirestoreDoc(path, cleanedSettings);
+    setUserSettings(cleanedSettings);
   };
 
   return { userSettings, setUserSettings: saveUserSettings, loading };

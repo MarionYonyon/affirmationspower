@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { getCurrentDate } from "../utils/dateUtils";
 import { auth, db } from "../utils/firebaseConfig";
+import { AFFIRMATION_LABELS } from "../utils/constants"; // Import valid categories
 
 const useDailyAffirmations = () => {
   const [affirmations, setAffirmations] = useState([]);
@@ -67,7 +68,9 @@ const useDailyAffirmations = () => {
         const selectedTopics = Object.entries(
           userData.affirmationsToggles || {}
         )
-          .filter(([_, isSelected]) => isSelected)
+          .filter(
+            ([key, isSelected]) => isSelected && key in AFFIRMATION_LABELS
+          ) // 🔥 Keep only valid categories
           .map(([topicKey]) => topicKey)
           .filter(Boolean);
 

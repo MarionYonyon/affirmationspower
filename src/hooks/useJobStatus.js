@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../utils/firebaseConfig";
-import { doc, getDoc, updateDoc, deleteField} from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteField } from "firebase/firestore";
 import { logUserAction } from "../utils/firebaseHelpers";
+import { cleanUserCategories } from "../utils/cleanUserCategories"; // Import cleanup
 
 const useJobStatus = () => {
   const [jobStatus, setJobStatus] = useState(); // Default value
@@ -33,19 +34,23 @@ const useJobStatus = () => {
 
         // Log the job status change
         await logUserAction("jobStatus_change", { newStatus });
-  
+
         // Delete dailyAffirmations if the job status changes
-        const currentDate = new Date().toISOString().split("T")[0]; // Get the current date in 'YYYY-MM-DD' format
+        const currentDate = new Date().toISOString().split("T")[0];
         await updateDoc(docRef, {
           [`dailyAffirmations.${currentDate}`]: deleteField(),
         });
-        console.log(`Daily affirmations for ${currentDate} deleted due to job status change.`);
-  
+        console.log(
+          `Daily affirmations for ${currentDate} deleted due to job status change.`
+        );
+
         // Save the updated job status in Firestore
         await updateDoc(docRef, { jobStatus: newStatus });
+
+        // 🔥 Remove outdated categories
+        await cleanUserCategories(user.uid);
+
         console.log("Job status updated successfully!");
-  
-        // Update local state
         setJobStatus(newStatus);
       } catch (error) {
         console.error("Error updating job status:", error);
