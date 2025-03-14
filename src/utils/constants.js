@@ -111,5 +111,5 @@ export const DEFAULT_USER_DATA = {
 
 export const DEFAULT_USER_SETTINGS = {
   selectedCategories: ["overcome_imposter_syndrome"],
-  jobStatus: "unemployed",
+  jobStatus: "career_changer",
 };
