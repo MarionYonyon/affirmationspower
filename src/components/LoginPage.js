@@ -3,7 +3,6 @@ import React from "react";
 import "../styles/LoginPage.css";
 import "../styles/Buttons.css";
 import LoginAccessButton from "./LoginAccessButton";
-import LoginGuest from "./LoginGuest";
 import Signup from "./SignupAccessButton";
 import useAuthState from "../hooks/useAuthState";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +24,6 @@ const LoginPage = () => {
       <div className="login-container2">
         <LoginAccessButton />
         <Signup />
-        <LoginGuest />
       </div>
     </div>
   );
