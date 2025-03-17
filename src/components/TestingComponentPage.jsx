@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { AppContext } from "../context/AppContext"; // Import AppContext
 
+const introKey = "intro-outro-voice/intro/01.wav";
+const outroKey = "intro-outro-voice/outro/01.wav";
+
 const AudioPlayer = () => {
   const { affirmations } = useContext(AppContext); // Get affirmations from Firebase
   const [audioUrls, setAudioUrls] = useState([]);
@@ -17,9 +20,13 @@ const AudioPlayer = () => {
       }
 
       setIsLoading(true);
-      const fileNames = affirmations
-        .map((affirmation) => affirmation.audioUrl) // Extract file paths
-        .filter((file) => file); // Remove invalid entries
+      const fileNames = [
+        introKey, // Add intro first
+        ...affirmations
+          .map((affirmation) => affirmation.audioUrl)
+          .filter((file) => file), // Main affirmations
+        outroKey, // Add outro last
+      ];
 
       if (fileNames.length === 0) {
         console.warn("No valid file names found.");
@@ -65,7 +72,8 @@ const AudioPlayer = () => {
     }
 
     if (audioRef.current) {
-      audioRef.current.src = audioUrls[currentTrack];
+      setCurrentTrack(0); // Start from the beginning (Intro)
+      audioRef.current.src = audioUrls[0];
       audioRef.current.play();
     }
   };
