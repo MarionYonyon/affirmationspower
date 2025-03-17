@@ -81,15 +81,15 @@ const AudioPlayer = () => {
       musicRef.current.play(); // Ensure it starts playing
 
       let volume = 0;
-      const step = 0.05; // Gradual increase
+      const step = 0.01; // Gradual increase
       const fadeInterval = setInterval(() => {
         if (!isMounted.current || !musicRef.current) {
           clearInterval(fadeInterval);
           return;
         }
-        if (volume < 0.9) {
+        if (volume < 0.5) {
           volume += step;
-          musicRef.current.volume = Math.min(volume, 0.9);
+          musicRef.current.volume = Math.min(volume, 0.5);
         } else {
           clearInterval(fadeInterval);
         }
@@ -101,7 +101,7 @@ const AudioPlayer = () => {
   const fadeOutMusic = () => {
     if (musicRef.current) {
       let volume = musicRef.current.volume;
-      const step = 0.05; // Gradual decrease
+      const step = 0.01; // Gradual decrease
       const fadeInterval = setInterval(() => {
         if (!isMounted.current || !musicRef.current) {
           clearInterval(fadeInterval);

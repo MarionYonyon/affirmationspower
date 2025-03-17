@@ -1,7 +1,6 @@
 import "../styles/NavBar.css";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import navPlayBlack from "../images/navPlayBlack.svg";
 import navSettingsGrey from "../images/navSettingsGrey.svg";
 import navHeartBlack from "../images/navHeartBlack.svg";
 import navListenBlack from "../images/icon-listen.svg";
@@ -27,14 +26,18 @@ const NavBar = () => {
       </Link>
       <Link
         to="/read"
-        className={`nav-button ${location.pathname === "/" ? "active" : ""}`}
+        className={`nav-button ${
+          location.pathname === "/read" ? "active" : ""
+        }`}
       >
         <img src={navReadBlack} alt="Read" />
         <span className="nav-read-text">Read</span>
       </Link>
       <Link
         to="/listen"
-        className={`nav-button ${location.pathname === "/" ? "active" : ""}`}
+        className={`nav-button ${
+          location.pathname === "/listen" ? "active" : ""
+        }`}
       >
         <img src={navListenBlack} alt="Listen" />
         <span className="nav-listen-text">Listen</span>
