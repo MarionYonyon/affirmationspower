@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/r2-signed-url-worker
 
 # testing
 /coverage
