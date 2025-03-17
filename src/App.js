@@ -6,7 +6,7 @@ import ParametersPage from "./components/ParametersPage";
 import SigninPage from "./components/SigninPage";
 import SignupPage from "./components/SignupPage";
 import LoginPage from "./components/LoginPage";
-import TestingComponent from "./components/TestingComponentPage";
+import AudioPlayer from "./components/AudioPlayer";
 import NavBar from "./components/NavBar";
 import BreathworkAnchor from "./components/BreathworkAnchor";
 import SoundAnchor from "./components/SoundAnchor";
@@ -68,14 +68,7 @@ const AppContent = () => {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/testing"
-            element={
-              <PrivateRoute>
-                <TestingComponent />
-              </PrivateRoute>
-            }
-          />
+          <Route path="/testing" element={<PrivateRoute></PrivateRoute>} />
           <Route
             path="/parameters"
             element={
@@ -115,7 +108,7 @@ const AppContent = () => {
             path="/listen"
             element={
               <PrivateRoute>
-                <TestingComponent />
+                <AudioPlayer />
                 <NavBar />
               </PrivateRoute>
             }
