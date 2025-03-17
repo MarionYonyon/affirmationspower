@@ -18,6 +18,7 @@ import { AppProvider, AppContext } from "./context/AppContext";
 import { DEFAULT_USER_SETTINGS } from "./utils/constants";
 import Onboarding from "./components/Onboarding";
 import { Navigate } from "react-router-dom";
+import TestingComponent from "./components/TestingComponent";
 
 const AppContent = () => {
   const {
@@ -68,7 +69,14 @@ const AppContent = () => {
               </PrivateRoute>
             }
           />
-          <Route path="/testing" element={<PrivateRoute></PrivateRoute>} />
+          <Route
+            path="/testing"
+            element={
+              <PrivateRoute>
+                <TestingComponent />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/parameters"
             element={
