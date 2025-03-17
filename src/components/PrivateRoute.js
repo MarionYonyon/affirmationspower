@@ -9,6 +9,7 @@ const PrivateRoute = ({ children }) => {
     // Render a loading state until authentication status is determined
     return <p>Loading...</p>;
   }
+  console.log("PrivateRoute: isLoggedIn =", isLoggedIn);
 
   // If not logged in, redirect to login page
   if (!isLoggedIn) {

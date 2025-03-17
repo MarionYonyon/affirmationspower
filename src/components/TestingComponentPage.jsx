@@ -83,7 +83,6 @@ const AudioPlayer = () => {
 
   return (
     <div>
-      {isLoading ? <p>Loading audio...</p> : null}
       <button
         onClick={playAudio}
         disabled={isLoading || audioUrls.length === 0}
