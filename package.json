@@ -28,7 +28,7 @@
     "predeploy": "npm run build",
     "deploy": "npm run push-to-github && npm run deploy-cloudflare",
     "push-to-github": "git push origin main",
-    "deploy-cloudflare": "npm run build && wrangler pages deploy ./build --project-name=affirmations-v3",
+    "deploy-cloudflare": "npm run build && wrangler pages deploy ./build --project-name=affirmationspower",
     "mobile": "npm --prefix mobile run start"
   },
   "eslintConfig": {
