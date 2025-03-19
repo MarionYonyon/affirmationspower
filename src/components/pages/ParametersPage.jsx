@@ -1,9 +1,8 @@
 import "../../styles/Parameters.css";
 import React from "react";
-import NavBar from "../NavBar.jsx";
 import AffirmationTopic from "../AffirmationsTopics.jsx";
 import Tabs from "../Tabs.js";
-import FeedbackButton from "../FeedbackButton.js"
+import FeedbackButton from "../FeedbackButton.js";
 
 function ParametersPage() {
   return (
@@ -17,7 +16,6 @@ function ParametersPage() {
       <div className="feedback-container">
         <FeedbackButton />
       </div>
-      <NavBar />
     </div>
   );
 }

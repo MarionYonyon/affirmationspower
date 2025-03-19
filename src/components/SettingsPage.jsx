@@ -4,7 +4,6 @@ import SettingsSection from "./SettingsSection";
 import SettingsItem from "./SettingsItem";
 import Dropdown from "./Dropdown";
 import NumberInput from "./NumberInput";
-import NavBar from "./NavBar";
 import Logout from "./Logout";
 import useGoalAndProgress from "../hooks/useGoalAndProgress.js";
 import { JOBSTATUS_LABELS } from "../utils/constants";
@@ -19,7 +18,6 @@ const SettingsPage = ({ jobStatus, setJobStatus }) => {
 
   return (
     <div className="settings-page-wrapper">
-      <NavBar />
       <div id="content" className="settings-container">
         <SettingsSection title="GENERAL">
           {/* <SettingsItem label="Topic" value="Work & Career >" />

@@ -85,6 +85,7 @@ const AppContent = () => {
                   selectedCategories={selectedCategories}
                   handleCategoryChange={handleCategoryChange}
                 />
+                <NavBar />
               </PrivateRoute>
             }
           />
@@ -105,9 +106,7 @@ const AppContent = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="nav-bar-wrapper">
-                    <NavBar />
-                  </div>
+                  <NavBar />
                 </div>
               </PrivateRoute>
             }
@@ -129,6 +128,7 @@ const AppContent = () => {
                   jobStatus={jobStatus}
                   setJobStatus={handleJobStatusChange}
                 />
+                <NavBar />
               </PrivateRoute>
             }
           />

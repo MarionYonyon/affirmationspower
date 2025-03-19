@@ -2,10 +2,9 @@
 
 import "../styles/Parameters.css";
 import React from "react";
-import NavBar from "./NavBar.jsx";
 import AffirmationTopic from "./AffirmationsTopics.jsx";
 import Tabs from "./Tabs.js";
-import FeedbackButton from "./FeedbackButton.js"
+import FeedbackButton from "./FeedbackButton.js";
 
 const ParametersPage = ({ selectedCategories, handleCategoryChange }) => {
   return (
@@ -14,7 +13,7 @@ const ParametersPage = ({ selectedCategories, handleCategoryChange }) => {
         <Tabs />
       </div>
       <div className="affirmation-topics-container">
-      <AffirmationTopic
+        <AffirmationTopic
           selectedCategories={selectedCategories}
           handleCategoryChange={handleCategoryChange}
         />
@@ -22,9 +21,8 @@ const ParametersPage = ({ selectedCategories, handleCategoryChange }) => {
       <div className="feedback-container">
         <FeedbackButton />
       </div>
-      <NavBar />
     </div>
   );
-}
+};
 
 export default ParametersPage;
