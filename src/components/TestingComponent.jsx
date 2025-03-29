@@ -89,14 +89,14 @@ export default function FlameBackground() {
 
 function getVividFlameColor(i) {
   const colors = [
-    "#ff4500",
-    "#ff6b00",
-    "#ffaa00",
-    "#ffdd00",
-    "#ff8c00",
-    "#ff5722",
-    "#ffc107",
-    "#ff3c00",
+    "#673ab7", // Deep Purple
+    "#7e57c2", // Medium Purple
+    "#9575cd", // Soft Lavender Purple
+    "#d8b9ff", // Light Purple
+    "#47c9af", // Emerald Green
+    "#5cd1b9", // Aqua Mint
+    "#83e0cb", // Light Seafoam
+    "#b3e9c7", // Soft Mint
   ];
   return colors[i % colors.length];
 }
