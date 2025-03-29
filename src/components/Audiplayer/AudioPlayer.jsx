@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import useAudioManager from "../../hooks/useAudioManager";
 import { PlayButton, StopButton } from "./AudioControls";
+import RoundButton from "../InteractiveButton";
 
 export default function AudioPlayer() {
   const { affirmations } = useContext(AppContext);
@@ -36,13 +37,12 @@ export default function AudioPlayer() {
 
   return (
     <>
-      {/* Play button - bottom center */}
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
-        <PlayButton
-          playAudio={handlePlay}
-          isLoading={isLoading}
-          disabled={!musicUrl || !audioUrls.length}
-        />
+      {/* Interactive Play Button - bottom center */}
+      <div
+        className="fixed bottom-40 left-1/2 transform -translate-x-1/2 z-20"
+        onClick={handlePlay}
+      >
+        <RoundButton />
       </div>
 
       {/* Stop button - top right */}
